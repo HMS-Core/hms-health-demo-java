@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Health Kit Sample</string>
+    <string name="login_info">Touch Login to complete login and authorization, and then use other buttons to try the related API functions.Note: If the login dialog box is not displayed, change the package name, app ID, and configure the signature file by referring to the developer guide on the official website.</string>
+    <string name="data_controller">Managing historical fitness and health data</string>
+    <string name="sensors_controller">Obtaining real-time data of peripheral sensors (phone sensors and external Bluetooth devices)</string>
+    <string name="auto_recorder">Continuously recording the fitness data of the user</string>
+    <string name="activity_record">Managing single workout sesson or activity</string>
+    <string name="sensors_getController">Getting the SensorsController first</string>
+    <string name="sensors_registerStep">Registering and unregistering a listener for step counting</string>
+    <string name="sensors_scan">Scanning and saving Bluetooth devices</string>
+    <string name="sensors_findSource">Searching for available data collectors and deleting Bluetooth devices</string>
+    <string name="sensors_registerHeartRate">Registering and unregistering a listener for heart rate monitoring</string>
+    <string name="activity_record_BeginOrEnd">Starting or stopping an activity record</string>
+    <string name="activity_record_AddOrGet">Adding or reading an activity record</string>
+    <string name="activity_record_MonitorOptions">Registering or unregistering a listener for monitoring the activity record status</string>
+    <string name="activity_record_Delete">Deleting an activity record</string>
+    <string name="setting_controller">Managing setting controller</string>
+    <string name="setting_controller_set_name">Set new data type name, Duplicate names are unacceptable, this name must start with package name, and End with a custom name.</string>
+    <string name="setting_controller_manager">Choose which Field to select，you connot add new Field</string>
+    <string name="setting_controller_read_write">Use the newly added data type to write or read value.</string>
+    <string name="data_controller_manager">Managing fitness and health data, including inserting, updating, reading, and deleting data</string>
+    <string name="data_controller_read">Feature-based query APIs: Querying the summary data of the current day, as well as the summary data on the local device of the current day</string>
+    <string name="data_controller_register">Registering or unregistering a listener for data changes and triggering the listener for testing purposes</string>
+    <string name="data_controller_sync">Synchronizing fitness and health data between the device and cloud, as well as clearing all data</string>
+    <string name="auto_recorder_start_stop_record_by_type">Starting or stopping automatic recording of accumulated step count by data type</string>
+    <string name="auto_recorder_start_stop_record_by_collector">Starting or stopping automatic recording of accumulated step count by data collector</string>
+    <string name="auto_recorder_stop_record_by_record">Stopping automatic recording of accumulated step count by data record</string>
+    <string name="auto_recorder_get_records">Obtaining all data records of the app</string>
+    <string name="auto_recorder_get_records_by_type">Obtaining the data record related to the accumulated step count of the app</string>
+</resources>

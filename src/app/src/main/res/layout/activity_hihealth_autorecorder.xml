@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:gravity="center"
+            android:textSize="@dimen/app_icon_size"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Auto Recorder Controller" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/auto_recorder_start_stop_record_by_type" />
+
+            <Button
+                android:layout_gravity="center_horizontal"
+                android:layout_width="250dp"
+                android:layout_height="40dp"
+                android:text="startRecordByDataType"
+                android:onClick="startRecordByType"
+                android:textAllCaps="false" />
+
+            <Button
+                android:layout_gravity="center_horizontal"
+                android:layout_width="250dp"
+                android:layout_height="40dp"
+                android:text="stopRecordByDataType"
+                android:onClick="stopRecordByType"
+                android:textAllCaps="false" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/auto_recorder_start_stop_record_by_collector" />
+
+            <Button
+                android:layout_gravity="center_horizontal"
+                android:layout_width="250dp"
+                android:layout_height="40dp"
+                android:text="startRecordByDataCollector"
+                android:onClick="startRecordByCollector"
+                android:textAllCaps="false" />
+
+            <Button
+                android:layout_gravity="center_horizontal"
+                android:layout_width="250dp"
+                android:layout_height="40dp"
+                android:text="stopRecordByDataCollector"
+                android:onClick="stopRecordByCollector"
+                android:textAllCaps="false" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/auto_recorder_stop_record_by_record" />
+
+            <Button
+                android:layout_gravity="center_horizontal"
+                android:layout_width="250dp"
+                android:layout_height="40dp"
+                android:text="stopRecordByRecord"
+                android:onClick="stopRecordByRecord"
+                android:textAllCaps="false" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/auto_recorder_get_records" />
+
+            <Button
+                android:layout_gravity="center_horizontal"
+                android:layout_width="250dp"
+                android:layout_height="40dp"
+                android:text="getAllRecords"
+                android:onClick="getAllRecords"
+                android:textAllCaps="false" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/auto_recorder_get_records_by_type" />
+
+            <Button
+                android:layout_gravity="center_horizontal"
+                android:layout_width="250dp"
+                android:layout_height="40dp"
+                android:text="getRecordsByDataType"
+                android:onClick="getRecordsByType"
+                android:textAllCaps="false" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Result output：" />
+
+            <TextView
+                android:id="@+id/auto_recorder_log_info"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/textview_border"
+                android:padding="5dp"
+                android:textSize="14dp"
+                android:text="print：\n"
+                android:scrollbars="vertical"
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
