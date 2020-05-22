@@ -6,7 +6,7 @@
  * [Installation](#installation)
  * [Configuration ](#configuration )
  * [Supported Environments](#supported-environments)
- * [demo Code](#demo-Code)
+ * [Demo Code](#demo-code)
  * [License](#license)
 
 ## Introduction
@@ -19,10 +19,10 @@ Before using Health demo code, check whether the IDE environment has been instal
 3) Press Sync Project with Gradle Files to ensure the development environment builds completed.
 
 ## Supported Environments
-	* Android Studio 3.0 or later
-	* Java SDK 1.8 or later
-	* HMS(APK)3.0.0.version
-	* HMS SDK 3.0.0.version
+* Android Studio 3.0 or later
+* Java SDK 1.8 or later
+* HMS(APK)3.0.0.version
+* HMS SDK 3.0.0.version
 
 ## Configuration 
 To use functions provided by packages in examples, you need to set parameters as following:
