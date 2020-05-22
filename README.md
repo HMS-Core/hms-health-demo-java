@@ -10,7 +10,7 @@
  * [License](#license)
 
 ## Introduction
-    Health demo code encapsulates APIs of the HUAWEI Health Kit. It provides demo programs for your reference or usage.
+Health demo code encapsulates APIs of the HUAWEI Health Kit. It provides demo programs for your reference or usage.
 
 ## Installation
     Before using Health demo code, check whether the IDE environment has been installed. 
