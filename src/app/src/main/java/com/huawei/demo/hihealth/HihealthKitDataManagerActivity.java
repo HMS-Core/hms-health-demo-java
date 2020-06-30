@@ -62,7 +62,10 @@ import java.util.regex.Pattern;
  * @since 2020-03-17
  */
 public class HihealthKitDataManagerActivity extends AppCompatActivity {
-    private static final String TAG = "DataManager";
+    private static final String TAG = "DataController";
+
+    // Line separators for the display on the UI
+    private static final String SPLIT = "*******************************" + System.lineSeparator();
 
     // Object of controller for fitness and health data, providing APIs for read/write, batch read/write, and listening
     private DataController dataController;
@@ -75,9 +78,6 @@ public class HihealthKitDataManagerActivity extends AppCompatActivity {
 
     // TextView for displaying operation information on the UI
     private TextView logInfoView;
-
-    // Line separators for the display on the UI
-    private String tag = "*******************************" + System.lineSeparator();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,7 +147,7 @@ public class HihealthKitDataManagerActivity extends AppCompatActivity {
             public void onSuccess(Void result) {
                 logger("Success insert an SampleSet into HMS core");
                 showSampleSet(sampleSet);
-                logger(tag);
+                logger(SPLIT);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -190,7 +190,7 @@ public class HihealthKitDataManagerActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Void result) {
                 logger("Success delete sample data from HMS core");
-                logger(tag);
+                logger(SPLIT);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -235,18 +235,18 @@ public class HihealthKitDataManagerActivity extends AppCompatActivity {
         sampleSet.addSample(samplePoint);
 
         // 6. Build a parameter object for the update.
-        // Note: (1) The start time of the modified object updateRequest cannot be greater than the minimum
+        // Note: (1) The start time of the modified object updateOptions cannot be greater than the minimum
         // value of the start time of all sample data points in the modified data sample set
-        // (2) The end time of the modified object updateRequest cannot be less than the maximum value of the
+        // (2) The end time of the modified object updateOptions cannot be less than the maximum value of the
         // end time of all sample data points in the modified data sample set
-        UpdateOptions updateRequest =
+        UpdateOptions updateOptions =
             new UpdateOptions.Builder().setTimeInterval(startDate.getTime(), endDate.getTime(), TimeUnit.MILLISECONDS)
                 .setSampleSet(sampleSet)
                 .build();
 
         // 7. Use the specified parameter object for the update to call the
         // data controller to modify the sampling dataset.
-        Task<Void> updateTask = dataController.update(updateRequest);
+        Task<Void> updateTask = dataController.update(updateOptions);
 
         // 8. Calling the data controller to modify the sampling dataset is an asynchronous operation.
         // Therefore, a listener needs to be registered to monitor whether the data update is successful or not.
@@ -254,7 +254,7 @@ public class HihealthKitDataManagerActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Void result) {
                 logger("Success update sample data from HMS core");
-                logger(tag);
+                logger(SPLIT);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -300,7 +300,7 @@ public class HihealthKitDataManagerActivity extends AppCompatActivity {
                 for (SampleSet sampleSet : readReply.getSampleSets()) {
                     showSampleSet(sampleSet);
                 }
-                logger(tag);
+                logger(SPLIT);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -333,7 +333,7 @@ public class HihealthKitDataManagerActivity extends AppCompatActivity {
                 if (sampleSet != null) {
                     showSampleSet(sampleSet);
                 }
-                logger(tag);
+                logger(SPLIT);
             }
         });
         todaySummationTask.addOnFailureListener(new OnFailureListener() {
@@ -364,7 +364,7 @@ public class HihealthKitDataManagerActivity extends AppCompatActivity {
                 if (sampleSet != null) {
                     showSampleSet(sampleSet);
                 }
-                logger(tag);
+                logger(SPLIT);
             }
         });
         todaySummationTask.addOnFailureListener(new OnFailureListener() {
@@ -383,7 +383,7 @@ public class HihealthKitDataManagerActivity extends AppCompatActivity {
     public void registerListener(View view) {
         if (pendingIntent != null) {
             logger("There is already an listener, no need to re listener");
-            logger(tag);
+            logger(SPLIT);
             return;
         }
 
@@ -421,7 +421,7 @@ public class HihealthKitDataManagerActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Void result) {
                 logger("Register Data Update Listener Success");
-                logger(tag);
+                logger(SPLIT);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -440,7 +440,7 @@ public class HihealthKitDataManagerActivity extends AppCompatActivity {
     public void unregisterListener(View view) {
         if (pendingIntent == null) {
             logger("There is no listener, no need to un listener");
-            logger(tag);
+            logger(SPLIT);
             return;
         }
 
@@ -454,7 +454,7 @@ public class HihealthKitDataManagerActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Void result) {
                 logger("Unregister Data Update Listener Success: ");
-                logger(tag);
+                logger(SPLIT);
                 pendingIntent = null;
             }
         });
@@ -481,7 +481,7 @@ public class HihealthKitDataManagerActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Void result) {
                 logger("synAll success");
-                logger(tag);
+                logger(SPLIT);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -507,7 +507,7 @@ public class HihealthKitDataManagerActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Void result) {
                 logger("clearAll success");
-                logger(tag);
+                logger(SPLIT);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -525,7 +525,7 @@ public class HihealthKitDataManagerActivity extends AppCompatActivity {
     public void insertListenerData(View view) {
         if (pendingIntent == null) {
             logger("There is no listener, no need to insert sample point");
-            logger(tag);
+            logger(SPLIT);
             return;
         }
 
@@ -576,7 +576,7 @@ public class HihealthKitDataManagerActivity extends AppCompatActivity {
         } else {
             logger(api + " failure " + errorCode);
         }
-        logger(tag);
+        logger(SPLIT);
     }
 
     /**

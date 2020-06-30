@@ -50,6 +50,6 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.annotation:annotation:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'com.huawei.hms:hihealth-base:4.0.3.300'
+    implementation 'com.huawei.hms:hihealth-base:5.0.0.300'
     implementation 'com.android.support:multidex:1.0.3'
 }

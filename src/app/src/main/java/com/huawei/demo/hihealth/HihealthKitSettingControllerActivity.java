@@ -22,6 +22,7 @@ import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -44,9 +45,6 @@ import com.huawei.hms.hihealth.data.Field;
 import com.huawei.hms.hihealth.data.SamplePoint;
 import com.huawei.hms.hihealth.data.SampleSet;
 import com.huawei.hms.hihealth.options.DataTypeAddOptions;
-
-import android.widget.AdapterView.OnItemSelectedListener;
-
 import com.huawei.hms.hihealth.options.ReadOptions;
 import com.huawei.hms.hihealth.result.ReadReply;
 import com.huawei.hms.support.hwid.HuaweiIdAuthManager;
@@ -67,7 +65,6 @@ import java.util.regex.Pattern;
  * @since 2020-03-17
  */
 public class HihealthKitSettingControllerActivity extends AppCompatActivity implements OnItemSelectedListener {
-    private static final String TAG = "SettingController";
 
     /**
      * Custom data type read permission
@@ -85,6 +82,17 @@ public class HihealthKitSettingControllerActivity extends AppCompatActivity impl
      */
     public static final String HEALTHKIT_SELF_DEFINING_DATA_BOTH = "https://www.huawei.com/healthkit/selfdefining.both";
 
+    private static final String TAG = "SettingController";
+
+    // Line separators for the display on the UI
+    private static final String SPLIT = "*******************************" + System.lineSeparator();
+
+    // The container that stores Field
+    private static final ArrayList<Field> SPINNERLIST = new ArrayList<>();
+
+    // The container that stores Field name
+    private static final ArrayList<String> SPINNERLISTSTR = new ArrayList<>();
+
     // Object of controller for fitness and health data, providing APIs for read/write, batch read/write, and listening
     private DataController dataController;
 
@@ -97,23 +105,14 @@ public class HihealthKitSettingControllerActivity extends AppCompatActivity impl
     // TextView for displaying operation information on the UI
     private TextView logInfoView;
 
-    // Line separators for the display on the UI
-    private String tag = "*******************************" + System.lineSeparator();
-
     // Huawe Account authentication and identification information
-    private AuthHuaweiId mSignInHuaweiId;
+    private AuthHuaweiId signInHuaweiId;
 
     // drop-down box of Field name
     private Spinner spinner;
 
     // drop-down box adapter
     private ArrayAdapter<String> adapter;
-
-    // The container that stores Field
-    private static final ArrayList<Field> spinnerList = new ArrayList<>();
-
-    // The container that stores Field name
-    private static final ArrayList<String> spinnerListStr = new ArrayList<>();
 
     // The field value you choose, default value is Field.FIELD_BPM
     private Field selectedField = Field.FIELD_STEPS;
@@ -135,12 +134,16 @@ public class HihealthKitSettingControllerActivity extends AppCompatActivity impl
      * Implementation of OnItemSelectedListener interface.
      * Assign a value to the variable
      */
+    @Override
     public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-        selectedField = spinnerList.get(arg2);
-        selectedFieldStr = spinnerListStr.get(arg2);
-        logger("your choice is ：" + selectedFieldStr);
+        if (!SPINNERLIST.isEmpty() && arg2 < SPINNERLIST.size()) {
+            selectedField = SPINNERLIST.get(arg2);
+            selectedFieldStr = SPINNERLISTSTR.get(arg2);
+            logger("your choice is ：" + selectedFieldStr);
+        }
     }
 
+    @Override
     public void onNothingSelected(AdapterView<?> arg0) {
     }
 
@@ -156,21 +159,21 @@ public class HihealthKitSettingControllerActivity extends AppCompatActivity impl
                 continue;
             }
             try {
-                spinnerList.add((Field) (field.get(Field.class)));
-                spinnerListStr.add(field.getName());
+                SPINNERLIST.add((Field) (field.get(Field.class)));
+                SPINNERLISTSTR.add(field.getName());
             } catch (IllegalAccessException e) {
-                e.printStackTrace();
+                logger("initActivityView: catch an IllegalAccessException");
             }
         }
 
-        int size = spinnerListStr.size();
-        String[] array = spinnerListStr.toArray(new String[size]);
+        int size = SPINNERLISTSTR.size();
+        String[] array = SPINNERLISTSTR.toArray(new String[size]);
 
         spinner = (Spinner) findViewById(R.id.spinner01);
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, array);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
-        spinner.setSelection(spinnerList.indexOf(selectedField));
+        spinner.setSelection(SPINNERLIST.indexOf(selectedField));
 
         dataTypeNameView = (EditText) findViewById(R.id.data_type_name_text);
         dataTypeNameView.setText(this.getPackageName() + ".anyExtendName");
@@ -186,9 +189,9 @@ public class HihealthKitSettingControllerActivity extends AppCompatActivity impl
         // create HiHealth Options, donnot add any datatype here.
         HiHealthOptions hiHealthOptions = HiHealthOptions.builder().build();
         // get AuthHuaweiId by HiHealth Options.
-        mSignInHuaweiId = HuaweiIdAuthManager.getExtendedAuthResult(hiHealthOptions);
+        signInHuaweiId = HuaweiIdAuthManager.getExtendedAuthResult(hiHealthOptions);
         // get DataController.
-        dataController = HuaweiHiHealth.getDataController(context, mSignInHuaweiId);
+        dataController = HuaweiHiHealth.getDataController(context, signInHuaweiId);
     }
 
     /**
@@ -210,7 +213,7 @@ public class HihealthKitSettingControllerActivity extends AppCompatActivity impl
 
         // create SettingController and add new DataType
         // The added results are displayed in the phone screen
-        HuaweiHiHealth.getSettingController(context, mSignInHuaweiId)
+        HuaweiHiHealth.getSettingController(context, signInHuaweiId)
             .addDataType(dataTypeAddOptions)
             .addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -242,7 +245,7 @@ public class HihealthKitSettingControllerActivity extends AppCompatActivity impl
 
         // create SettingController and get DataType with the specified name
         // The results are displayed in the phone screen
-        HuaweiHiHealth.getSettingController(context, mSignInHuaweiId)
+        HuaweiHiHealth.getSettingController(context, signInHuaweiId)
             .readDataType(dataTypeName)
             .addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -267,7 +270,7 @@ public class HihealthKitSettingControllerActivity extends AppCompatActivity impl
     public void disableHiHealth(View view) {
         // create SettingController and disable HiHealth (cancel All your Records).
         // The results are displayed in the phone screen.
-        HuaweiHiHealth.getSettingController(context, mSignInHuaweiId)
+        HuaweiHiHealth.getSettingController(context, signInHuaweiId)
             .disableHiHealth()
             .addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -317,7 +320,7 @@ public class HihealthKitSettingControllerActivity extends AppCompatActivity impl
 
         // 4. Build a DT_CONTINUOUS_STEPS_DELTA sampling point.
         SamplePoint samplePoint = sampleSet.createSamplePoint()
-                .setTimeInterval(startDate.getTime(), endDate.getTime(), TimeUnit.MILLISECONDS);
+            .setTimeInterval(startDate.getTime(), endDate.getTime(), TimeUnit.MILLISECONDS);
         try {
             selectedField.getFormat();
 
@@ -356,7 +359,7 @@ public class HihealthKitSettingControllerActivity extends AppCompatActivity impl
             public void onSuccess(Void result) {
                 logger("Success insert an SampleSet into HMS core");
                 showSampleSet(sampleSet);
-                logger(tag);
+                logger(SPLIT);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -377,14 +380,14 @@ public class HihealthKitSettingControllerActivity extends AppCompatActivity impl
         List<Field> fieldsList = new ArrayList<>();
         fieldsList.add(selectedField);
         DataType selfDataType = new DataType(dataTypeNameView.getText().toString(), HEALTHKIT_SELF_DEFINING_DATA_READ,
-                HEALTHKIT_SELF_DEFINING_DATA_WRITE, HEALTHKIT_SELF_DEFINING_DATA_BOTH, fieldsList);
+            HEALTHKIT_SELF_DEFINING_DATA_WRITE, HEALTHKIT_SELF_DEFINING_DATA_BOTH, fieldsList);
 
         // 1. Build the condition for data query: a DataCollector object.
         DataCollector dataCollector = new DataCollector.Builder().setPackageName(context)
-                .setDataType(selfDataType)
-                .setDataStreamName(selectedFieldStr)
-                .setDataGenerateType(DataCollector.DATA_TYPE_RAW)
-                .build();
+            .setDataType(selfDataType)
+            .setDataStreamName(selectedFieldStr)
+            .setDataGenerateType(DataCollector.DATA_TYPE_RAW)
+            .build();
 
         // 2. Build the time range for the query: start time and end time.
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
@@ -393,8 +396,8 @@ public class HihealthKitSettingControllerActivity extends AppCompatActivity impl
 
         // 3. Build the condition-based query objec
         ReadOptions readOptions = new ReadOptions.Builder().read(dataCollector)
-                .setTimeRange(startDate.getTime(), endDate.getTime(), TimeUnit.MILLISECONDS)
-                .build();
+            .setTimeRange(startDate.getTime(), endDate.getTime(), TimeUnit.MILLISECONDS)
+            .build();
 
         // 4. Use the specified condition query object to call the data controller to query the sampling dataset.
         Task<ReadReply> readReplyTask = dataController.read(readOptions);
@@ -408,7 +411,7 @@ public class HihealthKitSettingControllerActivity extends AppCompatActivity impl
                 for (SampleSet sampleSet : readReply.getSampleSets()) {
                     showSampleSet(sampleSet);
                 }
-                logger(tag);
+                logger(SPLIT);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -434,7 +437,7 @@ public class HihealthKitSettingControllerActivity extends AppCompatActivity impl
         } else {
             logger(api + " failure " + errorCode);
         }
-        logger(tag);
+        logger(SPLIT);
     }
 
     /**

@@ -36,7 +36,9 @@ public class ActivityRecordsMonitorReceiver extends BroadcastReceiver {
             String msg = "";
             ActivityRecord activityRecord = ActivityRecord.extract(intent);
             msg += "receiver monitor ActivityRecord happen " + intent.getAction();
-            msg += "\tActivityRecord info is：  " + activityRecord.toString();
+            if (activityRecord != null) {
+                msg += "\tActivityRecord info is：  " + activityRecord.toString();
+            }
             Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
         }
     }

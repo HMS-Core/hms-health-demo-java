@@ -16,10 +16,12 @@
 
 package com.huawei.demo.hihealth;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -164,12 +166,15 @@ public class HihealthKitMainActivity extends AppCompatActivity {
         // the authorization screen will not display. This is an asynchronous method.
         Task<AuthHuaweiId> authHuaweiIdTask = authService.silentSignIn();
 
+        final Context context = this;
+
         // Add the callback for the call result.
         authHuaweiIdTask.addOnSuccessListener(new OnSuccessListener<AuthHuaweiId>() {
             @Override
             public void onSuccess(AuthHuaweiId huaweiId) {
                 // The silent sign-in is successful.
                 Log.i(TAG, "silentSignIn success");
+                Toast.makeText(context, "silentSignIn success", Toast.LENGTH_LONG).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -206,12 +211,16 @@ public class HihealthKitMainActivity extends AppCompatActivity {
 
         // Obtain the authorization response from the intent.
         HuaweiIdAuthResult result = HuaweiIdAuthAPIManager.HuaweiIdAuthAPIService.parseHuaweiIdFromIntent(data);
-        Log.d(TAG, "handleSignInResult status = " + result.getStatus() + ", result = " + result.isSuccess());
-        if (result.isSuccess()) {
-            Log.d(TAG, "sign in is success");
+        if (result != null) {
+            Log.d(TAG, "handleSignInResult status = " + result.getStatus() + ", result = " + result.isSuccess());
+            if (result.isSuccess()) {
+                Log.d(TAG, "sign in is success");
+                Toast.makeText(this, "sign in is success", Toast.LENGTH_LONG).show();
 
-            // Obtain the authorization result.
-            HuaweiIdAuthResult authResult = HuaweiIdAuthAPIManager.HuaweiIdAuthAPIService.parseHuaweiIdFromIntent(data);
+                // Obtain the authorization result.
+                HuaweiIdAuthResult authResult =
+                    HuaweiIdAuthAPIManager.HuaweiIdAuthAPIService.parseHuaweiIdFromIntent(data);
+            }
         }
     }
 }

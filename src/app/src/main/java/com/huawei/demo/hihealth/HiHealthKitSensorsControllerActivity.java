@@ -59,27 +59,27 @@ import java.util.concurrent.TimeUnit;
 public class HiHealthKitSensorsControllerActivity extends AppCompatActivity {
     private static final String TAG = "SensorsControllerTest";
 
+    private static final String SPLIT = "*******************************" + System.lineSeparator();
+
     // Context of the app
-    private Context mContext;
+    private Context context;
 
     // Create a SensorsController object to obtain data.
-    private SensorsController mSensorsController;
+    private SensorsController sensorsController;
 
     // Create a BleController object to scan external Bluetooth devices.
-    private BleController mBleController;
+    private BleController bleController;
 
     // Create a BleDeviceInfo object to temporarily store the scanned devices.
-    private BleDeviceInfo mBleDeviceInfo;
+    private BleDeviceInfo bleDeviceInfo;
 
     // Create a DataCollector object to temporarily store the external Bluetooth devices.
-    private DataCollector mDataCollector;
+    private DataCollector dataCollector;
 
     // Text view for displaying operation information on the UI
     private TextView logInfoView;
 
     private boolean isHasFocus;
-
-    private String tag = "*******************************" + System.lineSeparator();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -95,14 +95,14 @@ public class HiHealthKitSensorsControllerActivity extends AppCompatActivity {
         AuthHuaweiId signInHuaweiId = HuaweiIdAuthManager.getExtendedAuthResult(options);
 
         // Obtain the SensorsController and BleController.
-        mSensorsController = HuaweiHiHealth.getSensorsController(this, signInHuaweiId);
-        mBleController = HuaweiHiHealth.getBleController(this, signInHuaweiId);
+        sensorsController = HuaweiHiHealth.getSensorsController(this, signInHuaweiId);
+        bleController = HuaweiHiHealth.getBleController(this, signInHuaweiId);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        mContext = this;
+        context = this;
     }
 
     /**
@@ -117,8 +117,8 @@ public class HiHealthKitSensorsControllerActivity extends AppCompatActivity {
         AuthHuaweiId signInHuaweiId = HuaweiIdAuthManager.getExtendedAuthResult(options);
 
         // Obtain the SensorsController and BleController.
-        mSensorsController = HuaweiHiHealth.getSensorsController(this, signInHuaweiId);
-        mBleController = HuaweiHiHealth.getBleController(this, signInHuaweiId);
+        sensorsController = HuaweiHiHealth.getSensorsController(this, signInHuaweiId);
+        bleController = HuaweiHiHealth.getBleController(this, signInHuaweiId);
     }
 
     /**
@@ -139,9 +139,9 @@ public class HiHealthKitSensorsControllerActivity extends AppCompatActivity {
      * @param view UI Object
      */
     public void registerSteps(View view) {
-        if (mSensorsController == null) {
+        if (sensorsController == null) {
             logger("SensorsController is null");
-            logger(tag);
+            logger(SPLIT);
             return;
         }
 
@@ -150,19 +150,19 @@ public class HiHealthKitSensorsControllerActivity extends AppCompatActivity {
         builder.setDataType(DataType.DT_CONTINUOUS_STEPS_TOTAL);
 
         // Register a listener and adding the callback for registration success and failure.
-        mSensorsController.register(builder.build(), onSamplePointListener)
+        sensorsController.register(builder.build(), onSamplePointListener)
             .addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
                     logger("registerSteps successed... ");
-                    logger(tag);
+                    logger(SPLIT);
                 }
             })
             .addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(Exception e) {
                     logger("registerSteps failed... ");
-                    logger(tag);
+                    logger(SPLIT);
                 }
             });
     }
@@ -173,24 +173,24 @@ public class HiHealthKitSensorsControllerActivity extends AppCompatActivity {
      * @param view UI Object
      */
     public void unregisterSteps(View view) {
-        if (mSensorsController == null) {
+        if (sensorsController == null) {
             logger("SensorsController is null");
-            logger(tag);
+            logger(SPLIT);
             return;
         }
 
         // Unregister the listener for the step count.
-        mSensorsController.unregister(onSamplePointListener).addOnSuccessListener(new OnSuccessListener<Boolean>() {
+        sensorsController.unregister(onSamplePointListener).addOnSuccessListener(new OnSuccessListener<Boolean>() {
             @Override
             public void onSuccess(Boolean aBoolean) {
                 logger("unregisterSteps successed ...");
-                logger(tag);
+                logger(SPLIT);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(Exception e) {
                 logger("unregisterSteps failed ..." + e.getMessage());
-                logger(tag);
+                logger(SPLIT);
             }
         });
     }
@@ -201,18 +201,18 @@ public class HiHealthKitSensorsControllerActivity extends AppCompatActivity {
      * @param view UI Object
      */
     public void scanHeartRateDevices(View view) {
-        if (mBleController == null) {
+        if (bleController == null) {
             logger("BleController is null");
-            logger(tag);
+            logger(SPLIT);
             return;
         }
 
         logger("Scanning devices started");
-        logger(tag);
+        logger(SPLIT);
 
         // Pass the heart rate data type as an array. Multiple data types can be passed at a time. The scanning time is
         // set to 15 seconds.
-        mBleController.beginScan(Arrays.asList(DataType.DT_INSTANTANEOUS_HEART_RATE), 15, mBleCallback);
+        bleController.beginScan(Arrays.asList(DataType.DT_INSTANTANEOUS_HEART_RATE), 15, mBleCallback);
     }
 
     /**
@@ -221,12 +221,12 @@ public class HiHealthKitSensorsControllerActivity extends AppCompatActivity {
      * @param view UI Object
      */
     public void stopScanning(View view) {
-        if (mBleController == null) {
+        if (bleController == null) {
             logger("BleController is null");
-            logger(tag);
+            logger(SPLIT);
             return;
         }
-        mBleController.endScan(mBleCallback);
+        bleController.endScan(mBleCallback);
     }
 
     /**
@@ -237,16 +237,16 @@ public class HiHealthKitSensorsControllerActivity extends AppCompatActivity {
         public void onDeviceDiscover(BleDeviceInfo bleDeviceInfo) {
             // Bluetooth devices detected during the scanning will be called back to the bleDeviceInfo object
             logger("onDeviceDiscover : " + bleDeviceInfo.getDeviceName());
-            logger(tag);
+            logger(SPLIT);
 
             // Save the scanned heart rate devices to the variables for later use.
-            mBleDeviceInfo = bleDeviceInfo;
+            HiHealthKitSensorsControllerActivity.this.bleDeviceInfo = bleDeviceInfo;
         }
 
         @Override
         public void onScanEnd() {
             logger("onScanEnd  Scan called");
-            logger(tag);
+            logger(SPLIT);
         }
     };
 
@@ -257,23 +257,23 @@ public class HiHealthKitSensorsControllerActivity extends AppCompatActivity {
      * @param view UI Object
      */
     public void saveHeartRateDevice(View view) {
-        if (mBleController == null || mBleDeviceInfo == null) {
+        if (bleController == null || bleDeviceInfo == null) {
             logger("BleController or BleDeviceInfo is null");
-            logger(tag);
+            logger(SPLIT);
             return;
         }
 
-        mBleController.saveDevice(mBleDeviceInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
+        bleController.saveDevice(bleDeviceInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 logger("saveHeartRateDevice successed... ");
-                logger(tag);
+                logger(SPLIT);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 logger("saveHeartRateDevice failed... ");
-                logger(tag);
+                logger(SPLIT);
             }
         });
     }
@@ -284,20 +284,20 @@ public class HiHealthKitSensorsControllerActivity extends AppCompatActivity {
      * @param view UI Object
      */
     public void listMatchedDevices(View view) {
-        if (mBleController == null) {
+        if (bleController == null) {
             logger("SensorsController is null");
-            logger(tag);
+            logger(SPLIT);
             return;
         }
 
-        Task<List<BleDeviceInfo>> bleDeviceInfoTask = mBleController.getSavedDevices();
+        Task<List<BleDeviceInfo>> bleDeviceInfoTask = bleController.getSavedDevices();
         bleDeviceInfoTask.addOnSuccessListener(new OnSuccessListener<List<BleDeviceInfo>>() {
             @Override
             public void onSuccess(List<BleDeviceInfo> bleDeviceInfos) {
                 // bleDeviceInfos contains the list of the saved devices.
                 for (BleDeviceInfo bleDeviceInfo : bleDeviceInfos) {
                     logger("Matched BLE devices:" + bleDeviceInfo.getDeviceName());
-                    logger(tag);
+                    logger(SPLIT);
                 }
             }
         });
@@ -309,9 +309,9 @@ public class HiHealthKitSensorsControllerActivity extends AppCompatActivity {
      * @param view UI Object
      */
     public void findDataCollectors(View view) {
-        if (mSensorsController == null) {
+        if (sensorsController == null) {
             logger("SensorsController is null");
-            logger(tag);
+            logger(SPLIT);
             return;
         }
 
@@ -320,18 +320,18 @@ public class HiHealthKitSensorsControllerActivity extends AppCompatActivity {
         DataCollectorsOptions dataCollectorsOptions =
             new DataCollectorsOptions.Builder().setDataTypes(DataType.DT_INSTANTANEOUS_HEART_RATE).build();
 
-        // Use dataSourcesRequest as a parameter to return available heart rate devices.
-        mSensorsController.getDataCollectors(dataCollectorsOptions)
+        // Use dataCollectorsOptions as a parameter to return available heart rate devices.
+        sensorsController.getDataCollectors(dataCollectorsOptions)
             .addOnSuccessListener(new OnSuccessListener<List<DataCollector>>() {
                 @Override
                 public void onSuccess(List<DataCollector> dataCollectors) {
                     // dataCollectors contains the returned available data collectors.
                     for (DataCollector dataCollector : dataCollectors) {
                         logger("Available data collector:" + dataCollector.getDataCollectorName());
-                        logger(tag);
+                        logger(SPLIT);
 
                         // Save the heart rate data collectors for later use when registering the listener.
-                        mDataCollector = dataCollector;
+                        HiHealthKitSensorsControllerActivity.this.dataCollector = dataCollector;
                     }
                 }
             })
@@ -339,7 +339,7 @@ public class HiHealthKitSensorsControllerActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(Exception e) {
                     logger("findDataCollectors failed... ");
-                    logger(tag);
+                    logger(SPLIT);
                 }
             });
     }
@@ -350,17 +350,17 @@ public class HiHealthKitSensorsControllerActivity extends AppCompatActivity {
      * @param view UI Object
      */
     public void registerHeartRate(View view) {
-        if (mSensorsController == null) {
+        if (sensorsController == null) {
             logger("SensorsController is null");
-            logger(tag);
+            logger(SPLIT);
             return;
         }
 
-        mSensorsController.register(
+        sensorsController.register(
             // Build a SensorsOptions object and passing the data type, data collectors, and sampling rate.
             // The data type is mandatory.
             new SensorOptions.Builder().setDataType(DataType.DT_INSTANTANEOUS_HEART_RATE)
-                .setDataCollector(mDataCollector)
+                .setDataCollector(dataCollector)
                 // Set the sampling rate to 1 second.
                 .setCollectionRate(1, TimeUnit.SECONDS)
                 .build(),
@@ -368,13 +368,13 @@ public class HiHealthKitSensorsControllerActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(Void aVoid) {
                     logger("registerHeartRate successed... ");
-                    logger(tag);
+                    logger(SPLIT);
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     logger("registerHeartRate failed... ");
-                    logger(tag);
+                    logger(SPLIT);
                 }
             });
     }
@@ -384,9 +384,9 @@ public class HiHealthKitSensorsControllerActivity extends AppCompatActivity {
      */
     private OnSamplePointListener heartrateListener = new OnSamplePointListener() {
         @Override
-        public void onSamplePoint(SamplePoint dataPoint) {
-            logger("Heart rate received " + dataPoint.getFieldValue(Field.FIELD_BPM).toString());
-            logger(tag);
+        public void onSamplePoint(SamplePoint samplePoint) {
+            logger("Heart rate received " + samplePoint.getFieldValue(Field.FIELD_BPM).toString());
+            logger(SPLIT);
         }
     };
 
@@ -396,23 +396,23 @@ public class HiHealthKitSensorsControllerActivity extends AppCompatActivity {
      * @param view UI Object
      */
     public void unregisterHeartRate(View view) {
-        if (mSensorsController == null) {
+        if (sensorsController == null) {
             logger("SensorsController is null");
-            logger(tag);
+            logger(SPLIT);
             return;
         }
 
-        mSensorsController.unregister(heartrateListener).addOnSuccessListener(new OnSuccessListener<Boolean>() {
+        sensorsController.unregister(heartrateListener).addOnSuccessListener(new OnSuccessListener<Boolean>() {
             @Override
             public void onSuccess(Boolean aBoolean) {
                 logger("unregisterHeartRate successed... ");
-                logger(tag);
+                logger(SPLIT);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 logger("unregisterHeartRate failed... ");
-                logger(tag);
+                logger(SPLIT);
             }
         });
     }
@@ -423,24 +423,24 @@ public class HiHealthKitSensorsControllerActivity extends AppCompatActivity {
      * @param view UI Object
      */
     public void removeHeartRateDevice(View view) {
-        if (mBleController == null || mBleDeviceInfo == null) {
+        if (bleController == null || bleDeviceInfo == null) {
             logger("BleController or BleDeviceInfo is null");
-            logger(tag);
+            logger(SPLIT);
             return;
         }
 
         // Pass the saved Bluetooth device information object to delete the information.
-        mBleController.deleteDevice(mBleDeviceInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
+        bleController.deleteDevice(bleDeviceInfo).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 logger("removeHeartRateDevice successed... ");
-                logger(tag);
+                logger(SPLIT);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 logger("removeHeartRateDevice failed... ");
-                logger(tag);
+                logger(SPLIT);
             }
         });
     }
@@ -458,7 +458,7 @@ public class HiHealthKitSensorsControllerActivity extends AppCompatActivity {
             }
         } else {
             logger("samplePoint is null!! ");
-            logger(tag);
+            logger(SPLIT);
         }
     }
 

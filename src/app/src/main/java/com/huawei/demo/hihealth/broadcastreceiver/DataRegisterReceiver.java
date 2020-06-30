@@ -33,29 +33,31 @@ import java.util.concurrent.TimeUnit;
  * @since 2020-03-17
  */
 public class DataRegisterReceiver extends BroadcastReceiver {
+    private static final String TAG = "DataRegisterReceiver";
+
+    private static final String SPLIT = System.lineSeparator();
 
     @Override
     public void onReceive(Context context, Intent intent) {
         // an Intent broadcast.
         DataModifyInfo updateNotification = DataModifyInfo.getModifyInfo(intent);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String msg = "detected a data has been modified:" + System.lineSeparator();
+        String msg = "detected a data has been modified:" + SPLIT;
         if (updateNotification != null) {
             if (updateNotification.getDataType() != null) {
-                msg += "data type：" + updateNotification.getDataType().getName() + System.lineSeparator();
+                msg += "data type：" + updateNotification.getDataType().getName() + SPLIT;
             } else {
-                msg += "data type：" + System.lineSeparator();
+                msg += "data type：" + SPLIT;
             }
             if (updateNotification.getDataCollector() != null) {
-                msg += "data collector：" + updateNotification.getDataCollector().toString() + System.lineSeparator();
+                msg += "data collector：" + updateNotification.getDataCollector().toString() + SPLIT;
             } else {
-                msg += "data collector：" + System.lineSeparator();
+                msg += "data collector：" + SPLIT;
             }
             msg += "start time："
-                + dateFormat.format(new Date(updateNotification.getModifyStartTime(TimeUnit.MILLISECONDS)))
-                + System.lineSeparator();
+                + dateFormat.format(new Date(updateNotification.getModifyStartTime(TimeUnit.MILLISECONDS))) + SPLIT;
             msg += "end time：" + dateFormat.format(new Date(updateNotification.getModifyEndTime(TimeUnit.MILLISECONDS)))
-                + System.lineSeparator();
+                + SPLIT;
             Toast.makeText(context, msg, Toast.LENGTH_LONG).show();
         }
     }

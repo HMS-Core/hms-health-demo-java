@@ -51,22 +51,22 @@ import java.util.List;
 public class HiHealthKitAutoRecorderControllerActivity extends AppCompatActivity {
     private static final String TAG = "AutoRecorderTest";
 
-    private Context mContext;
+    private static final String SPLIT = "*******************************" + System.lineSeparator();
+
+    private Context context;
 
     // HMS Health AutoRecorderController
-    private AutoRecorderController mAutoRecorderController;
+    private AutoRecorderController autoRecorderController;
 
     // Text control that displays action information on the page
     private TextView logInfoView;
-
-    private String SPLIT = "*******************************" + System.lineSeparator();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hihealth_autorecorder);
 
-        mContext = this;
+        context = this;
 
         logInfoView = (TextView) findViewById(R.id.auto_recorder_log_info);
         logInfoView.setMovementMethod(ScrollingMovementMethod.getInstance());
@@ -79,7 +79,7 @@ public class HiHealthKitAutoRecorderControllerActivity extends AppCompatActivity
 
         HiHealthOptions options = HiHealthOptions.builder().build();
         AuthHuaweiId signInHuaweiId = HuaweiIdAuthManager.getExtendedAuthResult(options);
-        mAutoRecorderController =
+        autoRecorderController =
             HuaweiHiHealth.getAutoRecorderController(HiHealthKitAutoRecorderControllerActivity.this, signInHuaweiId);
     }
 
@@ -91,16 +91,16 @@ public class HiHealthKitAutoRecorderControllerActivity extends AppCompatActivity
      */
     public void startRecordByType(View view) {
         logger("startRecordByType");
-        if (mAutoRecorderController == null) {
+        if (autoRecorderController == null) {
             HiHealthOptions options = HiHealthOptions.builder().build();
             AuthHuaweiId signInHuaweiId = HuaweiIdAuthManager.getExtendedAuthResult(options);
-            mAutoRecorderController = HuaweiHiHealth.getAutoRecorderController(this, signInHuaweiId);
+            autoRecorderController = HuaweiHiHealth.getAutoRecorderController(this, signInHuaweiId);
         }
 
         // DT_CONTINUOUS_STEPS_TOTAL as sample, after startRecord this type, the total steps will be inserted into
         // database when u shake ur handset
         DataType dataType = DataType.DT_CONTINUOUS_STEPS_TOTAL;
-        mAutoRecorderController.startRecord(dataType).addOnCompleteListener(new OnCompleteListener<Void>() {
+        autoRecorderController.startRecord(dataType).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(Task<Void> taskResult) {
                 // the interface won't always success, if u use the onComplete interface, u should add the judgement of
@@ -138,10 +138,10 @@ public class HiHealthKitAutoRecorderControllerActivity extends AppCompatActivity
      */
     public void startRecordByCollector(View view) {
         logger("startRecordByCollector");
-        if (mAutoRecorderController == null) {
+        if (autoRecorderController == null) {
             HiHealthOptions options = HiHealthOptions.builder().build();
             AuthHuaweiId signInHuaweiId = HuaweiIdAuthManager.getExtendedAuthResult(options);
-            mAutoRecorderController = HuaweiHiHealth.getAutoRecorderController(this, signInHuaweiId);
+            autoRecorderController = HuaweiHiHealth.getAutoRecorderController(this, signInHuaweiId);
         }
 
         // When record data from a data collector, you must specify the data type and collector type (for example, raw
@@ -151,10 +151,10 @@ public class HiHealthKitAutoRecorderControllerActivity extends AppCompatActivity
         // The app will start data recording by assembling the data collector based on the data type , collect type and
         // packageName.
         DataCollector dataCollector = new DataCollector.Builder().setDataType(DataType.DT_CONTINUOUS_STEPS_TOTAL)
-            .setPackageName(mContext)
+            .setPackageName(context)
             .setDataGenerateType(DataCollector.DATA_TYPE_RAW)
             .build();
-        mAutoRecorderController.startRecord(dataCollector).addOnCompleteListener(new OnCompleteListener<Void>() {
+        autoRecorderController.startRecord(dataCollector).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(Task<Void> taskResult) {
                 // the interface won't always success, if u use the onComplete interface, u should add the judgement of
@@ -191,15 +191,15 @@ public class HiHealthKitAutoRecorderControllerActivity extends AppCompatActivity
      */
     public void stopRecordByType(View view) {
         logger("stopRecordByType");
-        if (mAutoRecorderController == null) {
+        if (autoRecorderController == null) {
             HiHealthOptions options = HiHealthOptions.builder().build();
             AuthHuaweiId signInHuaweiId = HuaweiIdAuthManager.getExtendedAuthResult(options);
-            mAutoRecorderController = HuaweiHiHealth.getAutoRecorderController(this, signInHuaweiId);
+            autoRecorderController = HuaweiHiHealth.getAutoRecorderController(this, signInHuaweiId);
         }
 
         // DT_CONTINUOUS_STEPS_TOTAL as sample, after stopRecord this type, the total steps will NOT be inserted into
         // database when u shake ur handset
-        mAutoRecorderController.stopRecord(DataType.DT_CONTINUOUS_STEPS_TOTAL)
+        autoRecorderController.stopRecord(DataType.DT_CONTINUOUS_STEPS_TOTAL)
             .addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(Task<Void> taskResult) {
@@ -239,19 +239,19 @@ public class HiHealthKitAutoRecorderControllerActivity extends AppCompatActivity
      */
     public void stopRecordByCollector(View view) {
         logger("stopRecordByCollector");
-        if (mAutoRecorderController == null) {
+        if (autoRecorderController == null) {
             HiHealthOptions options = HiHealthOptions.builder().build();
             AuthHuaweiId signInHuaweiId = HuaweiIdAuthManager.getExtendedAuthResult(options);
-            mAutoRecorderController = HuaweiHiHealth.getAutoRecorderController(this, signInHuaweiId);
+            autoRecorderController = HuaweiHiHealth.getAutoRecorderController(this, signInHuaweiId);
         }
 
         DataCollector dataCollector = new DataCollector.Builder().setDataType(DataType.DT_CONTINUOUS_STEPS_TOTAL)
-            .setPackageName(mContext)
+            .setPackageName(context)
             .setDataGenerateType(DataCollector.DATA_TYPE_RAW)
             .build();
 
         // if u want to stop record by DataCollector, using the collector which exits in startRecord should be better
-        mAutoRecorderController.stopRecord(dataCollector).addOnCompleteListener(new OnCompleteListener<Void>() {
+        autoRecorderController.stopRecord(dataCollector).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(Task<Void> taskResult) {
                 // the interface won't always success, if u use the onComplete interface, u should add the judgement
@@ -288,15 +288,15 @@ public class HiHealthKitAutoRecorderControllerActivity extends AppCompatActivity
      */
     public void stopRecordByRecord(View view) {
         logger("stopRecordByRecord");
-        if (mAutoRecorderController == null) {
+        if (autoRecorderController == null) {
             HiHealthOptions options = HiHealthOptions.builder().build();
             AuthHuaweiId signInHuaweiId = HuaweiIdAuthManager.getExtendedAuthResult(options);
-            mAutoRecorderController = HuaweiHiHealth.getAutoRecorderController(this, signInHuaweiId);
+            autoRecorderController = HuaweiHiHealth.getAutoRecorderController(this, signInHuaweiId);
         }
 
         // Although HMS's Record can be constructed directly, it is still recommended that third-party developers
         // use the getRecords interface to obtain the record, and then stop recording data through stopRecordByRecord
-        mAutoRecorderController.getRecords().addOnCompleteListener(new OnCompleteListener<List<Record>>() {
+        autoRecorderController.getRecords().addOnCompleteListener(new OnCompleteListener<List<Record>>() {
             @Override
             public void onComplete(Task<List<Record>> task) {
                 logger("stopRecordByRecord getRecords firstly");
@@ -312,19 +312,18 @@ public class HiHealthKitAutoRecorderControllerActivity extends AppCompatActivity
                         return;
                     }
                     for (Record record : result) {
-                        mAutoRecorderController.stopRecord(record)
-                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(Task<Void> task) {
-                                    if (task.isSuccessful()) {
-                                        logger("stopRecordByRecord Successful");
-                                        logger(SPLIT);
-                                    } else {
-                                        logger("stopRecordByRecord Failed");
-                                        logger(SPLIT);
-                                    }
+                        autoRecorderController.stopRecord(record).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    logger("stopRecordByRecord Successful");
+                                    logger(SPLIT);
+                                } else {
+                                    logger("stopRecordByRecord Failed");
+                                    logger(SPLIT);
                                 }
-                            });
+                            }
+                        });
                     }
                 }
             }
@@ -338,13 +337,13 @@ public class HiHealthKitAutoRecorderControllerActivity extends AppCompatActivity
      */
     public void getAllRecords(View view) {
         logger("getAllRecords");
-        if (mAutoRecorderController == null) {
+        if (autoRecorderController == null) {
             HiHealthOptions options = HiHealthOptions.builder().build();
             AuthHuaweiId signInHuaweiId = HuaweiIdAuthManager.getExtendedAuthResult(options);
-            mAutoRecorderController = HuaweiHiHealth.getAutoRecorderController(this, signInHuaweiId);
+            autoRecorderController = HuaweiHiHealth.getAutoRecorderController(this, signInHuaweiId);
         }
 
-        mAutoRecorderController.getRecords().addOnCompleteListener(new OnCompleteListener<List<Record>>() {
+        autoRecorderController.getRecords().addOnCompleteListener(new OnCompleteListener<List<Record>>() {
             @Override
             public void onComplete(Task<List<Record>> task) {
                 // the interface won't always success, if u use the onComplete interface, u should add the judgement
@@ -385,17 +384,17 @@ public class HiHealthKitAutoRecorderControllerActivity extends AppCompatActivity
      */
     public void getRecordsByType(View view) {
         logger("getRecordsByType");
-        if (mAutoRecorderController == null) {
+        if (autoRecorderController == null) {
             HiHealthOptions options = HiHealthOptions.builder().build();
             AuthHuaweiId signInHuaweiId = HuaweiIdAuthManager.getExtendedAuthResult(options);
-            mAutoRecorderController = HuaweiHiHealth.getAutoRecorderController(this, signInHuaweiId);
+            autoRecorderController = HuaweiHiHealth.getAutoRecorderController(this, signInHuaweiId);
         }
 
         // Get the record information through datatype. In addition to the records started with datatype, the records
         // started with DataCollector will also be obtained (if the datatype in this DataCollector is the same as the
         // datatype in the getrecords input parameter)
         DataType dataType = DataType.DT_CONTINUOUS_STEPS_TOTAL;
-        mAutoRecorderController.getRecords(dataType).addOnCompleteListener(new OnCompleteListener<List<Record>>() {
+        autoRecorderController.getRecords(dataType).addOnCompleteListener(new OnCompleteListener<List<Record>>() {
             @Override
             public void onComplete(Task<List<Record>> task) {
                 // the interface won't always success, if u use the onComplete interface, u should add the judgement

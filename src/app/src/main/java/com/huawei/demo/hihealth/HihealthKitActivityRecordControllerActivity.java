@@ -16,13 +16,7 @@
 
 package com.huawei.demo.hihealth;
 
-import java.text.DateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import static java.text.DateFormat.getTimeInstance;
 
 import android.app.PendingIntent;
 import android.content.Context;
@@ -59,7 +53,13 @@ import com.huawei.hms.hihealth.result.ActivityRecordReply;
 import com.huawei.hms.support.hwid.HuaweiIdAuthManager;
 import com.huawei.hms.support.hwid.result.AuthHuaweiId;
 
-import static java.text.DateFormat.getTimeInstance;
+import java.text.DateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * ActivityRecord Sample Code
@@ -69,23 +69,23 @@ import static java.text.DateFormat.getTimeInstance;
 public class HihealthKitActivityRecordControllerActivity extends AppCompatActivity {
     private static final String TAG = "ActivityRecordSample";
 
+    // Line separators for the display on the UI
+    private static final String SPLIT = "*******************************" + System.lineSeparator();
+
     // Internal context object
-    private Context mContext;
+    private Context context;
 
     // ActivityRecordsController for managing activity records
-    private ActivityRecordsController mActivityRecordsController;
+    private ActivityRecordsController activityRecordsController;
 
     // DataController for deleting activity records
-    private DataController mDataController;
+    private DataController dataController;
 
     // Text view for displaying operation information on the UI
     private TextView logInfoView;
 
     // PendingIntent
     private PendingIntent pendingIntent;
-
-    // Line separators for the display on the UI
-    private String tag = "*******************************" + System.lineSeparator();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,11 +98,11 @@ public class HihealthKitActivityRecordControllerActivity extends AppCompatActivi
      * Initialization
      */
     private void init() {
-        mContext = this;
-        HiHealthOptions fitnessOptions = HiHealthOptions.builder().build();
-        AuthHuaweiId signInHuaweiId = HuaweiIdAuthManager.getExtendedAuthResult(fitnessOptions);
-        mDataController = HuaweiHiHealth.getDataController(mContext, signInHuaweiId);
-        mActivityRecordsController = HuaweiHiHealth.getActivityRecordsController(mContext, signInHuaweiId);
+        context = this;
+        HiHealthOptions hiHealthOptions = HiHealthOptions.builder().build();
+        AuthHuaweiId signInHuaweiId = HuaweiIdAuthManager.getExtendedAuthResult(hiHealthOptions);
+        dataController = HuaweiHiHealth.getDataController(context, signInHuaweiId);
+        activityRecordsController = HuaweiHiHealth.getActivityRecordsController(context, signInHuaweiId);
         logInfoView = (TextView) findViewById(R.id.activity_records_controller_log_info);
         logInfoView.setMovementMethod(ScrollingMovementMethod.getInstance());
     }
@@ -113,28 +113,29 @@ public class HihealthKitActivityRecordControllerActivity extends AppCompatActivi
      * @param view indicating a UI object
      */
     public void beginActivityRecord(View view) {
-        logger(tag + "this is MyActivityRecord Begin");
+        logger(SPLIT + "this is MyActivityRecord Begin");
         long startTime = Calendar.getInstance().getTimeInMillis();
 
         // Build an ActivityRecord object
         ActivityRecord activityRecord = new ActivityRecord.Builder().setId("MyBeginActivityRecordId")
-                .setName("BeginActivityRecord")
-                .setDesc("This is ActivityRecord begin test!")
-                .setActivityTypeId(HiHealthActivities.RUNNING)
-                .setStartTime(startTime, TimeUnit.MILLISECONDS)
-                .build();
+            .setName("BeginActivityRecord")
+            .setDesc("This is ActivityRecord begin test!")
+            .setActivityTypeId(HiHealthActivities.RUNNING)
+            .setStartTime(startTime, TimeUnit.MILLISECONDS)
+            .build();
 
         checkConnect();
 
         // Add a listener for the ActivityRecord start success
-        Task<Void> beginTask = mActivityRecordsController.beginActivityRecord(activityRecord);
+        Task<Void> beginTask = activityRecordsController.beginActivityRecord(activityRecord);
 
         // Add a listener for the ActivityRecord start failure
         beginTask.addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
-            public void onSuccess(Void aVoid) {
+            public void onSuccess(Void voidValue) {
                 logger("MyActivityRecord begin success");
             }
+
             // 添加启动ActivityRecord失败监听
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -150,13 +151,13 @@ public class HihealthKitActivityRecordControllerActivity extends AppCompatActivi
      * @param view indicating a UI object
      */
     public void endActivityRecord(View view) {
-        logger(tag + "this is MyActivityRecord End");
+        logger(SPLIT + "this is MyActivityRecord End");
 
         // Call the related method of ActivityRecordsController to stop activity records.
         // The input parameter can be the ID string of ActivityRecord or null
         // Stop an activity record of the current app by specifying the ID string as the input parameter
         // Stop activity records of the current app by specifying null as the input parameter
-        Task<List<ActivityRecord>> endTask = mActivityRecordsController.endActivityRecord("MyBeginActivityRecordId");
+        Task<List<ActivityRecord>> endTask = activityRecordsController.endActivityRecord("MyBeginActivityRecordId");
         endTask.addOnSuccessListener(new OnSuccessListener<List<ActivityRecord>>() {
             @Override
             public void onSuccess(List<ActivityRecord> activityRecords) {
@@ -185,7 +186,7 @@ public class HihealthKitActivityRecordControllerActivity extends AppCompatActivi
      * @param view indicating a UI object
      */
     public void addActivityRecord(View view) {
-        logger(tag + "this is MyActivityRecord Add");
+        logger(SPLIT + "this is MyActivityRecord Add");
 
         // Build the time range of the request object: start time and end time
         Calendar cal = Calendar.getInstance();
@@ -197,40 +198,40 @@ public class HihealthKitActivityRecordControllerActivity extends AppCompatActivi
 
         // Build the activity record request object
         ActivityRecord activityRecord = new ActivityRecord.Builder().setName("AddActivityRecord")
-                .setDesc("This is ActivityRecord add test!")
-                .setId("MyAddActivityRecordId")
-                .setActivityTypeId(HiHealthActivities.RUNNING)
-                .setStartTime(startTime, TimeUnit.MILLISECONDS)
-                .setEndTime(endTime, TimeUnit.MILLISECONDS)
-                .build();
+            .setDesc("This is ActivityRecord add test!")
+            .setId("MyAddActivityRecordId")
+            .setActivityTypeId(HiHealthActivities.RUNNING)
+            .setStartTime(startTime, TimeUnit.MILLISECONDS)
+            .setEndTime(endTime, TimeUnit.MILLISECONDS)
+            .build();
 
         // Build the dataCollector object
-        DataCollector dataSource =
-                new com.huawei.hms.hihealth.data.DataCollector.Builder().setDataType(DataType.DT_CONTINUOUS_STEPS_DELTA)
-                        .setDataGenerateType(DataCollector.DATA_TYPE_RAW)
-                        .setPackageName(mContext)
-                        .setDataCollectorName("AddActivityRecord")
-                        .build();
+        DataCollector dataCollector = new DataCollector.Builder().setDataType(DataType.DT_CONTINUOUS_STEPS_DELTA)
+            .setDataGenerateType(DataCollector.DATA_TYPE_RAW)
+            .setPackageName(context)
+            .setDataCollectorName("AddActivityRecord")
+            .build();
 
-        // Build the sampling dataSet based on the dataCollector
-        SampleSet dataSet = SampleSet.create(dataSource);
+        // Build the sampling sampleSet based on the dataCollector
+        SampleSet sampleSet = SampleSet.create(dataCollector);
 
         // Build the (DT_CONTINUOUS_STEPS_DELTA) sampling data object and add it to the sampling dataSet
-        SamplePoint dataPoint = dataSet.createSamplePoint().setTimeInterval(startTime, endTime, TimeUnit.MILLISECONDS);
-        dataPoint.getFieldValue(Field.FIELD_STEPS_DELTA).setIntValue(1024);
-        dataSet.addSample(dataPoint);
+        SamplePoint samplePoint =
+            sampleSet.createSamplePoint().setTimeInterval(startTime, endTime, TimeUnit.MILLISECONDS);
+        samplePoint.getFieldValue(Field.FIELD_STEPS_DELTA).setIntValue(1024);
+        sampleSet.addSample(samplePoint);
 
         // Build the activity record addition request object
         ActivityRecordInsertOptions insertRequest =
-                new ActivityRecordInsertOptions.Builder().setActivityRecord(activityRecord).addSampleSet(dataSet).build();
+            new ActivityRecordInsertOptions.Builder().setActivityRecord(activityRecord).addSampleSet(sampleSet).build();
 
         checkConnect();
 
         // Call the related method in the ActivityRecordsController to add activity records
-        Task<Void> addTask = mActivityRecordsController.addActivityRecord(insertRequest);
+        Task<Void> addTask = activityRecordsController.addActivityRecord(insertRequest);
         addTask.addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
-            public void onSuccess(Void aVoid) {
+            public void onSuccess(Void voidValue) {
                 logger("ActivityRecord add was successful!");
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -247,7 +248,7 @@ public class HihealthKitActivityRecordControllerActivity extends AppCompatActivi
      * @param view indicating a UI object
      */
     public void getActivityRecord(View view) {
-        logger(tag + "this is MyActivityRecord Get");
+        logger(SPLIT + "this is MyActivityRecord Get");
 
         // Build the time range of the request object: start time and end time
         Calendar cal = Calendar.getInstance();
@@ -259,16 +260,16 @@ public class HihealthKitActivityRecordControllerActivity extends AppCompatActivi
 
         // Build the request body for reading activity records
         ActivityRecordReadOptions readRequest =
-                new ActivityRecordReadOptions.Builder().setTimeInterval(startTime, endTime, TimeUnit.MILLISECONDS)
-                        .readActivityRecordsFromAllApps()
-                        .read(DataType.DT_CONTINUOUS_STEPS_DELTA)
-                        .build();
+            new ActivityRecordReadOptions.Builder().setTimeInterval(startTime, endTime, TimeUnit.MILLISECONDS)
+                .readActivityRecordsFromAllApps()
+                .read(DataType.DT_CONTINUOUS_STEPS_DELTA)
+                .build();
 
         checkConnect();
 
         // Call the read method of the ActivityRecordsController to obtain activity records
         // from the Health platform based on the conditions in the request body
-        Task<ActivityRecordReply> getTask = mActivityRecordsController.getActivityRecord(readRequest);
+        Task<ActivityRecordReply> getTask = activityRecordsController.getActivityRecord(readRequest);
         getTask.addOnSuccessListener(new OnSuccessListener<ActivityRecordReply>() {
             @Override
             public void onSuccess(ActivityRecordReply activityRecordReply) {
@@ -296,7 +297,7 @@ public class HihealthKitActivityRecordControllerActivity extends AppCompatActivi
      * @param view indicating a UI object
      */
     public void deleteActivityRecord(View view) {
-        logger(tag + "this is MyActivityRecord Delete");
+        logger(SPLIT + "this is MyActivityRecord Delete");
 
         // Build the time range of the request object: start time and end time
         Calendar cal = Calendar.getInstance();
@@ -308,14 +309,14 @@ public class HihealthKitActivityRecordControllerActivity extends AppCompatActivi
 
         // Build the request body for reading activity records
         ActivityRecordReadOptions readRequest =
-                new ActivityRecordReadOptions.Builder().setTimeInterval(startTime, endTime, TimeUnit.MILLISECONDS)
-                        .readActivityRecordsFromAllApps()
-                        .read(DataType.DT_CONTINUOUS_STEPS_DELTA)
-                        .build();
+            new ActivityRecordReadOptions.Builder().setTimeInterval(startTime, endTime, TimeUnit.MILLISECONDS)
+                .readActivityRecordsFromAllApps()
+                .read(DataType.DT_CONTINUOUS_STEPS_DELTA)
+                .build();
 
         // Call the read method of the ActivityRecordsController to obtain activity records
         // from the Health platform based on the conditions in the request body
-        Task<ActivityRecordReply> getTask = mActivityRecordsController.getActivityRecord(readRequest);
+        Task<ActivityRecordReply> getTask = activityRecordsController.getActivityRecord(readRequest);
         getTask.addOnSuccessListener(new OnSuccessListener<ActivityRecordReply>() {
             @Override
             public void onSuccess(ActivityRecordReply activityRecordReply) {
@@ -325,16 +326,16 @@ public class HihealthKitActivityRecordControllerActivity extends AppCompatActivi
                 // Get ActivityRecord and corresponding activity data in the result
                 for (final ActivityRecord activityRecord : activityRecords) {
                     DeleteOptions deleteOptions = new DeleteOptions.Builder().addActivityRecord(activityRecord)
-                            .setTimeInterval(activityRecord.getStartTime(TimeUnit.MILLISECONDS),
-                                    activityRecord.getEndTime(TimeUnit.MILLISECONDS), TimeUnit.MILLISECONDS)
-                            .build();
+                        .setTimeInterval(activityRecord.getStartTime(TimeUnit.MILLISECONDS),
+                            activityRecord.getEndTime(TimeUnit.MILLISECONDS), TimeUnit.MILLISECONDS)
+                        .build();
                     logger("begin delete ActivitiRecord is :" + activityRecord.getId());
 
                     // Delete ActivityRecord
-                    Task<Void> deleteTask = mDataController.delete(deleteOptions);
+                    Task<Void> deleteTask = dataController.delete(deleteOptions);
                     deleteTask.addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
-                        public void onSuccess(Void aVoid) {
+                        public void onSuccess(Void voidValue) {
                             logger("delete ActivitiRecord is Success:" + activityRecord.getId());
                         }
                     }).addOnFailureListener(new OnFailureListener() {
@@ -359,22 +360,22 @@ public class HihealthKitActivityRecordControllerActivity extends AppCompatActivi
      * @param view indicating a UI object
      */
     public void addActivityRecordsMonitor(View view) {
-        logger(tag + "this is MyActivityRecord Add Monitor");
+        logger(SPLIT + "this is MyActivityRecord Add Monitor");
         if (pendingIntent != null) {
             logger("There is already a Monitor, no need to add Monitor");
             return;
         }
+
         // Build the pendingIntent request body.
         // ActivityRecordsMonitorReceiver is the broadcast receiving class created in advance
-        pendingIntent = PendingIntent.getBroadcast(this, 0,
-                new Intent(this, ActivityRecordsMonitorReceiver.class),
-                PendingIntent.FLAG_UPDATE_CURRENT);
+        pendingIntent = PendingIntent.getBroadcast(this, 0, new Intent(this, ActivityRecordsMonitorReceiver.class),
+            PendingIntent.FLAG_UPDATE_CURRENT);
 
         // Call the related method in the ActivityRecordsController to register a listener
-        Task<Void> addMonitorTask = mActivityRecordsController.addActivityRecordsMonitor(pendingIntent);
+        Task<Void> addMonitorTask = activityRecordsController.addActivityRecordsMonitor(pendingIntent);
         addMonitorTask.addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
-            public void onSuccess(Void aVoid) {
+            public void onSuccess(Void voidValue) {
                 logger("addActivityRecordsMonitor is successful");
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -392,7 +393,7 @@ public class HihealthKitActivityRecordControllerActivity extends AppCompatActivi
      * @param view indicating a UI object
      */
     public void removeActivityRecordsMonitor(View view) {
-        logger(tag + "this is MyActivityRecord Remove Monitor");
+        logger(SPLIT + "this is MyActivityRecord Remove Monitor");
         if (pendingIntent == null) {
             logger("There is no Monitor, no need to remove Monitor");
             return;
@@ -400,15 +401,14 @@ public class HihealthKitActivityRecordControllerActivity extends AppCompatActivi
 
         // Build the pendingIntent request body.
         // ActivityRecordsMonitorReceiver is the broadcast receiving class created in advance
-        pendingIntent = PendingIntent.getBroadcast(this, 0,
-                new Intent(this, ActivityRecordsMonitorReceiver.class),
-                PendingIntent.FLAG_UPDATE_CURRENT);
+        pendingIntent = PendingIntent.getBroadcast(this, 0, new Intent(this, ActivityRecordsMonitorReceiver.class),
+            PendingIntent.FLAG_UPDATE_CURRENT);
 
         // Call the related method in the ActivityRecordsController to unregister a listener
-        Task<Void> removeMonitorTask = mActivityRecordsController.removeActivityRecordsMonitor(pendingIntent);
+        Task<Void> removeMonitorTask = activityRecordsController.removeActivityRecordsMonitor(pendingIntent);
         removeMonitorTask.addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
-            public void onSuccess(Void aVoid) {
+            public void onSuccess(Void voidValue) {
                 logger("removeActivityRecordsMonitor is successful");
                 pendingIntent = null;
             }
@@ -450,13 +450,13 @@ public class HihealthKitActivityRecordControllerActivity extends AppCompatActivi
         DateFormat dateFormat = DateFormat.getDateInstance();
         DateFormat timeFormat = DateFormat.getTimeInstance();
         logger("Returned for ActivityRecord: " + activityRecord.getName() + "\n\tActivityRecord Identifier is "
-                + activityRecord.getId() + "\n\tActivityRecord created by app is " + activityRecord.getPackageName()
-                + "\n\tDescription: " + activityRecord.getDesc() + "\n\tStart: "
-                + dateFormat.format(activityRecord.getStartTime(TimeUnit.MILLISECONDS)) + " "
-                + timeFormat.format(activityRecord.getStartTime(TimeUnit.MILLISECONDS)) + "\n\tEnd: "
-                + dateFormat.format(activityRecord.getEndTime(TimeUnit.MILLISECONDS)) + " "
-                + timeFormat.format(activityRecord.getEndTime(TimeUnit.MILLISECONDS)) + "\n\tActivity:"
-                + activityRecord.getActivityType());
+            + activityRecord.getId() + "\n\tActivityRecord created by app is " + activityRecord.getPackageName()
+            + "\n\tDescription: " + activityRecord.getDesc() + "\n\tStart: "
+            + dateFormat.format(activityRecord.getStartTime(TimeUnit.MILLISECONDS)) + " "
+            + timeFormat.format(activityRecord.getStartTime(TimeUnit.MILLISECONDS)) + "\n\tEnd: "
+            + dateFormat.format(activityRecord.getEndTime(TimeUnit.MILLISECONDS)) + " "
+            + timeFormat.format(activityRecord.getEndTime(TimeUnit.MILLISECONDS)) + "\n\tActivity:"
+            + activityRecord.getActivityType());
     }
 
     @Override
@@ -473,21 +473,21 @@ public class HihealthKitActivityRecordControllerActivity extends AppCompatActivi
      * Check the object connection
      */
     private void checkConnect() {
-        if (mActivityRecordsController == null) {
-            HiHealthOptions fitnessOption = HiHealthOptions.builder().build();
-            AuthHuaweiId signInHuaweiId = HuaweiIdAuthManager.getExtendedAuthResult(fitnessOption);
-            mActivityRecordsController = HuaweiHiHealth.getActivityRecordsController(this, signInHuaweiId);
+        if (activityRecordsController == null) {
+            HiHealthOptions hiHealthOptions = HiHealthOptions.builder().build();
+            AuthHuaweiId signInHuaweiId = HuaweiIdAuthManager.getExtendedAuthResult(hiHealthOptions);
+            activityRecordsController = HuaweiHiHealth.getActivityRecordsController(this, signInHuaweiId);
         }
     }
 
     /**
      * Print error code and error information for an exception.
      *
-     * @param e   indicating an exception object
+     * @param exception indicating an exception object
      * @param api api name
      */
-    private void printFailureMessage(Exception e, String api) {
-        String errorCode = e.getMessage();
+    private void printFailureMessage(Exception exception, String api) {
+        String errorCode = exception.getMessage();
         Pattern pattern = Pattern.compile("[0-9]*");
         Matcher isNum = pattern.matcher(errorCode);
         if (isNum.matches()) {
@@ -496,7 +496,7 @@ public class HihealthKitActivityRecordControllerActivity extends AppCompatActivi
         } else {
             logger(api + " failure " + errorCode);
         }
-        logger(tag);
+        logger(SPLIT);
     }
 
     /**
