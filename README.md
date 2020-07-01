@@ -60,12 +60,8 @@ To use functions provided by packages in examples, you need to set parameters as
 * HMS Core 4.0.4.207 or later
 
 ## Result
-   <img src="images/result_1.png" width = 30% height = 30%>
-   <img src="images/result_2.png" width = 30% height = 30%>
-   <img src="images/result_3.png" width = 30% height = 30%>
-   <img src="images/result_4.png" width = 30% height = 30%>
-   <img src="images/result_5.png" width = 30% height = 30%>
-   <img src="images/result_6.png" width = 30% height = 30%>
+   <img src="images/result_1.png" width = 30% height = 30%> <img src="images/result_2.png" width = 30% height = 30%> <img src="images/result_3.png" width = 30% height = 30%>
+   <img src="images/result_4.png" width = 30% height = 30%> <img src="images/result_5.png" width = 30% height = 30%> <img src="images/result_6.png" width = 30% height = 30%>
 	
 ##  License
    Health kit demo is licensed under the [Apache License, version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
