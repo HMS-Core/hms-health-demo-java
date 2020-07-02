@@ -1,4 +1,4 @@
-# Health kit demo
+# HMS Healthkit Demo
 
 ## Table of Contents
 
