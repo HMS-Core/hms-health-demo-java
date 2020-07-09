@@ -73,4 +73,4 @@
    <img src="images/result_4.png" width = 30% height = 30%> <img src="images/result_5.png" width = 30% height = 30%> <img src="images/result_6.png" width = 30% height = 30%>
 	
 ##  授权许可
-   华为运动健康服务示例代码经过Apache License 2.0授权许可。
+   华为运动健康服务示例代码经过 [Apache License, version 2.0](http://www.apache.org/licenses/LICENSE-2.0)授权许可。
