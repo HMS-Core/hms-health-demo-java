@@ -1,5 +1,5 @@
 # HMS Healthkit Demo
-
+中文 | [English](https://github.com/HMS-Core/hms-health-demo)
 ## 目录
 
  * [简介](#简介)
