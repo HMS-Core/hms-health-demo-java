@@ -6,6 +6,7 @@ English | [中文](https://github.com/HMS-Core/hms-health-demo/blob/master/READM
  * [Getting Started](#getting-started)
  * [Supported Environments](#supported-environments)
  * [Result](#result)
+ * [Question or issues](#question-or-issues)
  * [License](#license)
 
 
