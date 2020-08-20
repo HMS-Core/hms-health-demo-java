@@ -6,7 +6,7 @@ English | [中文](https://github.com/HMS-Core/hms-health-demo/blob/master/READM
  * [Getting Started](#getting-started)
  * [Supported Environments](#supported-environments)
  * [Result](#result)
- * [Question or issues](#question-or-issues)
+ * [Question or Issues](#question-or-issues)
  * [License](#license)
 
 
@@ -64,7 +64,7 @@ To use functions provided by packages in examples, you need to set parameters as
    <img src="images/result_1.png" width = 30% height = 30%> <img src="images/result_2.png" width = 30% height = 30%> <img src="images/result_3.png" width = 30% height = 30%>
    <img src="images/result_4.png" width = 30% height = 30%> <img src="images/result_5.png" width = 30% height = 30%> <img src="images/result_6.png" width = 30% height = 30%>
 
-## Question or issues
+## Question or Issues
 If you have questions about how to use HMS samples, try the following options:
 - [Stack Overflow](https://stackoverflow.com/questions/tagged/huawei-mobile-services) is the best place for any programming questions. Be sure to tag your question with 
 **huawei-mobile-services**.
