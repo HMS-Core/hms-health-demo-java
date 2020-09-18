@@ -5,7 +5,6 @@
  * [Introduction](#Introduction)
  * [Getting Started](#Getting Started)
  * [Supported Environments](#Supported Environments)
- * [Start](#Start)
  * [Result](#Result)
  * [License](#License)
 
@@ -71,4 +70,3 @@ To use functions provided by packages in examples, you need to set parameters as
 ##  License
    Health kit demo is licensed under the [Apache License, version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
    
-##  Start
