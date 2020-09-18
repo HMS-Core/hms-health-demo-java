@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.huawei.demo.hihealth.broadcastreceiver;
+package com.huawei.demo.health.broadcastreceiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

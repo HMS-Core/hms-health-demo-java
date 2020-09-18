@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.BODY_SENSORS" />
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:allowBackup="true"
@@ -22,7 +23,7 @@
             android:name="com.huawei.hms.client.appid"
             android:value="APP_ID" />
 
-        <activity android:name="com.huawei.demo.hihealth.HihealthKitMainActivity">
+        <activity android:name="com.huawei.demo.health.HealthKitMainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.MAIN" />
@@ -31,20 +32,21 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.huawei.demo.hihealth.HihealthKitDataManagerActivity" />
-        <activity android:name="com.huawei.demo.hihealth.HiHealthKitSensorsControllerActivity" />
-        <activity android:name="com.huawei.demo.hihealth.HiHealthKitAutoRecorderControllerActivity" />
-        <activity android:name="com.huawei.demo.hihealth.HihealthKitActivityRecordControllerActivity" />
-        <activity android:name="com.huawei.demo.hihealth.HihealthKitSettingControllerActivity" />
+        <activity android:name="com.huawei.demo.health.HealthKitDataControllerActivity" />
+        <activity android:name="com.huawei.demo.health.HealthKitAutoRecorderControllerActivity" />
+        <activity android:name="com.huawei.demo.health.HealthKitActivityRecordControllerActivity" />
+        <activity android:name="com.huawei.demo.health.HealthKitSettingControllerActivity" />
 
         <receiver
-            android:name="com.huawei.demo.hihealth.broadcastreceiver.DataRegisterReceiver"
+            android:name="com.huawei.demo.health.broadcastreceiver.DataRegisterReceiver"
             android:enabled="true"
             android:exported="true" />
-        <receiver
-            android:name="com.huawei.demo.hihealth.broadcastreceiver.ActivityRecordsMonitorReceiver"
-            android:enabled="true"
-            android:exported="true" />
+
+        <service android:name="com.huawei.demo.health.PersistService">
+            <intent-filter android:priority="1000">
+                <action android:name="HealthKitService" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

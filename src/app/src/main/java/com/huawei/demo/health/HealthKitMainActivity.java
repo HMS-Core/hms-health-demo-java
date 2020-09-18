@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.huawei.demo.hihealth;
+package com.huawei.demo.health;
 
 import android.content.Context;
 import android.content.Intent;
@@ -49,7 +49,7 @@ import java.util.List;
  *
  * @since 2020-03-19
  */
-public class HihealthKitMainActivity extends AppCompatActivity {
+public class HealthKitMainActivity extends AppCompatActivity {
     private static final String TAG = "KitConnectActivity";
 
     // Request code for displaying the authorization screen using the startActivityForResult method.
@@ -59,7 +59,7 @@ public class HihealthKitMainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_hihealth_kit_main);
+        setContentView(R.layout.activity_health_kit_main);
 
         // The authorization and sign-in API is called each time the app is started.
         signIn();
@@ -71,7 +71,7 @@ public class HihealthKitMainActivity extends AppCompatActivity {
      * @param view UI object
      */
     public void hihealthDataControllerOnclick(View view) {
-        Intent intent = new Intent(this, HihealthKitDataManagerActivity.class);
+        Intent intent = new Intent(this, HealthKitDataControllerActivity.class);
         startActivity(intent);
     }
 
@@ -81,7 +81,7 @@ public class HihealthKitMainActivity extends AppCompatActivity {
      * @param view UI object
      */
     public void hihealthSettingControllerOnclick(View view) {
-        Intent intent = new Intent(this, HihealthKitSettingControllerActivity.class);
+        Intent intent = new Intent(this, HealthKitSettingControllerActivity.class);
         startActivity(intent);
     }
 
@@ -91,17 +91,7 @@ public class HihealthKitMainActivity extends AppCompatActivity {
      * @param view UI object
      */
     public void hihealthAutoRecorderOnClick(View view) {
-        Intent intent = new Intent(this, HiHealthKitAutoRecorderControllerActivity.class);
-        startActivity(intent);
-    }
-
-    /**
-     * Sensor Controller
-     *
-     * @param view UI object
-     */
-    public void hihealthSensorOnClick(View view) {
-        Intent intent = new Intent(this, HiHealthKitSensorsControllerActivity.class);
+        Intent intent = new Intent(this, HealthKitAutoRecorderControllerActivity.class);
         startActivity(intent);
     }
 
@@ -111,7 +101,7 @@ public class HihealthKitMainActivity extends AppCompatActivity {
      * @param view UI object
      */
     public void hihealthActivityRecordOnClick(View view) {
-        Intent intent = new Intent(this, HihealthKitActivityRecordControllerActivity.class);
+        Intent intent = new Intent(this, HealthKitActivityRecordControllerActivity.class);
         startActivity(intent);
     }
 
@@ -152,6 +142,15 @@ public class HihealthKitMainActivity extends AppCompatActivity {
         // View and save the heart rate data in HUAWEI Health Kit.
         scopeList.add(new Scope(Scopes.HEALTHKIT_HEARTRATE_BOTH));
 
+        // Used for recording real-time steps in HUAWEI Health Kit.
+        scopeList.add(new Scope(Scopes.HEALTHKIT_STEP_REALTIME));
+
+        // Used for recording real-time heartRate in HUAWEI Health Kit.
+        scopeList.add(new Scope(Scopes.HEALTHKIT_HEARTRATE_REALTIME));
+
+        // View and save activityRecord in HUAWEI Health Kit.
+        scopeList.add(new Scope(Scopes.HEALTHKIT_ACTIVITY_RECORD_BOTH));
+
         // Configure authorization parameters.
         HuaweiIdAuthParamsHelper authParamsHelper =
             new HuaweiIdAuthParamsHelper(HuaweiIdAuthParams.DEFAULT_AUTH_REQUEST_PARAM);
@@ -159,8 +158,7 @@ public class HihealthKitMainActivity extends AppCompatActivity {
             authParamsHelper.setIdToken().setAccessToken().setScopeList(scopeList).createParams();
 
         // Initialize the HuaweiIdAuthService object.
-        final HuaweiIdAuthService authService =
-            HuaweiIdAuthManager.getService(this.getApplicationContext(), authParams);
+        final HuaweiIdAuthService authService = HuaweiIdAuthManager.getService(getApplicationContext(), authParams);
 
         // Silent sign-in. If authorization has been granted by the current account,
         // the authorization screen will not display. This is an asynchronous method.
@@ -190,8 +188,8 @@ public class HihealthKitMainActivity extends AppCompatActivity {
                     Intent signInIntent = authService.getSignInIntent();
 
                     // Display the authorization screen by using the startActivityForResult() method of the activity.
-                    // Developers can change HihealthKitMainActivity to the actual activity.
-                    HihealthKitMainActivity.this.startActivityForResult(signInIntent, REQUEST_SIGN_IN_LOGIN);
+                    // Developers can change HealthKitMainActivity to the actual activity.
+                    startActivityForResult(signInIntent, REQUEST_SIGN_IN_LOGIN);
                 }
             }
         });

@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-package com.huawei.demo.hihealth;
+package com.huawei.demo.health;
 
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
@@ -27,7 +26,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.huawei.demo.hihealth.broadcastreceiver.DataRegisterReceiver;
 import com.huawei.health.demo.R;
 import com.huawei.hmf.tasks.OnFailureListener;
 import com.huawei.hmf.tasks.OnSuccessListener;
@@ -42,7 +40,6 @@ import com.huawei.hms.hihealth.data.Field;
 import com.huawei.hms.hihealth.data.SamplePoint;
 import com.huawei.hms.hihealth.data.SampleSet;
 import com.huawei.hms.hihealth.options.DeleteOptions;
-import com.huawei.hms.hihealth.options.ModifyDataMonitorOptions;
 import com.huawei.hms.hihealth.options.ReadOptions;
 import com.huawei.hms.hihealth.options.UpdateOptions;
 import com.huawei.hms.hihealth.result.ReadReply;
@@ -59,9 +56,9 @@ import java.util.regex.Pattern;
 /**
  * Sample code for managing fitness and health data
  *
- * @since 2020-03-17
+ * @since 2020-08-27
  */
-public class HihealthKitDataManagerActivity extends AppCompatActivity {
+public class HealthKitDataControllerActivity extends AppCompatActivity {
     private static final String TAG = "DataController";
 
     // Line separators for the display on the UI
@@ -82,7 +79,7 @@ public class HihealthKitDataManagerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_hihealth_datamanager);
+        setContentView(R.layout.activity_health_controller);
         context = this;
         logInfoView = (TextView) findViewById(R.id.data_controller_log_info);
         logInfoView.setMovementMethod(ScrollingMovementMethod.getInstance());
@@ -124,8 +121,8 @@ public class HihealthKitDataManagerActivity extends AppCompatActivity {
 
         // 3. Build the start time, end time, and incremental step count for a DT_CONTINUOUS_STEPS_DELTA sampling point.
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        Date startDate = dateFormat.parse("2020-03-17 09:00:00");
-        Date endDate = dateFormat.parse("2020-03-17 09:05:00");
+        Date startDate = dateFormat.parse("2020-08-27 09:00:00");
+        Date endDate = dateFormat.parse("2020-08-27 09:05:00");
         int stepsDelta = 1000;
 
         // 4. Build a DT_CONTINUOUS_STEPS_DELTA sampling point.
@@ -173,8 +170,8 @@ public class HihealthKitDataManagerActivity extends AppCompatActivity {
 
         // 2. Build the time range for the deletion: start time and end time.
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        Date startDate = dateFormat.parse("2020-03-17 09:00:00");
-        Date endDate = dateFormat.parse("2020-03-17 09:05:00");
+        Date startDate = dateFormat.parse("2020-08-27 09:00:00");
+        Date endDate = dateFormat.parse("2020-08-27 09:05:00");
 
         // 3. Build a parameter object as the conditions for the deletion.
         DeleteOptions deleteOptions = new DeleteOptions.Builder().addDataCollector(dataCollector)
@@ -221,8 +218,8 @@ public class HihealthKitDataManagerActivity extends AppCompatActivity {
         // 3. Build the start time, end time, and incremental step count for
         // a DT_CONTINUOUS_STEPS_DELTA sampling point for the update.
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        Date startDate = dateFormat.parse("2020-03-17 09:00:00");
-        Date endDate = dateFormat.parse("2020-03-17 09:05:00");
+        Date startDate = dateFormat.parse("2020-08-27 09:00:00");
+        Date endDate = dateFormat.parse("2020-08-27 09:05:00");
         int stepsDelta = 2000;
 
         // 4. Build a DT_CONTINUOUS_STEPS_DELTA sampling point for the update.
@@ -280,8 +277,8 @@ public class HihealthKitDataManagerActivity extends AppCompatActivity {
 
         // 2. Build the time range for the query: start time and end time.
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        Date startDate = dateFormat.parse("2020-03-17 09:00:00");
-        Date endDate = dateFormat.parse("2020-03-17 09:05:00");
+        Date startDate = dateFormat.parse("2020-08-27 09:00:00");
+        Date endDate = dateFormat.parse("2020-08-27 09:05:00");
 
         // 3. Build the condition-based query objec
         ReadOptions readOptions = new ReadOptions.Builder().read(dataCollector)
@@ -323,7 +320,7 @@ public class HihealthKitDataManagerActivity extends AppCompatActivity {
         // 2. Calling the data controller to query the summary data of the current day is an
         // asynchronous operation. Therefore, a listener needs to be registered to monitor whether
         // the data query is successful or not.
-        // Note: In this example, the inserted data time is fixed at 2020-03-17 09:05:00.
+        // Note: In this example, the inserted data time is fixed at 2020-08-27 09:05:00.
         // When commissioning the API, you need to change the inserted data time to the current date
         // for data to be queried.
         todaySummationTask.addOnSuccessListener(new OnSuccessListener<SampleSet>() {
@@ -345,148 +342,41 @@ public class HihealthKitDataManagerActivity extends AppCompatActivity {
     }
 
     /**
-     * Use the data controller to query the summary data of the current day on the local device by data type.
+     * Use the data controller to query the summary data of the daily by data type.
      *
      * @param view (indicating a UI object)
      */
-    public void readTodayDevice(View view) {
-        // 1. Use the specified data type (DT_CONTINUOUS_STEPS_DELTA) to call the data controller to query
-        // the summary data of this data type of the current day.
-        Task<SampleSet> todaySummationTask =
-            dataController.readTodaySummationFromDevice(DataType.DT_CONTINUOUS_STEPS_DELTA);
+    public void readDaily(View view) {
+        // 1. Initialization start and end time, The first four digits of the shaping data represent the year,
+        // the middle two digits represent the month, and the last two digits represent the day
+        int endTime = 20200827;
+        int startTime = 20200818;
 
-        // 2. Calling the data controller to query the summary data of the current day is an asynchronous operation.
-        // Therefore, a listener needs to be registered to monitor whether the data query is successful or not.
-        todaySummationTask.addOnSuccessListener(new OnSuccessListener<SampleSet>() {
+        // 1. Use the specified data type (DT_CONTINUOUS_STEPS_DELTA), start and end time to call the data
+        // controller to query the summary data of this data type of the daily
+        Task<SampleSet> daliySummationTask =
+            dataController.readDailySummation(DataType.DT_CONTINUOUS_STEPS_DELTA, startTime, endTime);
+
+        // 2. Calling the data controller to query the summary data of the daily is an
+        // asynchronous operation. Therefore, a listener needs to be registered to monitor whether
+        // the data query is successful or not.
+        // Note: In this example, the read data time is fixed at 20200827 and 20200818.
+        // When commissioning the API, you need to change the read data time to the current date
+        // for data to be queried.
+        daliySummationTask.addOnSuccessListener(new OnSuccessListener<SampleSet>() {
             @Override
             public void onSuccess(SampleSet sampleSet) {
-                logger("Success read today device summation from HMS core");
+                logger("Success read daily summation from HMS core");
                 if (sampleSet != null) {
                     showSampleSet(sampleSet);
                 }
                 logger(SPLIT);
             }
         });
-        todaySummationTask.addOnFailureListener(new OnFailureListener() {
+        daliySummationTask.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(Exception e) {
-                printFailureMessage(e, "readTodaySummationFromDevice");
-            }
-        });
-    }
-
-    /**
-     * Use the data controller to register a listener for data changes.
-     *
-     * @param view (indicating a UI object)
-     */
-    public void registerListener(View view) {
-        if (pendingIntent != null) {
-            logger("There is already an listener, no need to re listener");
-            logger(SPLIT);
-            return;
-        }
-
-        // 1. Build a DataController object. Listeners can be registered for updates of the following six data types.
-        // Basic metabolic rate per day (unit: kcal): DataType.DT_INSTANTANEOUS_CALORIES_BMR
-        // Body fat rate: DataType.DT_INSTANTANEOUS_BODY_FAT_RATE
-        // Height (unit: meter): DataType.DT_INSTANTANEOUS_HEIGHT
-        // Water taken over a single drink (unit: liter): DataType.DT_INSTANTANEOUS_HYDRATE
-        // Nutrient intake over a meal: DataType.DT_INSTANTANEOUS_NUTRITION_FACTS
-        // Weight (unit: kg): DataType.DT_INSTANTANEOUS_BODY_WEIGHT
-        DataCollector dataCollector = new DataCollector.Builder().setPackageName(context)
-            .setDataType(DataType.DT_INSTANTANEOUS_HEIGHT)
-            .setDataStreamName("STEPS_DELTA")
-            .setDataGenerateType(DataCollector.DATA_TYPE_RAW)
-            .build();
-
-        // 2. Build a listening object for data changes: PendingIntent.
-        pendingIntent = PendingIntent.getBroadcast(this, 0, new Intent(this, DataRegisterReceiver.class),
-            PendingIntent.FLAG_UPDATE_CURRENT);
-
-        // 3. Build a parameter object for registering a listener for data changes.
-        ModifyDataMonitorOptions dataMonitorOptions =
-            new ModifyDataMonitorOptions.Builder().setModifyDataType(DataType.DT_INSTANTANEOUS_HEIGHT)
-                .setModifyDataCollector(dataCollector)
-                .setModifyDataIntent(pendingIntent)
-                .build();
-
-        // 4. Use the specified parameter object for registering a listener
-        // for data changes to call the data controller to add the listener.
-        Task<Void> registerTask = dataController.registerModifyDataMonitor(dataMonitorOptions);
-
-        // 5. Calling the data controller to register a listener is an asynchronous operation.
-        // Therefore, a listener needs to be registered to monitor whether the registration is successful or not.
-        registerTask.addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void result) {
-                logger("Register Data Update Listener Success");
-                logger(SPLIT);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(Exception e) {
-                printFailureMessage(e, "registerModifyDataMonitor");
-                pendingIntent = null;
-            }
-        });
-    }
-
-    /**
-     * Use the data controller to unregister a listener for data changes.
-     *
-     * @param view (indicating a UI object)
-     */
-    public void unregisterListener(View view) {
-        if (pendingIntent == null) {
-            logger("There is no listener, no need to un listener");
-            logger(SPLIT);
-            return;
-        }
-
-        // 1. Use the specified parameter object for unregistering a listener
-        // for data changes to call the data controller to cancel the listener.
-        Task<Void> task = dataController.unregisterModifyDataMonitor(pendingIntent);
-
-        // 2. Calling the data controller to unregister a listener is an asynchronous operation.
-        // Therefore, a listener needs to be registered to monitor whether the unregistration is successful or not.
-        task.addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void result) {
-                logger("Unregister Data Update Listener Success: ");
-                logger(SPLIT);
-                pendingIntent = null;
-            }
-        });
-        task.addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(Exception e) {
-                printFailureMessage(e, "unregisterModifyDataMonitor");
-            }
-        });
-    }
-
-    /**
-     * Sync data between the device and cloud.
-     *
-     * @param view (indicating a UI object)
-     */
-    public void syncCloudData(View view) {
-        // 1. Call the syncAll method of the data controller to sync data.
-        Task<Void> syncTask = dataController.syncAll();
-
-        // 2. Calling the data controller to sync data between the device and cloud is an asynchronous operation.
-        // Therefore, a listener needs to be registered to monitor whether the syncing is successful or not.
-        syncTask.addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void result) {
-                logger("synAll success");
-                logger(SPLIT);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(Exception e) {
-                printFailureMessage(e, "syncAll");
+                printFailureMessage(e, "readTodaySummation");
             }
         });
     }
@@ -515,31 +405,6 @@ public class HihealthKitDataManagerActivity extends AppCompatActivity {
                 printFailureMessage(e, "clearAll");
             }
         });
-    }
-
-    /**
-     * Trigger the listener for data changes for testing purposes by inserting a data entry.
-     *
-     * @param view (indicating a UI object)
-     */
-    public void insertListenerData(View view) {
-        if (pendingIntent == null) {
-            logger("There is no listener, no need to insert sample point");
-            logger(SPLIT);
-            return;
-        }
-
-        DataCollector dataCollector = new DataCollector.Builder().setPackageName(context)
-            .setDataType(DataType.DT_INSTANTANEOUS_HEIGHT)
-            .setDataStreamName("STEPS_DELTA")
-            .setDataGenerateType(DataCollector.DATA_TYPE_RAW)
-            .build();
-        SampleSet sampleSet = SampleSet.create(dataCollector);
-        SamplePoint samplePoint = sampleSet.createSamplePoint()
-            .setTimeInterval(System.currentTimeMillis(), System.currentTimeMillis(), TimeUnit.MILLISECONDS);
-        samplePoint.getFieldValue(Field.FIELD_HEIGHT).setFloatValue(1.56f);
-        sampleSet.addSample(samplePoint);
-        dataController.insert(sampleSet);
     }
 
     /**

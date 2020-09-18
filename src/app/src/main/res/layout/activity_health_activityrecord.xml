@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.huawei.demo.hihealth.HihealthKitActivityRecordControllerActivity"
+    tools:context="com.huawei.demo.health.HealthKitActivityRecordControllerActivity"
     tools:ignore="MissingDefaultResource">
 
     <LinearLayout
@@ -82,45 +82,6 @@
                 android:layout_weight="0.5"
                 android:onClick="getActivityRecord"
                 android:text="getActivityRecord"
-                android:textAllCaps="false" />
-
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="@string/activity_record_MonitorOptions" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal"
-            android:weightSum="1">
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_weight="0.7"
-                android:onClick="addActivityRecordsMonitor"
-                android:text="addActivityRecordsMonitor"
-                android:textAllCaps="false" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal"
-            android:weightSum="1">
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_weight="0.7"
-                android:onClick="removeActivityRecordsMonitor"
-                android:text="removeActivityRecordsMonitor"
                 android:textAllCaps="false" />
 
         </LinearLayout>

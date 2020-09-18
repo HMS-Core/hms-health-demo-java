@@ -14,13 +14,12 @@
  * limitations under the License.
  */
 
-package com.huawei.demo.hihealth;
+package com.huawei.demo.health;
 
 import static java.text.DateFormat.getTimeInstance;
 
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
@@ -29,7 +28,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.huawei.demo.hihealth.broadcastreceiver.ActivityRecordsMonitorReceiver;
 import com.huawei.health.demo.R;
 import com.huawei.hmf.tasks.OnFailureListener;
 import com.huawei.hmf.tasks.OnSuccessListener;
@@ -41,9 +39,11 @@ import com.huawei.hms.hihealth.HiHealthOptions;
 import com.huawei.hms.hihealth.HiHealthStatusCodes;
 import com.huawei.hms.hihealth.HuaweiHiHealth;
 import com.huawei.hms.hihealth.data.ActivityRecord;
+import com.huawei.hms.hihealth.data.ActivitySummary;
 import com.huawei.hms.hihealth.data.DataCollector;
 import com.huawei.hms.hihealth.data.DataType;
 import com.huawei.hms.hihealth.data.Field;
+import com.huawei.hms.hihealth.data.PaceSummary;
 import com.huawei.hms.hihealth.data.SamplePoint;
 import com.huawei.hms.hihealth.data.SampleSet;
 import com.huawei.hms.hihealth.options.ActivityRecordInsertOptions;
@@ -54,9 +54,12 @@ import com.huawei.hms.support.hwid.HuaweiIdAuthManager;
 import com.huawei.hms.support.hwid.result.AuthHuaweiId;
 
 import java.text.DateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -66,7 +69,7 @@ import java.util.regex.Pattern;
  *
  * @since 2020-03-19
  */
-public class HihealthKitActivityRecordControllerActivity extends AppCompatActivity {
+public class HealthKitActivityRecordControllerActivity extends AppCompatActivity {
     private static final String TAG = "ActivityRecordSample";
 
     // Line separators for the display on the UI
@@ -90,7 +93,7 @@ public class HihealthKitActivityRecordControllerActivity extends AppCompatActivi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_hihealth_activityrecord);
+        setContentView(R.layout.activity_health_activityrecord);
         init();
     }
 
@@ -116,12 +119,59 @@ public class HihealthKitActivityRecordControllerActivity extends AppCompatActivi
         logger(SPLIT + "this is MyActivityRecord Begin");
         long startTime = Calendar.getInstance().getTimeInMillis();
 
+        ActivitySummary activitySummary = new ActivitySummary();
+        PaceSummary paceSummary = new PaceSummary();
+        paceSummary.setAvgPace(247.27626);
+        paceSummary.setBestPace(212.0);
+        Map<String, Double> britishPaceMap = new HashMap<>();
+        britishPaceMap.put("50001893", 365.0);
+        paceSummary.setBritishPaceMap(britishPaceMap);
+        Map<String, Double> partTimeMap = new HashMap<>();
+        partTimeMap.put("1.0", 456.0);
+        paceSummary.setPartTimeMap(partTimeMap);
+        Map<String, Double> paceMap = new HashMap<>();
+        paceMap.put("1.0", 263.0);
+        paceSummary.setPaceMap(paceMap);
+        Map<String, Double> britishPartTimeMap = new HashMap<>();
+        britishPartTimeMap.put("1.0", 263.0);
+        paceSummary.setBritishPartTimeMap(britishPartTimeMap);
+        Map<String, Double> sportHealthPaceMap = new HashMap<>();
+        sportHealthPaceMap.put("102802480", 535.0);
+        paceSummary.setSportHealthPaceMap(sportHealthPaceMap);
+        activitySummary.setPaceSummary(paceSummary);
+
+        // Create a data collector for statics data
+        // The numbers are generated randomly
+        DataCollector dataCollector2 = new DataCollector.Builder().setDataType(DataType.DT_STATISTICS_SLEEP)
+            .setDataGenerateType(DataCollector.DATA_TYPE_RAW)
+            .setPackageName(context)
+            .setDataCollectorName("test1")
+            .build();
+        SamplePoint samplePoint = new SamplePoint.Builder(dataCollector2).build();
+        samplePoint.getFieldValue(Field.ALL_SLEEP_TIME).setIntValue(352);
+        samplePoint.getFieldValue(Field.GO_BED_TIME).setLongValue(1599580041000L);
+        samplePoint.getFieldValue(Field.SLEEP_EFFICIENCY).setIntValue(4);
+        samplePoint.getFieldValue(Field.DREAM_TIME).setIntValue(58);
+        samplePoint.getFieldValue(Field.WAKE_UP_TIME).setLongValue(1599608520000L);
+        samplePoint.getFieldValue(Field.DEEP_SLEEP_TIME).setIntValue(82);
+        samplePoint.getFieldValue(Field.DEEP_SLEEP_PART).setIntValue(64);
+        samplePoint.getFieldValue(Field.AWAKE_TIME).setIntValue(3);
+        samplePoint.getFieldValue(Field.SLEEP_SCORE).setIntValue(73);
+        samplePoint.getFieldValue(Field.LIGHT_SLEEP_TIME).setIntValue(212);
+        samplePoint.getFieldValue(Field.SLEEP_LATENCY).setIntValue(7487000);
+        samplePoint.getFieldValue(Field.WAKE_UP_CNT).setIntValue(2);
+        samplePoint.getFieldValue(Field.FALL_ASLEEP_TIME).setLongValue(1599587220000L);
+
+        activitySummary.setDataSummary(Arrays.asList(samplePoint));
+
         // Build an ActivityRecord object
         ActivityRecord activityRecord = new ActivityRecord.Builder().setId("MyBeginActivityRecordId")
             .setName("BeginActivityRecord")
             .setDesc("This is ActivityRecord begin test!")
-            .setActivityTypeId(HiHealthActivities.RUNNING)
+            .setActivityTypeId(HiHealthActivities.SLEEP)
             .setStartTime(startTime, TimeUnit.MILLISECONDS)
+            .setActivitySummary(activitySummary)
+            .setTimeZone("+0800")
             .build();
 
         checkConnect();
@@ -196,6 +246,49 @@ public class HihealthKitActivityRecordControllerActivity extends AppCompatActivi
         cal.add(Calendar.HOUR_OF_DAY, -1);
         long startTime = cal.getTimeInMillis();
 
+        // 创建一个步数增量的数据采集器
+        // ActivityRecord 内的SampleSet 用来承载明细数据
+        DataCollector dataCollector =
+            new com.huawei.hms.hihealth.data.DataCollector.Builder().setDataType(DataType.DT_CONTINUOUS_STEPS_DELTA)
+                .setDataGenerateType(DataCollector.DATA_TYPE_RAW)
+                .setPackageName(context)
+                .setDataCollectorName("test1")
+                .build();
+
+        ActivitySummary activitySummary = new ActivitySummary();
+        PaceSummary paceSummary = new PaceSummary();
+        paceSummary.setAvgPace(247.27626);
+        paceSummary.setBestPace(212.0);
+        Map<String, Double> britishPaceMap = new HashMap<>();
+        britishPaceMap.put("50001893", 365.0);
+        paceSummary.setBritishPaceMap(britishPaceMap);
+        Map<String, Double> partTimeMap = new HashMap<>();
+        partTimeMap.put("1.0", 456.0);
+        paceSummary.setPartTimeMap(partTimeMap);
+        Map<String, Double> paceMap = new HashMap<>();
+        paceMap.put("1.0", 263.0);
+        paceSummary.setPaceMap(paceMap);
+        Map<String, Double> britishPartTimeMap = new HashMap<>();
+        britishPartTimeMap.put("1.0", 263.0);
+        paceSummary.setBritishPartTimeMap(britishPartTimeMap);
+        Map<String, Double> sportHealthPaceMap = new HashMap<>();
+        sportHealthPaceMap.put("102802480", 535.0);
+        paceSummary.setSportHealthPaceMap(sportHealthPaceMap);
+
+        activitySummary.setPaceSummary(paceSummary);
+
+        // 创建一个总步数统计的数据采集器
+        // ActivitySummary 用来承载统计数据
+        DataCollector dataCollector2 =
+            new com.huawei.hms.hihealth.data.DataCollector.Builder().setDataType(DataType.DT_CONTINUOUS_STEPS_TOTAL)
+                .setDataGenerateType(DataCollector.DATA_TYPE_RAW)
+                .setPackageName(context)
+                .setDataCollectorName("test1")
+                .build();
+        SamplePoint samplePoint = new SamplePoint.Builder(dataCollector2).build();
+        samplePoint.getFieldValue(Field.FIELD_STEPS).setIntValue(1024);
+        activitySummary.setDataSummary(Arrays.asList(samplePoint));
+
         // Build the activity record request object
         ActivityRecord activityRecord = new ActivityRecord.Builder().setName("AddActivityRecord")
             .setDesc("This is ActivityRecord add test!")
@@ -203,23 +296,18 @@ public class HihealthKitActivityRecordControllerActivity extends AppCompatActivi
             .setActivityTypeId(HiHealthActivities.RUNNING)
             .setStartTime(startTime, TimeUnit.MILLISECONDS)
             .setEndTime(endTime, TimeUnit.MILLISECONDS)
-            .build();
-
-        // Build the dataCollector object
-        DataCollector dataCollector = new DataCollector.Builder().setDataType(DataType.DT_CONTINUOUS_STEPS_DELTA)
-            .setDataGenerateType(DataCollector.DATA_TYPE_RAW)
-            .setPackageName(context)
-            .setDataCollectorName("AddActivityRecord")
+            .setActivitySummary(activitySummary)
+            .setTimeZone("+0800")
             .build();
 
         // Build the sampling sampleSet based on the dataCollector
         SampleSet sampleSet = SampleSet.create(dataCollector);
 
         // Build the (DT_CONTINUOUS_STEPS_DELTA) sampling data object and add it to the sampling dataSet
-        SamplePoint samplePoint =
+        SamplePoint samplePointDetail =
             sampleSet.createSamplePoint().setTimeInterval(startTime, endTime, TimeUnit.MILLISECONDS);
-        samplePoint.getFieldValue(Field.FIELD_STEPS_DELTA).setIntValue(1024);
-        sampleSet.addSample(samplePoint);
+        samplePointDetail.getFieldValue(Field.FIELD_STEPS_DELTA).setIntValue(1024);
+        sampleSet.addSample(samplePointDetail);
 
         // Build the activity record addition request object
         ActivityRecordInsertOptions insertRequest =
@@ -277,6 +365,9 @@ public class HihealthKitActivityRecordControllerActivity extends AppCompatActivi
                 // Print ActivityRecord and corresponding activity data in the result
                 List<ActivityRecord> activityRecordList = activityRecordReply.getActivityRecords();
                 for (ActivityRecord activityRecord : activityRecordList) {
+                    if (activityRecord == null) {
+                        continue;
+                    }
                     dumpActivityRecord(activityRecord);
                     for (SampleSet sampleSet : activityRecordReply.getSampleSet(activityRecord)) {
                         dumpSampleSet(sampleSet);
@@ -320,7 +411,7 @@ public class HihealthKitActivityRecordControllerActivity extends AppCompatActivi
         getTask.addOnSuccessListener(new OnSuccessListener<ActivityRecordReply>() {
             @Override
             public void onSuccess(ActivityRecordReply activityRecordReply) {
-                Log.i(TAG, "Reading ActivityRecord  response status " + activityRecordReply.getStatus());
+                logger("Reading ActivityRecord  response status " + activityRecordReply.getStatus());
                 List<ActivityRecord> activityRecords = activityRecordReply.getActivityRecords();
 
                 // Get ActivityRecord and corresponding activity data in the result
@@ -355,73 +446,6 @@ public class HihealthKitActivityRecordControllerActivity extends AppCompatActivi
     }
 
     /**
-     * Register a listener for monitoring the activity record status
-     *
-     * @param view indicating a UI object
-     */
-    public void addActivityRecordsMonitor(View view) {
-        logger(SPLIT + "this is MyActivityRecord Add Monitor");
-        if (pendingIntent != null) {
-            logger("There is already a Monitor, no need to add Monitor");
-            return;
-        }
-
-        // Build the pendingIntent request body.
-        // ActivityRecordsMonitorReceiver is the broadcast receiving class created in advance
-        pendingIntent = PendingIntent.getBroadcast(this, 0, new Intent(this, ActivityRecordsMonitorReceiver.class),
-            PendingIntent.FLAG_UPDATE_CURRENT);
-
-        // Call the related method in the ActivityRecordsController to register a listener
-        Task<Void> addMonitorTask = activityRecordsController.addActivityRecordsMonitor(pendingIntent);
-        addMonitorTask.addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void voidValue) {
-                logger("addActivityRecordsMonitor is successful");
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(Exception e) {
-                printFailureMessage(e, "addActivityRecordsMonitor");
-                pendingIntent = null;
-            }
-        });
-    }
-
-    /**
-     * Unregister a listener for monitoring the activity record status
-     *
-     * @param view indicating a UI object
-     */
-    public void removeActivityRecordsMonitor(View view) {
-        logger(SPLIT + "this is MyActivityRecord Remove Monitor");
-        if (pendingIntent == null) {
-            logger("There is no Monitor, no need to remove Monitor");
-            return;
-        }
-
-        // Build the pendingIntent request body.
-        // ActivityRecordsMonitorReceiver is the broadcast receiving class created in advance
-        pendingIntent = PendingIntent.getBroadcast(this, 0, new Intent(this, ActivityRecordsMonitorReceiver.class),
-            PendingIntent.FLAG_UPDATE_CURRENT);
-
-        // Call the related method in the ActivityRecordsController to unregister a listener
-        Task<Void> removeMonitorTask = activityRecordsController.removeActivityRecordsMonitor(pendingIntent);
-        removeMonitorTask.addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void voidValue) {
-                logger("removeActivityRecordsMonitor is successful");
-                pendingIntent = null;
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(Exception e) {
-                printFailureMessage(e, "removeActivityRecordsMonitor");
-                pendingIntent = null;
-            }
-        });
-    }
-
-    /**
      * Print the SamplePoint in the SampleSet object as an output.
      *
      * @param sampleSet indicating the sampling dataset)
@@ -449,6 +473,7 @@ public class HihealthKitActivityRecordControllerActivity extends AppCompatActivi
     private void dumpActivityRecord(ActivityRecord activityRecord) {
         DateFormat dateFormat = DateFormat.getDateInstance();
         DateFormat timeFormat = DateFormat.getTimeInstance();
+        logger("ActivityRecord Printing -------------------------------------");
         logger("Returned for ActivityRecord: " + activityRecord.getName() + "\n\tActivityRecord Identifier is "
             + activityRecord.getId() + "\n\tActivityRecord created by app is " + activityRecord.getPackageName()
             + "\n\tDescription: " + activityRecord.getDesc() + "\n\tStart: "
@@ -457,6 +482,29 @@ public class HihealthKitActivityRecordControllerActivity extends AppCompatActivi
             + dateFormat.format(activityRecord.getEndTime(TimeUnit.MILLISECONDS)) + " "
             + timeFormat.format(activityRecord.getEndTime(TimeUnit.MILLISECONDS)) + "\n\tActivity:"
             + activityRecord.getActivityType());
+        if (activityRecord.getActivitySummary() != null) {
+            printActivitySummary(activityRecord.getActivitySummary());
+        }
+
+        logger("ActivityRecord Printing End ----------------------------------");
+    }
+
+    public void printActivitySummary(ActivitySummary activitySummary) {
+        List<SamplePoint> dataSummary = activitySummary.getDataSummary();
+        logger("\nActivitySummary\n\t DataSummary: ");
+        for (SamplePoint samplePoint : dataSummary) {
+            logger("\n\t samplePoint: \n\t DataCollector" + samplePoint.getDataCollector() + "\n\t DataType"
+                + samplePoint.getDataType() + "\n\t StartTime" + samplePoint.getStartTime(TimeUnit.MILLISECONDS)
+                + "\n\t EndTime" + samplePoint.getEndTime(TimeUnit.MILLISECONDS) + "\n\t SamplingTime"
+                + samplePoint.getSamplingTime(TimeUnit.MILLISECONDS) + "\n\t FieldValues"
+                + samplePoint.getFieldValues());
+        }
+        // Printing PaceSummary
+        PaceSummary paceSummary = activitySummary.getPaceSummary();
+        logger("\n\t PaceSummary: \n\t AvgPace" + paceSummary.getAvgPace() + "\n\t BestPace" + paceSummary.getBestPace()
+            + "\n\t PaceMap" + paceSummary.getPaceMap() + "\n\t PartTimeMap" + paceSummary.getPartTimeMap()
+            + "\n\t BritishPaceMap" + paceSummary.getBritishPaceMap() + "\n\t BritishPartTimeMap"
+            + paceSummary.getBritishPartTimeMap() + "\n\t SportHealthPaceMap" + paceSummary.getSportHealthPaceMap());
     }
 
     @Override

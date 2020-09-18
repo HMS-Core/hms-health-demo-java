@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Health Kit Sample</string>
+    <string name="app_name">Health Kit Sample Code</string>
     <string name="login_info">Touch Login to complete login and authorization, and then use other buttons to try the related API functions.Note: If the login dialog box is not displayed, change the package name, app ID, and configure the signature file by referring to the developer guide on the official website.</string>
     <string name="data_controller">Managing historical fitness and health data</string>
     <string name="sensors_controller">Obtaining real-time data of peripheral sensors (phone sensors and external Bluetooth devices)</string>
@@ -22,9 +22,6 @@
     <string name="data_controller_read">Feature-based query APIs: Querying the summary data of the current day, as well as the summary data on the local device of the current day</string>
     <string name="data_controller_register">Registering or unregistering a listener for data changes and triggering the listener for testing purposes</string>
     <string name="data_controller_sync">Synchronizing fitness and health data between the device and cloud, as well as clearing all data</string>
-    <string name="auto_recorder_start_stop_record_by_type">Starting or stopping automatic recording of accumulated step count by data type</string>
-    <string name="auto_recorder_start_stop_record_by_collector">Starting or stopping automatic recording of accumulated step count by data collector</string>
-    <string name="auto_recorder_stop_record_by_record">Stopping automatic recording of accumulated step count by data record</string>
-    <string name="auto_recorder_get_records">Obtaining all data records of the app</string>
-    <string name="auto_recorder_get_records_by_type">Obtaining the data record related to the accumulated step count of the app</string>
+    <string name="auto_recorder_start_stop_record_by_type">Starting or stopping automatic recording of total step count by data type</string>
+    <string name="auto_recorder_start_stop_record_by_heart">Starting or stopping automatic recording of heart rate count by data type</string>
 </resources>

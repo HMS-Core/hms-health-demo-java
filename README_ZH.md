@@ -52,7 +52,8 @@
 使用Health Kit Android示例代码前，请先检查IDE环境是否已安装。 
 1.	解压示例代码包。    
 2.	将代码包拷贝到IDE目录下，并导入到IDE工具中。    
-3.	点击Sync Project with Gradle Files完成开发环境构建。    
+3.  另外，需要生成签名证书指纹并将证书文件添加到项目中，然后将配置添加到build.gradle。详细信息(https://developer.huawei.com/consumer/en/doc/development/HMSCore-Guides-V5/signing-fingerprint-0000001050071709-V5)
+4.	点击Sync Project with Gradle Files完成开发环境构建。    
 
 使用示例代码包中的功能之前，需要设置如下参数：    
 1.	华为账号：运动健康需要验证用户是否具有读写健康数据的权限。    
@@ -61,6 +62,7 @@
     * 	在项目build.gradle的buildscript-> dependencies中，配置HMS SDK的maven配置：maven {url 'http://developer.huawei.com/repo/' }
 3.	编译依赖：在app层级的build.gradle文件中增加编译依赖：implementation 'com.huawei.hms:hihealth-base:{version}'    
 4.	AppId信息：在应用的AndroidManifest.xml文件中添加在开发者联盟创建应用时生成的AppId信息。    
+
 
 ## 环境要求
 * Android Studio 3.0 及以上版本
@@ -71,14 +73,5 @@
    <img src="images/result_1.png" width = 30% height = 30%> <img src="images/result_2.png" width = 30% height = 30%> <img src="images/result_3.png" width = 30% height = 30%>
    <img src="images/result_4.png" width = 30% height = 30%> <img src="images/result_5.png" width = 30% height = 30%> <img src="images/result_6.png" width = 30% height = 30%>
 	
-## 技术支持
-如果您对HMS Core还处于评估阶段，可在[Reddit社区](https://www.reddit.com/r/HMSCore/)获取关于HMS Core的最新讯息，并与其他开发者交流见解。
-
-如果您对使用HMS示例代码有疑问，请尝试：
-- 开发过程遇到问题上[Stack Overflow](https://stackoverflow.com/questions/tagged/huawei-mobile-services)，在[huawei-mobile-services]标签下提问，有华为研发专家在线一对一解决您的问题。
-- 到[华为开发者论坛](https://developer.huawei.com/consumer/cn/forum/blockdisplay?fid=18) HMS Core板块与其他开发者进行交流。
-
-如果您在尝试示例代码中遇到问题，请向仓库提交[issue](https://github.com/HMS-Core/hms-health-demo/issues)，也欢迎您提交[Pull Request](https://github.com/HMS-Core/hms-health-demo/pulls)。
-
 ##  授权许可
    华为运动健康服务示例代码经过 [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0)授权许可。
