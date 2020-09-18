@@ -3,8 +3,8 @@
 ## Table of Contents
 
  * [Introduction](#Introduction)
- * [Getting Started](#Getting Started)
- * [Supported Environment](#Supported Environment)
+ * [Getting Started](#getting-started)
+ * [Supported Environments](#supported-environments)
  * [Result](#Result)
  * [License](#License)
 
