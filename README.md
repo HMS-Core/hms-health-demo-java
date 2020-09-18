@@ -2,12 +2,10 @@
 
 ## Table of Contents
 
- * [Getting Started](#Getting Started)
  * [Introduction](#Introduction)
+ * [Started](#Introduction)
  * [Result](#Result)
  * [License](#License)
- * [Getting Started](#Getting Started)
- * [Supported Environments](#Supported Environments)
 
 
 
@@ -38,6 +36,8 @@ Code location:  \app\SampleCode-Kotin\main\java\com\huawei\demo\health\HealthKit
 6) Operate DataType and Records  
 This function can add/read DataType and cancel All Records.   
 Code location:  \app\SampleCode-Kotin\main\java\com\huawei\demo\health\HealthKitSettingControllerActivity.java   
+
+## Started
 
 
 ## Getting Started
