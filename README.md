@@ -2,6 +2,7 @@
 
 ## Table of Contents
 
+ * [Getting Started](#Getting Started)
  * [Introduction](#Introduction)
  * [Result](#Result)
  * [License](#License)
