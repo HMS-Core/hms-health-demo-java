@@ -4,8 +4,6 @@
 
  * [Introduction](#Introduction)
  * [Getting Started](#Getting Started)
- * [removed](#removed)
-
  * [Supported Environments](#Supported Environments)
  * [Result](#Result)
  * [License](#License)
