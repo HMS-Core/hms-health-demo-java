@@ -60,6 +60,7 @@ To use functions provided by packages in examples, you need to set parameters as
 * Java SDK 1.8 or later
 * HMS Core 4.0.4.207 or later
 
+
 ## Result
    <img src="images/result_1.png" width = 30% height = 30%>
    <img src="images/result_2.png" width = 30% height = 30%>
