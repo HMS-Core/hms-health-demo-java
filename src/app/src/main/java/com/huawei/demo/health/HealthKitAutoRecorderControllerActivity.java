@@ -16,11 +16,17 @@
 
 package com.huawei.demo.health;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.PowerManager;
+import android.provider.Settings;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
@@ -60,6 +66,8 @@ public class HealthKitAutoRecorderControllerActivity extends AppCompatActivity {
     // HMS Health AutoRecorderController
     private AutoRecorderController autoRecorderController;
 
+    private Context mContext;
+
     // Text control that displays action information on the page
     private TextView logInfoView;
 
@@ -71,13 +79,56 @@ public class HealthKitAutoRecorderControllerActivity extends AppCompatActivity {
     // Record Start Times
     int count = 0;
 
+    // WakeLock
+    private PowerManager.WakeLock wl;
+
+    public void ignoreBatteryOptimization(Activity activity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            try {
+                PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+                boolean hasIgnored = powerManager.isIgnoringBatteryOptimizations(activity.getPackageName());
+                /**
+                 * Check whether the current app is added to the battery optimization trust list,
+                 * If not, a dialog box is displayed for you to add a battery optimization trust list.
+                 * */
+                if (!hasIgnored) {
+                    Intent newIntent = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+                    newIntent.setData(Uri.parse("package:" + activity.getPackageName()));
+                    startActivity(newIntent);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @SuppressLint("InvalidWakeLockTag")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_health_autorecorder);
+        mContext = this;
         logInfoView = (TextView) findViewById(R.id.auto_recorder_log_info);
         logInfoView.setMovementMethod(ScrollingMovementMethod.getInstance());
         initData();
+        PowerManager pm = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
+        wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,TAG);
+        wl.acquire();
+        Log.i(TAG, " wakelock wl.acquire(); ");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ignoreBatteryOptimization(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        wl.release();
+        wl = null;
+        Log.i(TAG, " wakelock wl.release(); ");
     }
 
     private void initData() {
@@ -232,133 +283,6 @@ public class HealthKitAutoRecorderControllerActivity extends AppCompatActivity {
     /**
      * construct OnSamplePointListener
      */
-    private OnSamplePointListener onSamplePointListener = new OnSamplePointListener() {
-        @Override
-        public void onSamplePoint(SamplePoint samplePoint) {
-        }
+    private OnSamplePointListener onSamplePointListener = samplePoint -> {
     };
-
-    /**
-     * start record By DataType
-     *
-     * @param view the button view
-     */
-    public void startRecordHeartRate(View view) {
-        logger("starRecordByType ······");
-        if (autoRecorderController == null) {
-            HiHealthOptions options = HiHealthOptions.builder().build();
-            AuthHuaweiId signInHuaweiId = HuaweiIdAuthManager.getExtendedAuthResult(options);
-            autoRecorderController = HuaweiHiHealth.getAutoRecorderController(this, signInHuaweiId);
-        }
-
-        // 使用Client Task调用方式
-        Task<Void> task =
-            autoRecorderController.startRecord(DataType.DT_INSTANTANEOUS_HEART_RATE, new OnSamplePointListener() {
-                @Override
-                public void onSamplePoint(SamplePoint samplePoint) {
-                    showDataMessage(samplePoint);
-                }
-
-                @Override
-                public void onException(int i, String s) {
-                    showException(i, s);
-                }
-            }).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(Task<Void> taskResult) {
-                    // the interface won't always success, if u use the onComplete interface, u should add the judgement
-                    // of result is successful or not. the fail reason include:
-                    // 1.the app hasn't been granted the scropes
-                    // 2.this type is not supported so far
-                    if (taskResult.isSuccessful()) {
-                        logger("onComplete starRecordHeartRate Successful");
-                    } else {
-                        logger("onComplete starRecordHeartRate Failed");
-                    }
-                }
-            }).addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void result) {
-                    // u could call addOnSuccessListener to print something
-                    logger("onSuccess starRecordHeartRate Successful");
-                    logger(SPLIT);
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(Exception e) {
-                    // otherwise u could call addOnFailureListener to catch the fail result
-                    logger("onFailure starRecordHeartRate Failed: " + e.getMessage());
-                    logger(SPLIT);
-                }
-            });
-    }
-
-    private void showDataMessage(SamplePoint samplePoint) {
-        if (samplePoint != null) {
-            logger("Sample point type: " + samplePoint.getDataType().getName());
-            for (Field field : samplePoint.getDataType().getFields()) {
-                logger("Field: " + field.getName() + " Value: " + samplePoint.getFieldValue(field));
-                logger(stampToData(String.valueOf(System.currentTimeMillis())));
-            }
-        } else {
-            logger("samplePoint is null!! ");
-            logger(SPLIT);
-        }
-    }
-
-    private void showException(int i, String s) {
-        logger("Exception occurs, exception id: " + i + " msg is : " + s + System.lineSeparator());
-    }
-
-    /**
-     * stop record By DataType
-     *
-     * @param view the button view
-     */
-    public void stopRecordHeartRate(View view) {
-        logger("stopRecordHeartRate doing ······");
-        if (autoRecorderController == null) {
-            HiHealthOptions options = HiHealthOptions.builder().build();
-            AuthHuaweiId signInHuaweiId = HuaweiIdAuthManager.getExtendedAuthResult(options);
-            autoRecorderController = HuaweiHiHealth.getAutoRecorderController(this, signInHuaweiId);
-        }
-
-        autoRecorderController.stopRecord(DataType.DT_INSTANTANEOUS_HEART_RATE, new OnSamplePointListener() {
-            @Override
-            public void onSamplePoint(SamplePoint samplePoint) {
-            }
-
-            @Override
-            public void onException(int i, String s) {
-                showException(i, s);
-            }
-        }).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(Task<Void> taskResult) {
-                // the interface won't always success, if u use the onComplete interface, u should add the judgement
-                // of result is successful or not. the fail reason include:
-                // 1.the app hasn't been granted the scropes
-                // 2.this type is not supported so far
-                if (taskResult.isSuccessful()) {
-                    logger("onComplete stopRecordHeartRate Successful");
-                } else {
-                    logger("onComplete stopRecordHeartRate Failed");
-                }
-            }
-        }).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void result) {
-                // u could call addOnSuccessListener to print something
-                logger("onSuccess stopRecordHeartRate Successful");
-                logger(SPLIT);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(Exception e) {
-                // otherwise u could call addOnFailureListener to catch the fail result
-                logger("onFailure stopRecordHeartRate Failed: " + e.getMessage());
-                logger(SPLIT);
-            }
-        });
-    }
 }

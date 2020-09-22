@@ -10,6 +10,8 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:allowBackup="true"
@@ -36,11 +38,6 @@
         <activity android:name="com.huawei.demo.health.HealthKitAutoRecorderControllerActivity" />
         <activity android:name="com.huawei.demo.health.HealthKitActivityRecordControllerActivity" />
         <activity android:name="com.huawei.demo.health.HealthKitSettingControllerActivity" />
-
-        <receiver
-            android:name="com.huawei.demo.health.broadcastreceiver.DataRegisterReceiver"
-            android:enabled="true"
-            android:exported="true" />
 
         <service android:name="com.huawei.demo.health.PersistService">
             <intent-filter android:priority="1000">

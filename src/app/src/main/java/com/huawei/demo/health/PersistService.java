@@ -29,14 +29,10 @@ import android.os.IBinder;
 import android.util.Log;
 
 import com.huawei.health.demo.R;
-import com.huawei.hmf.tasks.OnFailureListener;
-import com.huawei.hmf.tasks.OnSuccessListener;
 import com.huawei.hms.hihealth.AutoRecorderController;
 import com.huawei.hms.hihealth.HiHealthOptions;
 import com.huawei.hms.hihealth.HuaweiHiHealth;
 import com.huawei.hms.hihealth.data.DataType;
-import com.huawei.hms.hihealth.data.SamplePoint;
-import com.huawei.hms.hihealth.options.OnSamplePointListener;
 import com.huawei.hms.support.hwid.HuaweiIdAuthManager;
 import com.huawei.hms.support.hwid.result.AuthHuaweiId;
 
@@ -44,7 +40,9 @@ import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
 /**
- * 定义一个前台服务
+ * Defining a Frontend Service
+ *
+ * @since 2020-09-05
  */
 public class PersistService extends Service {
     private static final String TAG = "PersistService";
@@ -58,9 +56,7 @@ public class PersistService extends Service {
     public void onCreate() {
         super.onCreate();
         context = this;
-        HiHealthOptions options = HiHealthOptions.builder().build();
-        AuthHuaweiId signInHuaweiId = HuaweiIdAuthManager.getExtendedAuthResult(options);
-        autoRecorderController = HuaweiHiHealth.getAutoRecorderController(context, signInHuaweiId);
+        initAutoRecorderController();
         Log.i(TAG, "service is create.");
     }
 
@@ -79,10 +75,24 @@ public class PersistService extends Service {
         return super.onStartCommand(intent, flags, startId);
     }
 
-    // Create a listener and return callback data.
-    private OnSamplePointListener onSamplePointListener = new OnSamplePointListener() {
-        @Override
-        public void onSamplePoint(SamplePoint samplePoint) {
+    /**
+     * init AutoRecorderController
+     */
+    private void initAutoRecorderController() {
+        HiHealthOptions options = HiHealthOptions.builder().build();
+        AuthHuaweiId signInHuaweiId = HuaweiIdAuthManager.getExtendedAuthResult(options);
+        autoRecorderController = HuaweiHiHealth.getAutoRecorderController(context, signInHuaweiId);
+    }
+
+    /**
+     * Callback Interface for Starting the Total Step Count
+     */
+    private void getRemoteService() {
+        if (autoRecorderController == null) {
+            initAutoRecorderController();
+        }
+        // Start recording real-time steps.
+        autoRecorderController.startRecord(DataType.DT_CONTINUOUS_STEPS_TOTAL, samplePoint -> {
             // The step count, time, and type data reported by the pedometer is called back to the app through
             // samplePoint.
             Intent intent = new Intent();
@@ -90,29 +100,8 @@ public class PersistService extends Service {
             intent.setAction("HealthKitService");
             // Transmits service data to activities through broadcast.
             sendBroadcast(intent);
-        }
-    };
-
-    /**
-     * Callback Interface for Starting the Total Step Count
-     */
-    private void getRemoteService() {
-        // This interface supports the data type of DT_CONTINUOUS_STEPS_TOTAL.
-        DataType dataType = DataType.DT_CONTINUOUS_STEPS_TOTAL;
-        // Start recording real-time steps.
-        autoRecorderController.startRecord(dataType, onSamplePointListener)
-            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    Log.i(TAG, "record steps success... ");
-                }
-            })
-            .addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(Exception e) {
-                    Log.i(TAG, "report steps failed... ");
-                }
-            });
+        }).addOnSuccessListener(aVoid -> Log.i(TAG, "record steps success... "))
+                .addOnFailureListener(e -> Log.i(TAG, "report steps failed... "));
     }
 
     /**

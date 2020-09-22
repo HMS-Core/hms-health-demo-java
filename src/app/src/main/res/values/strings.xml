@@ -23,5 +23,4 @@
     <string name="data_controller_register">Registering or unregistering a listener for data changes and triggering the listener for testing purposes</string>
     <string name="data_controller_sync">Synchronizing fitness and health data between the device and cloud, as well as clearing all data</string>
     <string name="auto_recorder_start_stop_record_by_type">Starting or stopping automatic recording of total step count by data type</string>
-    <string name="auto_recorder_start_stop_record_by_heart">Starting or stopping automatic recording of heart rate count by data type</string>
 </resources>

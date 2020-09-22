@@ -42,28 +42,6 @@
                 android:text="stopRecordByTotalSteps"
                 android:onClick="stopRecordByType"
                 android:textAllCaps="false" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/auto_recorder_start_stop_record_by_heart" />
-
-            <Button
-                android:layout_gravity="center_horizontal"
-                android:layout_width="250dp"
-                android:layout_height="40dp"
-                android:text="startRecordHeartRate"
-                android:onClick="startRecordHeartRate"
-                android:textAllCaps="false" />
-
-            <Button
-                android:layout_gravity="center_horizontal"
-                android:layout_width="250dp"
-                android:layout_height="40dp"
-                android:text="stopRecordHeartRate"
-                android:onClick="stopRecordHeartRate"
-                android:textAllCaps="false" />
         </LinearLayout>
 
         <LinearLayout
