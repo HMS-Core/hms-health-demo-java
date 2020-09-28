@@ -2,14 +2,12 @@
 English | [中文](https://github.com/HMS-Core/hms-health-demo/blob/master/README_ZH.md)
 ## Table of Contents
 
- * [Introduction](#Introduction)
+ * [Introduction](#introduction)
  * [Getting Started](#getting-started)
  * [Supported Environments](#supported-environments)
- * [Result](#Result)
+ * [Result](#result)
  * [Question or Issues](#question-or-issues)
- * [License](#License)
-
-
+ * [License](#license)
 
 ## Introduction
 HUAWEI Health is an open service for sports & health capabilities provided by Huawei. Developers can access the Huawei Health Platform and obtain sports & health data by integrating HUAWEI Health.   
@@ -59,7 +57,6 @@ To use functions provided by packages in examples, you need to set parameters as
 * Java SDK 1.8 or later
 * HMS Core 4.0.4.207 or later
 
-
 ## Result
    <img src="images/result_1.png" width = 30% height = 30%>
    <img src="images/result_2.png" width = 30% height = 30%>
@@ -68,11 +65,11 @@ To use functions provided by packages in examples, you need to set parameters as
    <img src="images/result_5.png" width = 30% height = 30%>
    
 ## Question or Issues
-If you want to evaluate more about HMS Core, [r/HMSCore on Reddit](https://www.reddit.com/r/HMSCore/) is for you to keep up with latest news about HMS Core, and to exchange insights with other developers.
+If you want to evaluate more about HMS Core, [r/HMSCore on Reddit](https://www.reddit.com/r/HuaweiDevelopers/) is for you to keep up with latest news about HMS Core, and to exchange insights with other developers.
 
 If you have questions about how to use HMS samples, try the following options:
 - [Stack Overflow](https://stackoverflow.com/questions/tagged/huawei-mobile-services) is the best place for any programming questions. Be sure to tag your question with 
-**huawei-mobile-services**.
+`huawei-mobile-services`.
 - [Huawei Developer Forum](https://forums.developer.huawei.com/forumPortal/en/home?fid=0101187876626530001) HMS Core Module is great for general questions, or seeking recommendations and opinions.
 
 If you run into a bug in our samples, please submit an [issue](https://github.com/HMS-Core/hms-health-demo/issues) to the Repository. Even better you can submit a [Pull Request](https://github.com/HMS-Core/hms-health-demo/pulls) with a fix.
