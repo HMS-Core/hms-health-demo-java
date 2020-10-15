@@ -16,33 +16,15 @@
 
 package com.huawei.demo.health;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.huawei.demo.health.auth.HealthKitAuthClientActivity;
+import com.huawei.demo.health.auth.HealthKitAuthCloudActivity;
 import com.huawei.health.demo.R;
-import com.huawei.hmf.tasks.OnFailureListener;
-import com.huawei.hmf.tasks.OnSuccessListener;
-import com.huawei.hmf.tasks.Task;
-import com.huawei.hms.common.ApiException;
-import com.huawei.hms.hihealth.data.Scopes;
-import com.huawei.hms.support.api.entity.auth.Scope;
-import com.huawei.hms.support.hwid.HuaweiIdAuthAPIManager;
-import com.huawei.hms.support.hwid.HuaweiIdAuthManager;
-import com.huawei.hms.support.hwid.request.HuaweiIdAuthParams;
-import com.huawei.hms.support.hwid.request.HuaweiIdAuthParamsHelper;
-import com.huawei.hms.support.hwid.result.AuthHuaweiId;
-import com.huawei.hms.support.hwid.result.HuaweiIdAuthResult;
-import com.huawei.hms.support.hwid.service.HuaweiIdAuthService;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * functional description
@@ -52,17 +34,10 @@ import java.util.List;
 public class HealthKitMainActivity extends AppCompatActivity {
     private static final String TAG = "KitConnectActivity";
 
-    // Request code for displaying the authorization screen using the startActivityForResult method.
-    // The value can be defined by developers.
-    private static final int REQUEST_SIGN_IN_LOGIN = 1002;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_health_kit_main);
-
-        // The authorization and sign-in API is called each time the app is started.
-        signIn();
     }
 
     /**
@@ -105,120 +80,23 @@ public class HealthKitMainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        // Handle the sign-in response.
-        handleSignInResult(requestCode, data);
-    }
-
     /**
      * signing In and applying for Scopes
      *
      * @param view UI object
      */
     public void onLoginClick(View view) {
-        signIn();
+        Intent intent = new Intent(this, HealthKitAuthClientActivity.class);
+        startActivity(intent);
     }
 
     /**
-     * Sign-in and authorization method.
-     * The authorization screen will display up if authorization has not granted by the current account.
-     */
-    private void signIn() {
-        Log.i(TAG, "begin sign in");
-        List<Scope> scopeList = new ArrayList<>();
-
-        // Add scopes to apply for. The following only shows an example.
-        // Developers need to add scopes according to their specific needs.
-
-        // View and save steps in HUAWEI Health Kit.
-        scopeList.add(new Scope(Scopes.HEALTHKIT_STEP_BOTH));
-
-        // View and save height and weight in HUAWEI Health Kit.
-        scopeList.add(new Scope(Scopes.HEALTHKIT_HEIGHTWEIGHT_BOTH));
-
-        // View and save the heart rate data in HUAWEI Health Kit.
-        scopeList.add(new Scope(Scopes.HEALTHKIT_HEARTRATE_BOTH));
-
-        // Used for recording real-time steps in HUAWEI Health Kit.
-        scopeList.add(new Scope(Scopes.HEALTHKIT_STEP_REALTIME));
-
-        // Used for recording real-time heartRate in HUAWEI Health Kit.
-        scopeList.add(new Scope(Scopes.HEALTHKIT_HEARTRATE_REALTIME));
-
-        // View and save activityRecord in HUAWEI Health Kit.
-        scopeList.add(new Scope(Scopes.HEALTHKIT_ACTIVITY_RECORD_BOTH));
-
-        // Configure authorization parameters.
-        HuaweiIdAuthParamsHelper authParamsHelper =
-            new HuaweiIdAuthParamsHelper(HuaweiIdAuthParams.DEFAULT_AUTH_REQUEST_PARAM);
-        HuaweiIdAuthParams authParams =
-            authParamsHelper.setIdToken().setAccessToken().setScopeList(scopeList).createParams();
-
-        // Initialize the HuaweiIdAuthService object.
-        final HuaweiIdAuthService authService = HuaweiIdAuthManager.getService(getApplicationContext(), authParams);
-
-        // Silent sign-in. If authorization has been granted by the current account,
-        // the authorization screen will not display. This is an asynchronous method.
-        Task<AuthHuaweiId> authHuaweiIdTask = authService.silentSignIn();
-
-        final Context context = this;
-
-        // Add the callback for the call result.
-        authHuaweiIdTask.addOnSuccessListener(new OnSuccessListener<AuthHuaweiId>() {
-            @Override
-            public void onSuccess(AuthHuaweiId huaweiId) {
-                // The silent sign-in is successful.
-                Log.i(TAG, "silentSignIn success");
-                Toast.makeText(context, "silentSignIn success", Toast.LENGTH_LONG).show();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(Exception exception) {
-                // The silent sign-in fails.
-                // This indicates that the authorization has not been granted by the current account.
-                if (exception instanceof ApiException) {
-                    ApiException apiException = (ApiException) exception;
-                    Log.i(TAG, "sign failed status:" + apiException.getStatusCode());
-                    Log.i(TAG, "begin sign in by intent");
-
-                    // Call the sign-in API using the getSignInIntent() method.
-                    Intent signInIntent = authService.getSignInIntent();
-
-                    // Display the authorization screen by using the startActivityForResult() method of the activity.
-                    // Developers can change HealthKitMainActivity to the actual activity.
-                    startActivityForResult(signInIntent, REQUEST_SIGN_IN_LOGIN);
-                }
-            }
-        });
-    }
-
-    /**
-     * Method of handling authorization result responses
+     * Huawei ID signing In and authorization through cloud interfaces.
      *
-     * @param requestCode (indicating the request code for displaying the authorization screen)
-     * @param data (indicating the authorization result response)
+     * @param view UI object
      */
-    private void handleSignInResult(int requestCode, Intent data) {
-        // Handle only the authorized responses
-        if (requestCode != REQUEST_SIGN_IN_LOGIN) {
-            return;
-        }
-
-        // Obtain the authorization response from the intent.
-        HuaweiIdAuthResult result = HuaweiIdAuthAPIManager.HuaweiIdAuthAPIService.parseHuaweiIdFromIntent(data);
-        if (result != null) {
-            Log.d(TAG, "handleSignInResult status = " + result.getStatus() + ", result = " + result.isSuccess());
-            if (result.isSuccess()) {
-                Log.d(TAG, "sign in is success");
-                Toast.makeText(this, "sign in is success", Toast.LENGTH_LONG).show();
-
-                // Obtain the authorization result.
-                HuaweiIdAuthResult authResult =
-                    HuaweiIdAuthAPIManager.HuaweiIdAuthAPIService.parseHuaweiIdFromIntent(data);
-            }
-        }
+    public void onCloudLoginClick(View view) {
+        Intent intent = new Intent(HealthKitMainActivity.this, HealthKitAuthCloudActivity.class);
+        startActivity(intent);
     }
 }

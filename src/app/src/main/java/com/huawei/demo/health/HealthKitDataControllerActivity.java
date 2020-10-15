@@ -20,7 +20,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -79,7 +78,7 @@ public class HealthKitDataControllerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_health_controller);
+        setContentView(R.layout.activity_health_datacontroller);
         context = this;
         logInfoView = (TextView) findViewById(R.id.data_controller_log_info);
         logInfoView.setMovementMethod(ScrollingMovementMethod.getInstance());
@@ -277,8 +276,8 @@ public class HealthKitDataControllerActivity extends AppCompatActivity {
 
         // 2. Build the time range for the query: start time and end time.
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        Date startDate = dateFormat.parse("2020-08-27 09:00:00");
-        Date endDate = dateFormat.parse("2020-08-27 09:05:00");
+        Date startDate = dateFormat.parse("2020-08-26 09:00:00");
+        Date endDate = dateFormat.parse("2020-08-26 09:05:00");
 
         // 3. Build the condition-based query objec
         ReadOptions readOptions = new ReadOptions.Builder().read(dataCollector)
@@ -290,21 +289,13 @@ public class HealthKitDataControllerActivity extends AppCompatActivity {
 
         // 5. Calling the data controller to query the sampling dataset is an asynchronous operation.
         // Therefore, a listener needs to be registered to monitor whether the data query is successful or not.
-        readReplyTask.addOnSuccessListener(new OnSuccessListener<ReadReply>() {
-            @Override
-            public void onSuccess(ReadReply readReply) {
-                logger("Success read an SampleSets from HMS core");
-                for (SampleSet sampleSet : readReply.getSampleSets()) {
-                    showSampleSet(sampleSet);
-                }
-                logger(SPLIT);
+        readReplyTask.addOnSuccessListener(readReply -> {
+            logger("Success read an SampleSets from HMS core");
+            for (SampleSet sampleSet : readReply.getSampleSets()) {
+                showSampleSet(sampleSet);
             }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(Exception e) {
-                printFailureMessage(e, "read");
-            }
-        });
+            logger(SPLIT);
+        }).addOnFailureListener(e -> printFailureMessage(e, "read"));
     }
 
     /**
@@ -408,6 +399,15 @@ public class HealthKitDataControllerActivity extends AppCompatActivity {
     }
 
     /**
+     * TextView to send the operation result logs to the logcat and to the UI
+     *
+     * @param string (indicating the log string)
+     */
+    private void logger(String string) {
+        CommonUtil.logger(string, TAG, logInfoView);
+    }
+
+    /**
      * Print the SamplePoint in the SampleSet object as an output.
      *
      * @param sampleSet (indicating the sampling dataset)
@@ -425,36 +425,14 @@ public class HealthKitDataControllerActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Printout failure exception error code and error message
-     *
-     * @param e Exception object
-     * @param api Interface name
-     */
-    private void printFailureMessage(Exception e, String api) {
-        String errorCode = e.getMessage();
-        Pattern pattern = Pattern.compile("[0-9]*");
-        Matcher isNum = pattern.matcher(errorCode);
-        if (isNum.matches()) {
-            String errorMsg = HiHealthStatusCodes.getStatusCodeMessage(Integer.parseInt(errorCode));
-            logger(api + " failure " + errorCode + ":" + errorMsg);
-        } else {
-            logger(api + " failure " + errorCode);
-        }
-        logger(SPLIT);
-    }
 
     /**
-     * TextView to send the operation result logs to the logcat and to the UI
+     * Print error code and error information for an exception.
      *
-     * @param string (indicating the log string)
+     * @param exception indicating an exception object
+     * @param api       api name
      */
-    private void logger(String string) {
-        Log.i(TAG, string);
-        logInfoView.append(string + System.lineSeparator());
-        int offset = logInfoView.getLineCount() * logInfoView.getLineHeight();
-        if (offset > logInfoView.getHeight()) {
-            logInfoView.scrollTo(0, offset - logInfoView.getHeight());
-        }
+    private void printFailureMessage(Exception exception, String api) {
+        CommonUtil.printFailureMessage(TAG, exception, api, logInfoView);
     }
 }

@@ -8,5 +8,44 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="health_kit_icon">
+        <item name="android:layout_width">90dp</item>
+        <item name="android:layout_height">90dp</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:layout_marginTop">64dp</item>
+        <item name="android:layout_centerHorizontal">true</item>
+    </style>
 
+    <style name="health_auth_desc_title">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">24dp</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:textSize">65px</item>
+    </style>
+
+    <style name="health_auth_button">
+        <item name="android:layout_width">800px</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">60dp</item>
+        <item name="android:textSize">65px</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+    </style>
+
+    <style name="health_auth_desc">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">25dp</item>
+        <item name="android:layout_marginRight">25dp</item>
+        <item name="android:layout_marginTop">30dp</item>
+        <item name="android:textSize">45px</item>
+    </style>
+
+    <style name="health_auth_fail_tips">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">25dp</item>
+        <item name="android:layout_marginRight">25dp</item>
+        <item name="android:textSize">45px</item>
+    </style>
 </resources>

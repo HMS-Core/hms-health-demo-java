@@ -19,7 +19,6 @@ package com.huawei.demo.health;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -256,7 +255,9 @@ public class HealthKitSettingControllerActivity extends AppCompatActivity implem
                 .addOnCompleteListener(new OnCompleteListener<DataType>() {
                     @Override
                     public void onComplete(Task<DataType> task) {
-                        logger("DataType : " + task.getResult());
+                        if (task.isSuccessful()) {
+                            logger("DataType : " + task.getResult());
+                        }
                     }
                 });
     }
@@ -274,7 +275,7 @@ public class HealthKitSettingControllerActivity extends AppCompatActivity implem
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(Exception e) {
-                        printFailureMessage(e, "readTodaySummationFromDevice");
+                        printFailureMessage(e, "disableHiHealth");
                     }
                 })
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -282,6 +283,56 @@ public class HealthKitSettingControllerActivity extends AppCompatActivity implem
                     public void onComplete(Task<Void> task) {
                         String res = task.isSuccessful() ? "success" : "failed";
                         logger("disableHiHealth is " + res);
+                    }
+                });
+    }
+
+    /**
+     * check whether the Huawei Health app authorise access to HealthKit.
+     * After calling this function, if you do not authorise, we will pop the windows to Health app authorization windows.
+     *
+     * @param view (indicating a UI object)
+     */
+    public void checkAuthorization(View view) {
+        // check whether the Huawei Health app authorise access to HealthKit.
+        // if you do not authorise, we will pop the windows to Health app authorization windows.
+        settingController.checkHealthAppAuthorisation()
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(Exception e) {
+                        printFailureMessage(e, "checkHealthAppAuthorisation");
+                    }
+                })
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(Task<Void> task) {
+                        String res = task.isSuccessful() ? "success" : "failed";
+                        logger("checkHealthAppAuthorisation is " + res);
+                    }
+                });
+    }
+
+    /**
+     * get whether the Huawei Health app authorise access to HealthKit.
+     * After calling this function, return true means authorised, false means not authorised.
+     *
+     * @param view (indicating a UI object)
+     */
+    public void getAuthorization(View view) {
+        // get whether the Huawei Health app authorise access to HealthKit.
+        // After calling this function, return true means authorised, false means not authorised.
+        settingController.getHealthAppAuthorisation()
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(Exception e) {
+                        printFailureMessage(e, "getHealthAppAuthorisation");
+                    }
+                })
+                .addOnCompleteListener(new OnCompleteListener<Boolean>() {
+                    @Override
+                    public void onComplete(Task<Boolean> task) {
+                        String res = task.isSuccessful() ? "success" : "failed";
+                        logger("getHealthAppAuthorisation is " + res);
                     }
                 });
     }
@@ -320,28 +371,23 @@ public class HealthKitSettingControllerActivity extends AppCompatActivity implem
         // 4. Build a DT_CONTINUOUS_STEPS_DELTA sampling point.
         SamplePoint samplePoint = sampleSet.createSamplePoint()
                 .setTimeInterval(startDate.getTime(), endDate.getTime(), TimeUnit.MILLISECONDS);
-        try {
-            selectedField.getFormat();
+        selectedField.getFormat();
 
-            switch (selectedField.getFormat()) {
-                case Field.FORMAT_INT32:
-                    samplePoint.getFieldValue(selectedField).setIntValue(intValue);
-                    break;
-                case Field.FORMAT_FLOAT:
-                    samplePoint.getFieldValue(selectedField).setFloatValue(floatValue);
-                    break;
-                case Field.FORMAT_STRING:
-                    samplePoint.getFieldValue(selectedField).setStringValue(strValue);
-                    break;
-                case Field.FORMAT_MAP:
-                    samplePoint.getFieldValue(selectedField).setKeyValue("hello", 100.0f);
-                    break;
-                default:
-                    logger("ERROR : Field format does not match any of the specified Format");
-            }
-        } catch (Exception e) {
-            logger("ERROR : The Field you selected does not support specified value");
-            return;
+        switch (selectedField.getFormat()) {
+            case Field.FORMAT_INT32:
+                samplePoint.getFieldValue(selectedField).setIntValue(intValue);
+                break;
+            case Field.FORMAT_FLOAT:
+                samplePoint.getFieldValue(selectedField).setFloatValue(floatValue);
+                break;
+            case Field.FORMAT_STRING:
+                samplePoint.getFieldValue(selectedField).setStringValue(strValue);
+                break;
+            case Field.FORMAT_MAP:
+                samplePoint.getFieldValue(selectedField).setKeyValue("hello", 100.0f);
+                break;
+            default:
+                logger("ERROR : Field format does not match any of the specified Format");
         }
 
         // 5. Save a DT_CONTINUOUS_STEPS_DELTA sampling point to the sampling dataset.
@@ -349,11 +395,8 @@ public class HealthKitSettingControllerActivity extends AppCompatActivity implem
         sampleSet.addSample(samplePoint);
 
         // 6. Call the data controller to insert the sampling dataset into the Health platform.
-        Task<Void> insertTask = dataController.insert(sampleSet);
-
-        // 7. Calling the data controller to insert the sampling dataset is an asynchronous operation.
-        // Therefore, a listener needs to be registered to monitor whether the data insertion is successful or not.
-        insertTask.addOnSuccessListener(new OnSuccessListener<Void>() {
+        // it is an asynchronous operation. Therefore, a listener needs to be registered to monitor whether the data insertion is successful or not.
+        dataController.insert(sampleSet).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void result) {
                 logger("Success insert an SampleSet into HMS core");
@@ -421,25 +464,6 @@ public class HealthKitSettingControllerActivity extends AppCompatActivity implem
     }
 
     /**
-     * Printout failure exception error code and error message
-     *
-     * @param e   Exception object
-     * @param api Interface name
-     */
-    private void printFailureMessage(Exception e, String api) {
-        String errorCode = e.getMessage();
-        Pattern pattern = Pattern.compile("[0-9]*");
-        Matcher isNum = pattern.matcher(errorCode);
-        if (isNum.matches()) {
-            String errorMsg = HiHealthStatusCodes.getStatusCodeMessage(Integer.parseInt(errorCode));
-            logger(api + " failure " + errorCode + ":" + errorMsg);
-        } else {
-            logger(api + " failure " + errorCode);
-        }
-        logger(SPLIT);
-    }
-
-    /**
      * Print the SamplePoint in the SampleSet object as an output.
      *
      * @param sampleSet (indicating the sampling dataset)
@@ -463,11 +487,16 @@ public class HealthKitSettingControllerActivity extends AppCompatActivity implem
      * @param string (indicating the log string)
      */
     private void logger(String string) {
-        Log.i(TAG, string);
-        logInfoView.append(string + System.lineSeparator());
-        int offset = logInfoView.getLineCount() * logInfoView.getLineHeight();
-        if (offset > logInfoView.getHeight()) {
-            logInfoView.scrollTo(0, offset - logInfoView.getHeight());
-        }
+        CommonUtil.logger(string, TAG, logInfoView);
+    }
+
+    /**
+     * Print error code and error information for an exception.
+     *
+     * @param exception indicating an exception object
+     * @param api       api name
+     */
+    private void printFailureMessage(Exception exception, String api) {
+        CommonUtil.printFailureMessage(TAG, exception, api, logInfoView);
     }
 }

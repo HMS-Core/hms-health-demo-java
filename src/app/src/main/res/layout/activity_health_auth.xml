@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.huawei.demo.health.auth.HealthKitAuthClientActivity">
+
+    <ImageView
+        android:id="@+id/health_kit_icon"
+        style="@style/health_kit_icon"
+        android:src="@drawable/health_kit_icon" />
+
+    <TextView
+        android:id="@+id/health_auth_desc_title"
+        style="@style/health_auth_desc_title"
+        android:text="@string/health_auth_health_kit_waitting" />
+
+    <TextView
+        android:id="@+id/health_auth_desc"
+        style="@style/health_auth_desc"
+        android:text="@string/health_auth_health_kit_desc" />
+
+    <TextView
+        android:id="@+id/health_auth_fail_tips"
+        style="@style/health_auth_fail_tips"
+        android:text="@string/health_auth_health_kit_fail_tips_connect" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="bottom"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/health_login_auth"
+            style="@style/health_auth_button"
+            android:textAllCaps="false"
+            android:text="@string/health_login_auth" />
+
+        <Button
+            android:id="@+id/health_auth_confirm"
+            style="@style/health_auth_button"
+            android:textAllCaps="false"
+            android:text="@string/confirm" />
+
+        <Button
+            android:id="@+id/health_auth_retry"
+            style="@style/health_auth_button"
+            android:textAllCaps="false"
+            android:text="@string/health_auth_retry" />
+
+    </LinearLayout>
+</LinearLayout>

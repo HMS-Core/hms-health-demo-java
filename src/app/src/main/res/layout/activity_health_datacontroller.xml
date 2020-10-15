@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.huawei.demo.health.HealthKitSettingControllerActivity"
+    tools:context="com.huawei.demo.health.HealthKitDataControllerActivity"
     tools:ignore="MissingDefaultResource">
 
     <LinearLayout
@@ -13,43 +13,16 @@
         android:orientation="vertical">
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Setting Controller"
-            android:textSize="@dimen/app_icon_size" />
+            android:textSize="@dimen/app_icon_size"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Data Controller" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/setting_controller_set_name" />
-
-        <EditText
-            android:id="@+id/data_type_name_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="fill_horizontal"
-            android:inputType="text"
-            android:selectAllOnFocus="true"
-            android:textColorHint="#FF999999" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/setting_controller_manager" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Spinner
-                android:id="@+id/spinner01"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="fill_horizontal" />
-
-        </LinearLayout>
+            android:text="@string/data_controller_manager" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -59,73 +32,75 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="addNewDataType"
-                android:text="add"
+                android:onClick="insertData"
+                android:text="insert"
                 android:textAllCaps="false" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="readDataType"
-                android:text="get"
-                android:textAllCaps="false" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="disableHiHealth"
-                android:text="disable"
-                android:textAllCaps="false" />
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Check whether the Huawei Health app authorise access to HealthKit." />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="checkAuthorization"
-                android:text="checkAuthorization"
-                android:textAllCaps="false" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="getAuthorization"
-                android:text="getAuthorization"
-                android:textAllCaps="false" />
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/setting_controller_read_write" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="insertSelfData"
-                android:text="write"
-                android:textAllCaps="false" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="readSelfData"
+                android:onClick="readData"
                 android:text="read"
                 android:textAllCaps="false" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="updateData"
+                android:text="update"
+                android:textAllCaps="false" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="deleteData"
+                android:text="delete"
+                android:textAllCaps="false" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/data_controller_read" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="readToday"
+                android:text="TodaySummation"
+                android:textAllCaps="false" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="readDaily"
+                android:text="DailySummation"
+                android:textAllCaps="false" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/data_controller_sync" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="clearCloudData"
+                android:text="clearAll"
+                android:textAllCaps="false" />
+
+
         </LinearLayout>
 
         <TextView
@@ -135,15 +110,15 @@
             android:text="Result output：" />
 
         <TextView
-            android:id="@+id/setting_controller_log_info"
+            android:id="@+id/data_controller_log_info"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/textview_border"
             android:padding="5dp"
-            android:scrollbars="vertical"
+            android:textSize="14dp"
             android:text="print：\n"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textSize="14dp" />
+            android:scrollbars="vertical"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

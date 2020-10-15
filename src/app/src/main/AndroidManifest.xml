@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
@@ -38,6 +39,9 @@
         <activity android:name="com.huawei.demo.health.HealthKitAutoRecorderControllerActivity" />
         <activity android:name="com.huawei.demo.health.HealthKitActivityRecordControllerActivity" />
         <activity android:name="com.huawei.demo.health.HealthKitSettingControllerActivity" />
+        <activity android:name="com.huawei.demo.health.auth.HealthKitCloudLogin" />
+        <activity android:name="com.huawei.demo.health.auth.HealthKitAuthClientActivity" />
+        <activity android:name="com.huawei.demo.health.auth.HealthKitAuthCloudActivity" />
 
         <service android:name="com.huawei.demo.health.PersistService">
             <intent-filter android:priority="1000">

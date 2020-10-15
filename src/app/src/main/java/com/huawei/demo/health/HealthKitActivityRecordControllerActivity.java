@@ -18,15 +18,14 @@ package com.huawei.demo.health;
 
 import static java.text.DateFormat.getTimeInstance;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.app.PendingIntent;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.huawei.health.demo.R;
 import com.huawei.hmf.tasks.OnFailureListener;
@@ -119,26 +118,7 @@ public class HealthKitActivityRecordControllerActivity extends AppCompatActivity
         logger(SPLIT + "this is MyActivityRecord Begin");
         long startTime = Calendar.getInstance().getTimeInMillis();
 
-        ActivitySummary activitySummary = new ActivitySummary();
-        PaceSummary paceSummary = new PaceSummary();
-        paceSummary.setAvgPace(247.27626);
-        paceSummary.setBestPace(212.0);
-        Map<String, Double> britishPaceMap = new HashMap<>();
-        britishPaceMap.put("50001893", 365.0);
-        paceSummary.setBritishPaceMap(britishPaceMap);
-        Map<String, Double> partTimeMap = new HashMap<>();
-        partTimeMap.put("1.0", 456.0);
-        paceSummary.setPartTimeMap(partTimeMap);
-        Map<String, Double> paceMap = new HashMap<>();
-        paceMap.put("1.0", 263.0);
-        paceSummary.setPaceMap(paceMap);
-        Map<String, Double> britishPartTimeMap = new HashMap<>();
-        britishPartTimeMap.put("1.0", 263.0);
-        paceSummary.setBritishPartTimeMap(britishPartTimeMap);
-        Map<String, Double> sportHealthPaceMap = new HashMap<>();
-        sportHealthPaceMap.put("102802480", 535.0);
-        paceSummary.setSportHealthPaceMap(sportHealthPaceMap);
-        activitySummary.setPaceSummary(paceSummary);
+        ActivitySummary activitySummary = getActivitySummary();
 
         // Create a data collector for statics data
         // The numbers are generated randomly
@@ -193,6 +173,30 @@ public class HealthKitActivityRecordControllerActivity extends AppCompatActivity
                 printFailureMessage(e, "beginActivityRecord");
             }
         });
+    }
+
+    private ActivitySummary getActivitySummary() {
+        ActivitySummary activitySummary = new ActivitySummary();
+        PaceSummary paceSummary = new PaceSummary();
+        paceSummary.setAvgPace(247.27626);
+        paceSummary.setBestPace(212.0);
+        Map<String, Double> britishPaceMap = new HashMap<>();
+        britishPaceMap.put("50001893", 365.0);
+        paceSummary.setBritishPaceMap(britishPaceMap);
+        Map<String, Double> partTimeMap = new HashMap<>();
+        partTimeMap.put("1.0", 456.0);
+        paceSummary.setPartTimeMap(partTimeMap);
+        Map<String, Double> paceMap = new HashMap<>();
+        paceMap.put("1.0", 263.0);
+        paceSummary.setPaceMap(paceMap);
+        Map<String, Double> britishPartTimeMap = new HashMap<>();
+        britishPartTimeMap.put("1.0", 263.0);
+        paceSummary.setBritishPartTimeMap(britishPartTimeMap);
+        Map<String, Double> sportHealthPaceMap = new HashMap<>();
+        sportHealthPaceMap.put("102802480", 535.0);
+        paceSummary.setSportHealthPaceMap(sportHealthPaceMap);
+        activitySummary.setPaceSummary(paceSummary);
+        return activitySummary;
     }
 
     /**
@@ -255,27 +259,7 @@ public class HealthKitActivityRecordControllerActivity extends AppCompatActivity
                 .setDataCollectorName("test1")
                 .build();
 
-        ActivitySummary activitySummary = new ActivitySummary();
-        PaceSummary paceSummary = new PaceSummary();
-        paceSummary.setAvgPace(247.27626);
-        paceSummary.setBestPace(212.0);
-        Map<String, Double> britishPaceMap = new HashMap<>();
-        britishPaceMap.put("50001893", 365.0);
-        paceSummary.setBritishPaceMap(britishPaceMap);
-        Map<String, Double> partTimeMap = new HashMap<>();
-        partTimeMap.put("1.0", 456.0);
-        paceSummary.setPartTimeMap(partTimeMap);
-        Map<String, Double> paceMap = new HashMap<>();
-        paceMap.put("1.0", 263.0);
-        paceSummary.setPaceMap(paceMap);
-        Map<String, Double> britishPartTimeMap = new HashMap<>();
-        britishPartTimeMap.put("1.0", 263.0);
-        paceSummary.setBritishPartTimeMap(britishPartTimeMap);
-        Map<String, Double> sportHealthPaceMap = new HashMap<>();
-        sportHealthPaceMap.put("102802480", 535.0);
-        paceSummary.setSportHealthPaceMap(sportHealthPaceMap);
-
-        activitySummary.setPaceSummary(paceSummary);
+        ActivitySummary activitySummary = getActivitySummary();
 
         // 创建一个总步数统计的数据采集器
         // ActivitySummary 用来承载统计数据
@@ -529,35 +513,21 @@ public class HealthKitActivityRecordControllerActivity extends AppCompatActivity
     }
 
     /**
-     * Print error code and error information for an exception.
-     *
-     * @param exception indicating an exception object
-     * @param api api name
-     */
-    private void printFailureMessage(Exception exception, String api) {
-        String errorCode = exception.getMessage();
-        Pattern pattern = Pattern.compile("[0-9]*");
-        Matcher isNum = pattern.matcher(errorCode);
-        if (isNum.matches()) {
-            String errorMsg = HiHealthStatusCodes.getStatusCodeMessage(Integer.parseInt(errorCode));
-            logger(api + " failure " + errorCode + ":" + errorMsg);
-        } else {
-            logger(api + " failure " + errorCode);
-        }
-        logger(SPLIT);
-    }
-
-    /**
      * Send the operation result logs to the logcat and TextView control on the UI
      *
      * @param string indicating the log string
      */
     private void logger(String string) {
-        Log.i(TAG, string);
-        logInfoView.append(string + System.lineSeparator());
-        int offset = logInfoView.getLineCount() * logInfoView.getLineHeight();
-        if (offset > logInfoView.getHeight()) {
-            logInfoView.scrollTo(0, offset - logInfoView.getHeight());
-        }
+        CommonUtil.logger(string, TAG, logInfoView);
+    }
+
+    /**
+     * Print error code and error information for an exception.
+     *
+     * @param exception indicating an exception object
+     * @param api       api name
+     */
+    private void printFailureMessage(Exception exception, String api) {
+        CommonUtil.printFailureMessage(TAG, exception, api, logInfoView);
     }
 }
