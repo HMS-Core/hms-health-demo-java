@@ -23,16 +23,16 @@
     <string name="data_controller_register">Registering or unregistering a listener for data changes and triggering the listener for testing purposes</string>
     <string name="data_controller_sync">Synchronizing fitness and health data between the device and cloud, as well as clearing all data</string>
     <string name="auto_recorder_start_stop_record_by_type">Starting or stopping automatic recording of total step count by data type</string>
-    <string name="health_auth_health_kit_waitting">Waitting...</string>
-    <string name="health_auth_health_kit_success">Huawei Health authorization succeeded</string>
-    <string name="health_auth_health_kit_fail">Huawei Health authorization failed</string>
+    <string name="health_auth_health_kit_waitting">Please wait...</string>
+    <string name="health_auth_health_kit_success">Authorization succeeded</string>
+    <string name="health_auth_health_kit_fail">Authorization failed</string>
     <string name="confirm">OK</string>
-    <string name="health_auth_retry">Reauthorization</string>
-    <string name="health_auth_health_kit_desc">Login the HUAWEI ID and authorize the app to access the Health Kit. At the same time, Open HUAWEI Health app data to HUAWEI Health Kit, so that third-party apps authorized by the Health Kit can share your Huawei Health app data.\n</string>
-    <string name="health_auth_health_kit_fail_tips_connect">Opening method:\nOpen HUAWEI Health > Me > Settings > Data sharing > Health Kit > LINK</string>
-    <string name="health_auth_health_kit_fail_tips_install">Opening method:\n1. Install HUAWEI Health 10.1.2.550 or later; \n2. Open HUAWEI Health > Me > Settings > Data sharing > Health Kit > LINK</string>
-    <string name="health_auth_health_kit_fail_tips_update">Opening method:\n1. Update HUAWEI Health 10.1.2.550 or later;\n2. Open HUAWEI Health > Me > Settings > Data sharing > Health Kit > LINK</string>
+    <string name="health_auth_retry">Re-authorize</string>
+    <string name="health_auth_health_kit_desc">Log in to the HUAWEI ID and authorize the app to access the Health Kit, and allow the HUAWEI Health app to open data to HUAWEI Health Kit, so that third-party apps authorized by the Health Kit can share your HUAWEI Health app data.\n</string>
+    <string name="health_auth_health_kit_fail_tips_connect">How to enable: \nOpen the HUAWEI Health app, and go to Me > Settings > Data sharing > Health Kit > LINK.</string>
+    <string name="health_auth_health_kit_fail_tips_install">How to enable: \n1. Install the HUAWEI Health app version 10.1.2.550 or later. \n2. Open HUAWEI Health app, and go to Me > Settings > Data sharing > Health Kit > LINK.</string>
+    <string name="health_auth_health_kit_fail_tips_update">How to enable: \n1. Update the HUAWEI Health app to 10.1.2.550 or later. \n2. Open HUAWEI Health app, and go to Me > Settings > Data sharing > Health Kit > LINK.</string>
     <string name="cloud_login_info">Login and authorization by RESTful APIs</string>
-    <string name="health_auth_health_kit_fail_tips_exception">An error occurred when invoking the interface. Please try again.</string>
-    <string name="health_login_auth">Login and Authorization</string>
+    <string name="health_auth_health_kit_fail_tips_exception">API calling error. Please try again.</string>
+    <string name="health_login_auth">Log in and authorize</string>
 </resources>

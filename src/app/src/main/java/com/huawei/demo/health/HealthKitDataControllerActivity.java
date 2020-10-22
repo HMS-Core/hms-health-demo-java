@@ -267,27 +267,20 @@ public class HealthKitDataControllerActivity extends AppCompatActivity {
      * @throws ParseException (indicating a failure to parse the time string)
      */
     public void readData(View view) throws ParseException {
-        // 1. Build the condition for data query: a DataCollector object.
-        DataCollector dataCollector = new DataCollector.Builder().setPackageName(context)
-            .setDataType(DataType.DT_CONTINUOUS_STEPS_DELTA)
-            .setDataStreamName("STEPS_DELTA")
-            .setDataGenerateType(DataCollector.DATA_TYPE_RAW)
-            .build();
-
-        // 2. Build the time range for the query: start time and end time.
+        // 1. Build the time range for the query: start time and end time.
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         Date startDate = dateFormat.parse("2020-08-26 09:00:00");
         Date endDate = dateFormat.parse("2020-08-26 09:05:00");
 
-        // 3. Build the condition-based query objec
-        ReadOptions readOptions = new ReadOptions.Builder().read(dataCollector)
+        // 2. Build the condition-based query objec
+        ReadOptions readOptions = new ReadOptions.Builder().read(DataType.DT_CONTINUOUS_STEPS_DELTA)
             .setTimeRange(startDate.getTime(), endDate.getTime(), TimeUnit.MILLISECONDS)
             .build();
 
-        // 4. Use the specified condition query object to call the data controller to query the sampling dataset.
+        // 3. Use the specified condition query object to call the data controller to query the sampling dataset.
         Task<ReadReply> readReplyTask = dataController.read(readOptions);
 
-        // 5. Calling the data controller to query the sampling dataset is an asynchronous operation.
+        // 4. Calling the data controller to query the sampling dataset is an asynchronous operation.
         // Therefore, a listener needs to be registered to monitor whether the data query is successful or not.
         readReplyTask.addOnSuccessListener(readReply -> {
             logger("Success read an SampleSets from HMS core");
