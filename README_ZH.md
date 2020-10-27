@@ -62,7 +62,8 @@ RESTful APIs代码位置:  \app\src\main\java\com\huawei\demo\health\auth\Health
     * 	在项目build.gradle的all projects->repositories中，配置HMS SDK的maven地址：maven {url 'http://developer.huawei.com/repo/' }
     * 	在项目build.gradle的buildscript-> dependencies中，配置HMS SDK的maven配置：maven {url 'http://developer.huawei.com/repo/' }
 3.	编译依赖：在app层级的build.gradle文件中增加编译依赖：implementation 'com.huawei.hms:hihealth-base:{version}'    
-4.	AppId信息：在应用的AndroidManifest.xml和HealthKitCloudLogin.java文件中添加在开发者联盟创建应用时生成的AppId信息。    
+4.	AppId信息：在应用的AndroidManifest.xml文件中添加在开发者联盟创建应用时生成的AppId信息。
+5. 若要使用RESTful login功能，需要申请服务器应用，并替换HealthKitCloudLogin.java文件中的应用信息。    
 
 
 ## 环境要求
