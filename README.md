@@ -1,4 +1,4 @@
-# Health kit demo
+# HMS Health Kit Demo for Java
 English | [中文](https://github.com/HMS-Core/hms-health-demo-java/blob/master/README_ZH.md)
 ## Table of Contents
 
@@ -57,8 +57,7 @@ To use functions provided by packages in examples, you need to set parameters as
 * HMS Core 4.0.4.207 or later
 
 ## Result
-   <img src="images/result_1.png" width = 30% height = 30%>
-   <img src="images/result_6.png" width = 30% height = 30%>
+   <img src="images/result_1.png" width = 30% height = 30%> <img src="images/result_6.png" width = 30% height = 30%>
    <img src="images/result_2.png" width = 30% height = 30%>
    <img src="images/result_3.png" width = 30% height = 30%>
    <img src="images/result_4.png" width = 30% height = 30%>
@@ -75,5 +74,4 @@ If you have questions about how to use HMS samples, try the following options:
 If you run into a bug in our samples, please submit an [issue](https://github.com/HMS-Core/hms-health-demo-java/issues) to the Repository. Even better you can submit a [Pull Request](https://github.com/HMS-Core/hms-health-demo-java/pulls) with a fix.
 	
 ##  License
-   Health kit demo is licensed under the [Apache License, version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
-   
+Health kit demo is licensed under the [Apache License, version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
