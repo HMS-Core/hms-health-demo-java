@@ -1,5 +1,5 @@
 # HMS Healthkit Demo
-中文 | [English](https://github.com/HMS-Core/hms-health-demo)
+中文 | [English](https://github.com/HMS-Core/hms-health-demo-java/blob/master/README.md)
 ## 目录
 
  * [简介](#简介)
@@ -23,28 +23,22 @@ RESTful APIs代码位置:  \app\src\main\java\com\huawei\demo\health\auth\Health
 
 2) 	运动健康数据管理  
 支持用户对已授权的健康运动数据进行增加/删除/更新/查询等操作。  
-代码位置: \app\src\main\java\com\huawei\demo\hihealth\HihealthKitDataManagerActivity.java
+代码位置: \app\src\main\java\com\huawei\demo\health\HealthKitDataControllerActivity.java
 
-
-3)	用户运动健康传感器接入  
-支持用户接入标准蓝牙协议传感器设备，并使用用户已授权的运动健康数据类型实时获取传感器设备数据。  
-代码位置: \app\src\main\java\com\huawei\demo\hihealth\HiHealthKitSensorsControllerActivity.java  
-
-4)	自动记录用户接入设备的运动健康数据  
+3)	自动记录用户接入设备的运动健康数据  
 支持在用户授权条件下，用户添加对接入的运动健康传感器的监听，并将传感器中的数据以用户已授权的运动健康数据类型实时写入到生态数据平台。  
-代码位置: \app\src\main\java\com\huawei\demo\hihealth\HiHealthKitAutoRecorderControllerActivity.java  
+代码位置: \app\src\main\java\com\huawei\demo\health\HealthKitAutoRecorderControllerActivity.java
 
-
-5)	运动记录数据集操作  
+4)	运动记录数据集操作  
 支持用户写入运动包含及其全部用户已授权的运动健康数据集，例如一次跑步运动包括跑步的开始时间，结束时间，以及运动数据（轨迹， 速度， 心率）等。  
 支持在用户授权条件下，用户创建一个运动（如跑步），然后开启跑步，在跑步过程中将用户授权的运动健康数据实时写入到生态数据平台，最后结束运动。  
 支持在用户授权条件下，管理用户的运动，包括查询，删除，修改运动数据等操作。  
-代码位置: \app\src\main\java\com\huawei\demo\hihealth\HihealthKitActivityRecordControllerActivity.java  
+代码位置: \app\src\main\java\com\huawei\demo\health\HealthKitActivityRecordControllerActivity.java  
 
-6)	用户自定义数据类型  
+5)	用户自定义数据类型  
 支持在用户授权条件下，开发可以创建自定义的数据类型，并使用自定义的数据类型写入用户的运动健康数据到生态数据平台。  
 支持用户取消已经添加到生态数据平台里的监听器。  
-代码位置: \app\src\main\java\com\huawei\demo\hihealth\HihealthKitSettingControllerActivity.java  
+代码位置: \app\src\main\java\com\huawei\demo\health\HealthKitSettingControllerActivity.java  
 
 
 
@@ -83,7 +77,7 @@ RESTful APIs代码位置:  \app\src\main\java\com\huawei\demo\health\auth\Health
 标签下提问，有华为研发专家在线一对一解决您的问题。
 - 到[华为开发者论坛](https://developer.huawei.com/consumer/cn/forum/blockdisplay?fid=18) HMS Core板块与其他开发者进行交流。
 
-如果您在尝试示例代码中遇到问题，请向仓库提交[issue](https://github.com/HMS-Core/hms-health-demo/issues)，也欢迎您提交[Pull Request](https://github.com/HMS-Core/hms-health-demo/pulls)。
+如果您在尝试示例代码中遇到问题，请向仓库提交[issue](https://github.com/HMS-Core/hms-health-demo-java/issues)，也欢迎您提交[Pull Request](https://github.com/HMS-Core/hms-health-demo-java/pulls)。
 
 ##  授权许可
    华为运动健康服务示例代码经过 [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0)授权许可。

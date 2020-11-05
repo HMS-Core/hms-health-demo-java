@@ -1,5 +1,5 @@
 # Health kit demo
-English | [中文](https://github.com/HMS-Core/hms-health-demo/blob/master/README_ZH.md)
+English | [中文](https://github.com/HMS-Core/hms-health-demo-java/blob/master/README_ZH.md)
 ## Table of Contents
 
  * [Introduction](#introduction)
@@ -22,20 +22,16 @@ RESTful APIs code location:  \app\src\main\java\com\huawei\demo\health\auth\Heal
 2)  Operate health and sport data  
 The function has ability to add/delete/update/query the health and sport data.  
 Code location: \app\src\main\java\com\huawei\demo\health\HealthKitDataManagerActivity.java   
-    
-3) Real time update  
-This function applies to update the real time data from sensors to the application layer.  
-Code location:  \app\src\main\java\com\huawei\demo\health\HealthKitSensorsControllerActivity.java   
-    
-4) Auto-record the health data  
+     
+3) Auto-record the health data  
 This function can enable and disable the automatically record method for the health data.  
 Code location: \app\src\main\java\com\huawei\demo\health\HealthKitAutoRecorderControllerActivity.java   
     
-5) Operate Activity Record   
+4) Operate Activity Record   
 This function can create and manage a single sport or activity.  
 Code location:  \app\src\main\java\com\huawei\demo\health\HealthKitActivityRecordControllerActivity.java   
     
-6) Operate DataType and Records  
+5) Operate DataType and Records  
 This function can add/read DataType and cancel All Records.   
 Code location:  \app\src\main\java\com\huawei\demo\health\HealthKitSettingControllerActivity.java   
 
@@ -76,7 +72,7 @@ If you have questions about how to use HMS samples, try the following options:
 `huawei-mobile-services`.
 - [Huawei Developer Forum](https://forums.developer.huawei.com/forumPortal/en/home?fid=0101187876626530001) HMS Core Module is great for general questions, or seeking recommendations and opinions.
 
-If you run into a bug in our samples, please submit an [issue](https://github.com/HMS-Core/hms-health-demo/issues) to the Repository. Even better you can submit a [Pull Request](https://github.com/HMS-Core/hms-health-demo/pulls) with a fix.
+If you run into a bug in our samples, please submit an [issue](https://github.com/HMS-Core/hms-health-demo-java/issues) to the Repository. Even better you can submit a [Pull Request](https://github.com/HMS-Core/hms-health-demo-java/pulls) with a fix.
 	
 ##  License
    Health kit demo is licensed under the [Apache License, version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
