@@ -171,12 +171,6 @@ public class HealthKitAuthClientActivity extends AppCompatActivity {
         // View and save the heart rate data in HUAWEI Health Kit.
         scopeList.add(new Scope(Scopes.HEALTHKIT_HEARTRATE_BOTH));
 
-        // Used for recording real-time steps in HUAWEI Health Kit.
-        scopeList.add(new Scope(Scopes.HEALTHKIT_STEP_REALTIME));
-
-        // Used for recording real-time heartRate in HUAWEI Health Kit.
-        scopeList.add(new Scope(Scopes.HEALTHKIT_HEARTRATE_REALTIME));
-
         // View and save activityRecord in HUAWEI Health Kit.
         scopeList.add(new Scope(Scopes.HEALTHKIT_ACTIVITY_RECORD_BOTH));
 
