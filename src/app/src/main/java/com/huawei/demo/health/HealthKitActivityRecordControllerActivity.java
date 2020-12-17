@@ -128,6 +128,7 @@ public class HealthKitActivityRecordControllerActivity extends AppCompatActivity
             .setDataCollectorName("test1")
             .build();
         SamplePoint samplePoint = new SamplePoint.Builder(dataCollector2).build();
+        samplePoint.setTimeInterval(startTime + 1L, startTime + 300000L, TimeUnit.MILLISECONDS); 
         samplePoint.getFieldValue(Field.ALL_SLEEP_TIME).setIntValue(352);
         samplePoint.getFieldValue(Field.GO_BED_TIME).setLongValue(1599580041000L);
         samplePoint.getFieldValue(Field.SLEEP_EFFICIENCY).setIntValue(4);
@@ -270,6 +271,7 @@ public class HealthKitActivityRecordControllerActivity extends AppCompatActivity
                 .setDataCollectorName("test1")
                 .build();
         SamplePoint samplePoint = new SamplePoint.Builder(dataCollector2).build();
+        samplePoint.setTimeInterval(startTime + 1L, startTime + 300000L, TimeUnit.MILLISECONDS);
         samplePoint.getFieldValue(Field.FIELD_STEPS).setIntValue(1024);
         activitySummary.setDataSummary(Arrays.asList(samplePoint));
 
