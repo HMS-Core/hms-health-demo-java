@@ -20,8 +20,9 @@
     <string name="setting_controller_read_write">Use the newly added data type to write or read value.</string>
     <string name="data_controller_manager">Managing fitness and health data, including inserting, updating, reading, and deleting data</string>
     <string name="data_controller_read">Feature-based query APIs: Querying the summary data of the current day, as well as the summary data on the local device of the current day</string>
+    <string name="data_controller_read_latest">Latest data query APIs: Querying the latest data based on the data type</string>
     <string name="data_controller_register">Registering or unregistering a listener for data changes and triggering the listener for testing purposes</string>
-    <string name="data_controller_sync">Synchronizing fitness and health data between the device and cloud, as well as clearing all data</string>
+    <string name="data_controller_sync">Clearing all fitness and health data between the device and cloud</string>
     <string name="auto_recorder_start_stop_record_by_type">Starting or stopping automatic recording of total step count by data type</string>
     <string name="health_auth_health_kit_waitting">Please wait...</string>
     <string name="health_auth_health_kit_success">Authorization succeeded</string>

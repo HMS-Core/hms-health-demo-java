@@ -47,7 +47,10 @@ import com.huawei.hms.support.hwid.result.AuthHuaweiId;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -366,6 +369,45 @@ public class HealthKitDataControllerActivity extends AppCompatActivity {
     }
 
     /**
+     *  read the latest data basing on data type
+     *
+     * @param view (indicating a UI object)
+     */
+    public void readLatestData(View view) {
+        // 1. Use the specified data type (DT_INSTANTANEOUS_HEIGHT) to call the data controller to query
+        // the latest data of this data type.
+        List<DataType> dataTypes = new ArrayList<>();
+        dataTypes.add(DataType.DT_INSTANTANEOUS_HEIGHT);
+        Task<Map<DataType, SamplePoint>> readLatestDatas = dataController.readLatestData(dataTypes);
+
+        // 2. Calling the data controller to query the latest data is an asynchronous operation.
+        // Therefore, a listener needs to be registered to monitor whether the data query is successful or not.
+        readLatestDatas.addOnSuccessListener(new OnSuccessListener<Map<DataType, SamplePoint>>() {
+            @Override
+            public void onSuccess(Map<DataType, SamplePoint> samplePointMap) {
+                logger("Success read latest data from HMS core");
+                if (samplePointMap != null) {
+                    for (DataType dataType : dataTypes) {
+                        if (samplePointMap.containsKey(dataType)) {
+                            showSamplePoint(samplePointMap.get(dataType));
+                        } else {
+                            logger("The DataType " + dataType.getName() + " has no latest data");
+                        }
+                    }
+                }
+            }
+        });
+        readLatestDatas.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(Exception e) {
+                String errorCode = e.getMessage();
+                String errorMsg = HiHealthStatusCodes.getStatusCodeMessage(Integer.parseInt(errorCode));
+                logger(errorCode + ": " + errorMsg);
+            }
+        });
+    }
+
+    /**
      * Clear all user data from the device and cloud.
      *
      * @param view (indicating a UI object)
@@ -418,6 +460,22 @@ public class HealthKitDataControllerActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Print the SamplePoint as an output.
+     *
+     * @param samplePoint (indicating the sampling point)
+     */
+    private void showSamplePoint(SamplePoint samplePoint) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        logger("Sample point type: " + samplePoint.getDataType().getName());
+        logger("Start: " + dateFormat.format(new Date(samplePoint.getStartTime(TimeUnit.MILLISECONDS))));
+        logger("End: " + dateFormat.format(new Date(samplePoint.getEndTime(TimeUnit.MILLISECONDS))));
+        for (Field field : samplePoint.getDataType().getFields()) {
+            logger("Field: " + field.getName() + " Value: " + samplePoint.getFieldValue(field));
+        }
+        logger(System.lineSeparator());
+    }
 
     /**
      * Print error code and error information for an exception.

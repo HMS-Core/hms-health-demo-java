@@ -86,6 +86,24 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/data_controller_read_latest" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="readLatestData"
+                android:text="readLatest"
+                android:textAllCaps="false" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/data_controller_sync" />
 
         <LinearLayout
@@ -99,8 +117,6 @@
                 android:onClick="clearCloudData"
                 android:text="clearAll"
                 android:textAllCaps="false" />
-
-
         </LinearLayout>
 
         <TextView
