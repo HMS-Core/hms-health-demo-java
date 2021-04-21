@@ -120,31 +120,6 @@ public class HealthKitActivityRecordControllerActivity extends AppCompatActivity
 
         ActivitySummary activitySummary = getActivitySummary();
 
-        // Create a data collector for statics data
-        // The numbers are generated randomly
-        DataCollector dataCollector2 = new DataCollector.Builder().setDataType(DataType.DT_STATISTICS_SLEEP)
-            .setDataGenerateType(DataCollector.DATA_TYPE_RAW)
-            .setPackageName(context)
-            .setDataCollectorName("test1")
-            .build();
-        SamplePoint samplePoint = new SamplePoint.Builder(dataCollector2).build();
-        samplePoint.setTimeInterval(startTime + 1L, startTime + 300000L, TimeUnit.MILLISECONDS); 
-        samplePoint.getFieldValue(Field.ALL_SLEEP_TIME).setIntValue(352);
-        samplePoint.getFieldValue(Field.GO_BED_TIME).setLongValue(1599580041000L);
-        samplePoint.getFieldValue(Field.SLEEP_EFFICIENCY).setIntValue(4);
-        samplePoint.getFieldValue(Field.DREAM_TIME).setIntValue(58);
-        samplePoint.getFieldValue(Field.WAKE_UP_TIME).setLongValue(1599608520000L);
-        samplePoint.getFieldValue(Field.DEEP_SLEEP_TIME).setIntValue(82);
-        samplePoint.getFieldValue(Field.DEEP_SLEEP_PART).setIntValue(64);
-        samplePoint.getFieldValue(Field.AWAKE_TIME).setIntValue(3);
-        samplePoint.getFieldValue(Field.SLEEP_SCORE).setIntValue(73);
-        samplePoint.getFieldValue(Field.LIGHT_SLEEP_TIME).setIntValue(212);
-        samplePoint.getFieldValue(Field.SLEEP_LATENCY).setIntValue(7487000);
-        samplePoint.getFieldValue(Field.WAKE_UP_CNT).setIntValue(2);
-        samplePoint.getFieldValue(Field.FALL_ASLEEP_TIME).setLongValue(1599587220000L);
-
-        activitySummary.setDataSummary(Arrays.asList(samplePoint));
-
         // Build an ActivityRecord object
         ActivityRecord activityRecord = new ActivityRecord.Builder().setId("MyBeginActivityRecordId")
             .setName("BeginActivityRecord")
@@ -270,8 +245,8 @@ public class HealthKitActivityRecordControllerActivity extends AppCompatActivity
                 .setPackageName(context)
                 .setDataCollectorName("test1")
                 .build();
-        SamplePoint samplePoint = new SamplePoint.Builder(dataCollector2).build();
-        samplePoint.setTimeInterval(startTime + 1L, startTime + 300000L, TimeUnit.MILLISECONDS);
+        SamplePoint samplePoint = new SamplePoint.Builder(dataCollector2).build()
+            .setTimeInterval(startTime + 1L, startTime + 300000L, TimeUnit.MILLISECONDS);
         samplePoint.getFieldValue(Field.FIELD_STEPS).setIntValue(1024);
         activitySummary.setDataSummary(Arrays.asList(samplePoint));
 
@@ -527,7 +502,7 @@ public class HealthKitActivityRecordControllerActivity extends AppCompatActivity
      * Print error code and error information for an exception.
      *
      * @param exception indicating an exception object
-     * @param api       api name
+     * @param api api name
      */
     private void printFailureMessage(Exception exception, String api) {
         CommonUtil.printFailureMessage(TAG, exception, api, logInfoView);
