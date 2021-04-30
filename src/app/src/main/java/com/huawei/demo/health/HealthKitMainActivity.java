@@ -22,7 +22,8 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.huawei.demo.health.auth.HealthKitAuthActivity;
+import com.huawei.demo.health.auth.HealthKitAuthClientActivity;
+import com.huawei.demo.health.auth.HealthKitAuthCloudActivity;
 import com.huawei.health.demo.R;
 
 /**
@@ -80,12 +81,22 @@ public class HealthKitMainActivity extends AppCompatActivity {
     }
 
     /**
-     * signing In and applying for Scopes, and enable the health app authorization.
+     * signing In and applying for Scopes
      *
      * @param view UI object
      */
     public void onLoginClick(View view) {
-        Intent intent = new Intent(this, HealthKitAuthActivity.class);
+        Intent intent = new Intent(this, HealthKitAuthClientActivity.class);
+        startActivity(intent);
+    }
+
+    /**
+     * Huawei ID signing In and authorization through cloud interfaces.
+     *
+     * @param view UI object
+     */
+    public void onCloudLoginClick(View view) {
+        Intent intent = new Intent(HealthKitMainActivity.this, HealthKitAuthCloudActivity.class);
         startActivity(intent);
     }
 }

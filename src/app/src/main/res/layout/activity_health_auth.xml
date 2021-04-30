@@ -3,77 +3,52 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context="com.huawei.demo.health.auth.HealthKitAuthClientActivity">
 
-    // title
+    <ImageView
+        android:id="@+id/health_kit_icon"
+        style="@style/health_kit_icon"
+        android:src="@drawable/health_kit_icon" />
+
+    <TextView
+        android:id="@+id/health_auth_desc_title"
+        style="@style/health_auth_desc_title"
+        android:text="@string/health_auth_health_kit_waitting" />
+
+    <TextView
+        android:id="@+id/health_auth_desc"
+        style="@style/health_auth_desc"
+        android:text="@string/health_auth_health_kit_desc" />
+
+    <TextView
+        android:id="@+id/health_auth_fail_tips"
+        style="@style/health_auth_fail_tips"
+        android:text="@string/health_auth_health_kit_fail_tips_connect" />
+
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
+        android:layout_height="fill_parent"
         android:gravity="bottom"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/health_login_auth"
+            style="@style/health_auth_button"
+            android:textAllCaps="false"
+            android:text="@string/health_login_auth" />
 
-            <ImageView
-                android:id="@+id/health_auth_back_icon"
-                android:background="?android:attr/selectableItemBackground"
-                style="@style/health_auth_nav_icon"
-                android:src="@drawable/health_kit_back" />
-        </LinearLayout>
+        <Button
+            android:id="@+id/health_auth_confirm"
+            style="@style/health_auth_button"
+            android:textAllCaps="false"
+            android:text="@string/confirm" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="bottom">
+        <Button
+            android:id="@+id/health_auth_retry"
+            style="@style/health_auth_button"
+            android:textAllCaps="false"
+            android:text="@string/health_auth_retry" />
 
-            <TextView
-                android:id="@+id/health_auth_title"
-                style="@style/health_auth_nav_title"
-                android:text="@string/healthkit_auth_title" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/health_context"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-
-        <ImageView
-            style="@style/health_kit_icon"
-            android:src="@drawable/health_kit_icon" />
-
-        <TextView
-            android:id="@+id/health_auth_desc_title"
-            style="@style/health_auth_desc_title"
-            android:text="@string/healthkit_auth_success" />
-
-        <TextView
-            android:id="@+id/health_auth_desc"
-            style="@style/health_auth_desc"
-            android:text="@string/healthkit_auth_desc" />
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:gravity="bottom"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/health_auth_confirm"
-                style="@style/health_auth_button"
-                android:text="@string/healthkit_auth_confirm" />
-
-            <Button
-                android:id="@+id/health_auth_retry"
-                style="@style/health_auth_button"
-                android:textAllCaps="false"
-                android:text="@string/healthkit_auth_retry" />
-
-        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

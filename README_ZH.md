@@ -16,21 +16,22 @@
 本项目是华为运动健康服务的Android示例代码，示例代码调用了运动健康生态数据平台提供的Android API接口，写入用户的运动健康数据和读取用户写入到生态数据平台中的数据，本示例代码只提供Android API的简单调用，仅供参考或受限使用。   
 
 华为运动健康服务功能如下：  
-1) 登录与授权  
+1) 	登录与授权  
 支持用户登录账号并获取用户对运动健康数据读写授权。  
-Android APIs代码位置:  \app\src\main\java\com\huawei\demo\health\auth\HealthKitAuthActivity.java     
+Android APIs代码位置:  \app\src\main\java\com\huawei\demo\health\auth\HealthKitAuthClientActivity.java    
+RESTful APIs代码位置:  \app\src\main\java\com\huawei\demo\health\auth\HealthKitAuthCloudActivity.java   
 
-2) 运动健康数据管理  
+2) 	运动健康数据管理  
 支持用户对已授权的健康运动数据进行增加/删除/更新/查询等操作。  
 代码位置: \app\src\main\java\com\huawei\demo\health\HealthKitDataControllerActivity.java
 
-3)	自动记录用户设备的步数  
-支持在用户授权条件下，用户添加对计步器的监听，并将传感器中的数据以用户已授权的运动健康数据类型实时返回给三方。 
+3)	自动记录用户接入设备的运动健康数据  
+支持在用户授权条件下，用户添加对接入的运动健康传感器的监听，并将传感器中的数据以用户已授权的运动健康数据类型实时写入到生态数据平台。  
 代码位置: \app\src\main\java\com\huawei\demo\health\HealthKitAutoRecorderControllerActivity.java
 
 4)	运动记录数据集操作  
 支持用户写入运动包含及其全部用户已授权的运动健康数据集，例如一次跑步运动包括跑步的开始时间，结束时间，以及运动数据（轨迹， 速度， 心率）等。  
-支持在用户授权条件下，用户创建一个运动（如跑步），然后开启跑步，在跑步过程中将用户授权的运动健康数据写入到生态数据平台，最后结束运动。  
+支持在用户授权条件下，用户创建一个运动（如跑步），然后开启跑步，在跑步过程中将用户授权的运动健康数据实时写入到生态数据平台，最后结束运动。  
 支持在用户授权条件下，管理用户的运动，包括查询，删除，修改运动数据等操作。  
 代码位置: \app\src\main\java\com\huawei\demo\health\HealthKitActivityRecordControllerActivity.java  
 
@@ -54,14 +55,15 @@ Android APIs代码位置:  \app\src\main\java\com\huawei\demo\health\auth\Health
 2.	HMS SDK maven地址：
     * 	在项目build.gradle的all projects->repositories中，配置HMS SDK的maven地址：maven {url 'http://developer.huawei.com/repo/' }
     * 	在项目build.gradle的buildscript-> dependencies中，配置HMS SDK的maven配置：maven {url 'http://developer.huawei.com/repo/' }
-3.	编译依赖：在app层级的build.gradle文件中增加编译依赖：implementation 'com.huawei.hms:health:{version}'    
-4.	AppId信息：在应用的AndroidManifest.xml文件中添加在开发者联盟创建应用时生成的AppId信息。  
+3.	编译依赖：在app层级的build.gradle文件中增加编译依赖：implementation 'com.huawei.hms:hihealth-base:{version}'    
+4.	AppId信息：在应用的AndroidManifest.xml文件中添加在开发者联盟创建应用时生成的AppId信息。
+5. 若要使用RESTful login功能，需要申请服务器应用，并替换HealthKitCloudLogin.java文件中的应用信息。    
 
 
 ## 环境要求
 * Android Studio 3.0 及以上版本
 * Java SDK 1.8 及以上版本
-* HMS Core 4.0.2.300 及以上版本
+* HMS Core 4.0.4.207 及以上版本
 
 ## 操作结果
    <img src="images/result_1.png" width = 30% height = 30%> <img src="images/result_6.png" width = 30% height = 30%> <img src="images/result_2.png" width = 30% height = 30%> <img src="images/result_3.png" width = 30% height = 30%>
