@@ -178,6 +178,10 @@ public class HealthKitAuthClientActivity extends AppCompatActivity {
         scopeList.add(new Scope(Scopes.HEALTHKIT_ACTIVITY_RECORD_READ));
         scopeList.add(new Scope(Scopes.HEALTHKIT_ACTIVITY_RECORD_WRITE));
 
+        // View and save sleep in HUAWEI Health Kit.
+        scopeList.add(new Scope(Scopes.HEALTHKIT_SLEEP_READ));
+        scopeList.add(new Scope(Scopes.HEALTHKIT_SLEEP_WRITE));
+
         // Configure authorization parameters.
         HuaweiIdAuthParamsHelper authParamsHelper =
                 new HuaweiIdAuthParamsHelper(HuaweiIdAuthParams.DEFAULT_AUTH_REQUEST_PARAM);
