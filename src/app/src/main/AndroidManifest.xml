@@ -39,9 +39,7 @@
         <activity android:name="com.huawei.demo.health.HealthKitAutoRecorderControllerActivity" />
         <activity android:name="com.huawei.demo.health.HealthKitActivityRecordControllerActivity" />
         <activity android:name="com.huawei.demo.health.HealthKitSettingControllerActivity" />
-        <activity android:name="com.huawei.demo.health.auth.HealthKitCloudLogin" />
-        <activity android:name="com.huawei.demo.health.auth.HealthKitAuthClientActivity" />
-        <activity android:name="com.huawei.demo.health.auth.HealthKitAuthCloudActivity" />
+        <activity android:name="com.huawei.demo.health.auth.HealthKitAuthActivity" />
 
         <service android:name="com.huawei.demo.health.PersistService">
             <intent-filter android:priority="1000">
