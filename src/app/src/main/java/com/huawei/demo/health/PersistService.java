@@ -28,16 +28,13 @@ import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
 
-import com.huawei.health.demo.R;
-import com.huawei.hms.hihealth.AutoRecorderController;
-import com.huawei.hms.hihealth.HiHealthOptions;
-import com.huawei.hms.hihealth.HuaweiHiHealth;
-import com.huawei.hms.hihealth.data.DataType;
-import com.huawei.hms.support.hwid.HuaweiIdAuthManager;
-import com.huawei.hms.support.hwid.result.AuthHuaweiId;
-
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
+
+import com.huawei.health.demo.R;
+import com.huawei.hms.hihealth.AutoRecorderController;
+import com.huawei.hms.hihealth.HuaweiHiHealth;
+import com.huawei.hms.hihealth.data.DataType;
 
 /**
  * Defining a Frontend Service
@@ -79,9 +76,7 @@ public class PersistService extends Service {
      * init AutoRecorderController
      */
     private void initAutoRecorderController() {
-        HiHealthOptions options = HiHealthOptions.builder().build();
-        AuthHuaweiId signInHuaweiId = HuaweiIdAuthManager.getExtendedAuthResult(options);
-        autoRecorderController = HuaweiHiHealth.getAutoRecorderController(context, signInHuaweiId);
+        autoRecorderController = HuaweiHiHealth.getAutoRecorderController(context);
     }
 
     /**
@@ -100,8 +95,9 @@ public class PersistService extends Service {
             intent.setAction("HealthKitService");
             // Transmits service data to activities through broadcast.
             sendBroadcast(intent);
-        }).addOnSuccessListener(aVoid -> Log.i(TAG, "record steps success... "))
-                .addOnFailureListener(e -> Log.i(TAG, "report steps failed... "));
+        })
+            .addOnSuccessListener(aVoid -> Log.i(TAG, "record steps success... "))
+            .addOnFailureListener(e -> Log.i(TAG, "report steps failed... "));
     }
 
     /**

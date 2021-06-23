@@ -16,6 +16,13 @@
 
 package com.huawei.demo.health;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
@@ -35,8 +42,6 @@ import com.huawei.hmf.tasks.OnFailureListener;
 import com.huawei.hmf.tasks.OnSuccessListener;
 import com.huawei.hmf.tasks.Task;
 import com.huawei.hms.hihealth.DataController;
-import com.huawei.hms.hihealth.HiHealthOptions;
-import com.huawei.hms.hihealth.HiHealthStatusCodes;
 import com.huawei.hms.hihealth.HuaweiHiHealth;
 import com.huawei.hms.hihealth.SettingController;
 import com.huawei.hms.hihealth.data.DataCollector;
@@ -47,17 +52,6 @@ import com.huawei.hms.hihealth.data.SampleSet;
 import com.huawei.hms.hihealth.options.DataTypeAddOptions;
 import com.huawei.hms.hihealth.options.ReadOptions;
 import com.huawei.hms.hihealth.result.ReadReply;
-import com.huawei.hms.support.hwid.HuaweiIdAuthManager;
-import com.huawei.hms.support.hwid.result.AuthHuaweiId;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Sample code for add new DataType and read it
@@ -75,7 +69,7 @@ public class HealthKitSettingControllerActivity extends AppCompatActivity implem
      * Custom data type write permission
      */
     public static final String HEALTHKIT_SELF_DEFINING_DATA_WRITE =
-            "https://www.huawei.com/healthkit/selfdefining.write";
+        "https://www.huawei.com/healthkit/selfdefining.write";
 
     /**
      * Custom data type read / write permission
@@ -93,10 +87,12 @@ public class HealthKitSettingControllerActivity extends AppCompatActivity implem
     // The container that stores Field name
     private static final ArrayList<String> SPINNERLISTSTR = new ArrayList<>();
 
-    // Object of DataController for fitness and health data, providing APIs for read/write, batch read/write, and listening
+    // Object of DataController for fitness and health data, providing APIs for read/write, batch read/write, and
+    // listening
     private DataController dataController;
 
-    // Object of SettingController for fitness and health data, providing APIs for read/write, batch read/write, and listening
+    // Object of SettingController for fitness and health data, providing APIs for read/write, batch read/write, and
+    // listening
     private SettingController settingController;
 
     // Internal context object of the activity
@@ -186,13 +182,9 @@ public class HealthKitSettingControllerActivity extends AppCompatActivity implem
      * Initialize variable of mSignInHuaweiId.
      */
     private void initDataController() {
-        // create HiHealth Options, donnot add any datatype here.
-        HiHealthOptions hiHealthOptions = HiHealthOptions.builder().build();
-        // get AuthHuaweiId by HiHealth Options.
-        AuthHuaweiId signInHuaweiId = HuaweiIdAuthManager.getExtendedAuthResult(hiHealthOptions);
         // get DataController.
-        dataController = HuaweiHiHealth.getDataController(context, signInHuaweiId);
-        settingController = HuaweiHiHealth.getSettingController(context, signInHuaweiId);
+        dataController = HuaweiHiHealth.getDataController(context);
+        settingController = HuaweiHiHealth.getSettingController(context);
     }
 
     /**
@@ -210,27 +202,25 @@ public class HealthKitSettingControllerActivity extends AppCompatActivity implem
         // create DataTypeAddOptions,You must specify the Field that you want to add,
         // You can add multiple Fields here.
         DataTypeAddOptions dataTypeAddOptions =
-                new DataTypeAddOptions.Builder().setName(dataTypeName).addField(selectedField).build();
+            new DataTypeAddOptions.Builder().setName(dataTypeName).addField(selectedField).build();
 
         // create SettingController and add new DataType
         // The added results are displayed in the phone screen
-        settingController.addDataType(dataTypeAddOptions)
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(Exception e) {
-                        printFailureMessage(e, "addNewDataType");
-                    }
-                })
-                .addOnCompleteListener(new OnCompleteListener<DataType>() {
-                    @Override
-                    public void onComplete(Task<DataType> task) {
-                        String res = task.isSuccessful() ? "success" : "failed";
-                        logger("add dataType of " + selectedFieldStr + " is " + res);
-                        if (task.getException() != null) {
-                            logger("getException is " + task.getException().toString());
-                        }
-                    }
-                });
+        settingController.addDataType(dataTypeAddOptions).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(Exception e) {
+                printFailureMessage(e, "addNewDataType");
+            }
+        }).addOnCompleteListener(new OnCompleteListener<DataType>() {
+            @Override
+            public void onComplete(Task<DataType> task) {
+                String res = task.isSuccessful() ? "success" : "failed";
+                logger("add dataType of " + selectedFieldStr + " is " + res);
+                if (task.getException() != null) {
+                    logger("getException is " + task.getException().toString());
+                }
+            }
+        });
     }
 
     /**
@@ -245,21 +235,19 @@ public class HealthKitSettingControllerActivity extends AppCompatActivity implem
 
         // create SettingController and get DataType with the specified name
         // The results are displayed in the phone screen
-        settingController.readDataType(dataTypeName)
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(Exception e) {
-                        printFailureMessage(e, "readDataType");
-                    }
-                })
-                .addOnCompleteListener(new OnCompleteListener<DataType>() {
-                    @Override
-                    public void onComplete(Task<DataType> task) {
-                        if (task.isSuccessful()) {
-                            logger("DataType : " + task.getResult());
-                        }
-                    }
-                });
+        settingController.readDataType(dataTypeName).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(Exception e) {
+                printFailureMessage(e, "readDataType");
+            }
+        }).addOnCompleteListener(new OnCompleteListener<DataType>() {
+            @Override
+            public void onComplete(Task<DataType> task) {
+                if (task.isSuccessful()) {
+                    logger("DataType : " + task.getResult());
+                }
+            }
+        });
     }
 
     /**
@@ -271,45 +259,42 @@ public class HealthKitSettingControllerActivity extends AppCompatActivity implem
     public void disableHiHealth(View view) {
         // create SettingController and disable HiHealth (cancel All your Records).
         // The results are displayed in the phone screen.
-        settingController.disableHiHealth()
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(Exception e) {
-                        printFailureMessage(e, "disableHiHealth");
-                    }
-                })
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(Task<Void> task) {
-                        String res = task.isSuccessful() ? "success" : "failed";
-                        logger("disableHiHealth is " + res);
-                    }
-                });
+        settingController.disableHiHealth().addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(Exception e) {
+                printFailureMessage(e, "disableHiHealth");
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(Task<Void> task) {
+                String res = task.isSuccessful() ? "success" : "failed";
+                logger("disableHiHealth is " + res);
+            }
+        });
     }
 
     /**
      * check whether the Huawei Health app authorise access to HealthKit.
-     * After calling this function, if you do not authorise, we will pop the windows to Health app authorization windows.
+     * After calling this function, if you do not authorise, we will pop the windows to Health app authorization
+     * windows.
      *
      * @param view (indicating a UI object)
      */
     public void checkAuthorization(View view) {
         // check whether the Huawei Health app authorise access to HealthKit.
         // if you do not authorise, we will pop the windows to Health app authorization windows.
-        settingController.checkHealthAppAuthorisation()
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(Exception e) {
-                        printFailureMessage(e, "checkHealthAppAuthorisation");
-                    }
-                })
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(Task<Void> task) {
-                        String res = task.isSuccessful() ? "success" : "failed";
-                        logger("checkHealthAppAuthorisation is " + res);
-                    }
-                });
+        settingController.checkHealthAppAuthorization().addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(Exception e) {
+                printFailureMessage(e, "checkHealthAppAuthorisation");
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(Task<Void> task) {
+                String res = task.isSuccessful() ? "success" : "failed";
+                logger("checkHealthAppAuthorisation is " + res);
+            }
+        });
     }
 
     /**
@@ -321,20 +306,18 @@ public class HealthKitSettingControllerActivity extends AppCompatActivity implem
     public void getAuthorization(View view) {
         // get whether the Huawei Health app authorise access to HealthKit.
         // After calling this function, return true means authorised, false means not authorised.
-        settingController.getHealthAppAuthorisation()
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(Exception e) {
-                        printFailureMessage(e, "getHealthAppAuthorisation");
-                    }
-                })
-                .addOnCompleteListener(new OnCompleteListener<Boolean>() {
-                    @Override
-                    public void onComplete(Task<Boolean> task) {
-                        String res = task.isSuccessful() ? "success" : "failed";
-                        logger("getHealthAppAuthorisation is " + res);
-                    }
-                });
+        settingController.getHealthAppAuthorization().addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(Exception e) {
+                printFailureMessage(e, "getHealthAppAuthorisation");
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Boolean>() {
+            @Override
+            public void onComplete(Task<Boolean> task) {
+                String res = task.isSuccessful() ? "success" : "failed";
+                logger("getHealthAppAuthorisation is " + res);
+            }
+        });
     }
 
     /**
@@ -348,14 +331,14 @@ public class HealthKitSettingControllerActivity extends AppCompatActivity implem
         List<Field> fieldsList = new ArrayList<>();
         fieldsList.add(selectedField);
         DataType selfDataType = new DataType(dataTypeNameView.getText().toString(), HEALTHKIT_SELF_DEFINING_DATA_READ,
-                HEALTHKIT_SELF_DEFINING_DATA_WRITE, HEALTHKIT_SELF_DEFINING_DATA_BOTH, fieldsList);
+            HEALTHKIT_SELF_DEFINING_DATA_WRITE, HEALTHKIT_SELF_DEFINING_DATA_BOTH, fieldsList);
 
         // 1. Build a DataCollector object.
         DataCollector dataCollector = new DataCollector.Builder().setPackageName(context)
-                .setDataType(selfDataType)
-                .setDataStreamName(selectedFieldStr)
-                .setDataGenerateType(DataCollector.DATA_TYPE_RAW)
-                .build();
+            .setDataType(selfDataType)
+            .setDataStreamName(selectedFieldStr)
+            .setDataGenerateType(DataCollector.DATA_TYPE_RAW)
+            .build();
 
         // 2. Create a sampling dataset set based on the data collector.
         final SampleSet sampleSet = SampleSet.create(dataCollector);
@@ -370,7 +353,7 @@ public class HealthKitSettingControllerActivity extends AppCompatActivity implem
 
         // 4. Build a DT_CONTINUOUS_STEPS_DELTA sampling point.
         SamplePoint samplePoint = sampleSet.createSamplePoint()
-                .setTimeInterval(startDate.getTime(), endDate.getTime(), TimeUnit.MILLISECONDS);
+            .setTimeInterval(startDate.getTime(), endDate.getTime(), TimeUnit.MILLISECONDS);
         selectedField.getFormat();
 
         switch (selectedField.getFormat()) {
@@ -395,7 +378,8 @@ public class HealthKitSettingControllerActivity extends AppCompatActivity implem
         sampleSet.addSample(samplePoint);
 
         // 6. Call the data controller to insert the sampling dataset into the Health platform.
-        // it is an asynchronous operation. Therefore, a listener needs to be registered to monitor whether the data insertion is successful or not.
+        // it is an asynchronous operation. Therefore, a listener needs to be registered to monitor whether the data
+        // insertion is successful or not.
         dataController.insert(sampleSet).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void result) {
@@ -422,14 +406,15 @@ public class HealthKitSettingControllerActivity extends AppCompatActivity implem
         List<Field> fieldsList = new ArrayList<>();
         fieldsList.add(selectedField);
         DataType selfDataType = new DataType(dataTypeNameView.getText().toString(), HEALTHKIT_SELF_DEFINING_DATA_READ,
-                HEALTHKIT_SELF_DEFINING_DATA_WRITE, HEALTHKIT_SELF_DEFINING_DATA_BOTH, fieldsList);
+            HEALTHKIT_SELF_DEFINING_DATA_WRITE, HEALTHKIT_SELF_DEFINING_DATA_BOTH, fieldsList);
+        selfDataType.setFromSelfDefined(true);
 
         // 1. Build the condition for data query: a DataCollector object.
         DataCollector dataCollector = new DataCollector.Builder().setPackageName(context)
-                .setDataType(selfDataType)
-                .setDataStreamName(selectedFieldStr)
-                .setDataGenerateType(DataCollector.DATA_TYPE_RAW)
-                .build();
+            .setDataType(selfDataType)
+            .setDataStreamName(selectedFieldStr)
+            .setDataGenerateType(DataCollector.DATA_TYPE_RAW)
+            .build();
 
         // 2. Build the time range for the query: start time and end time.
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
@@ -438,8 +423,8 @@ public class HealthKitSettingControllerActivity extends AppCompatActivity implem
 
         // 3. Build the condition-based query objec
         ReadOptions readOptions = new ReadOptions.Builder().read(dataCollector)
-                .setTimeRange(startDate.getTime(), endDate.getTime(), TimeUnit.MILLISECONDS)
-                .build();
+            .setTimeRange(startDate.getTime(), endDate.getTime(), TimeUnit.MILLISECONDS)
+            .build();
 
         // 4. Use the specified condition query object to call the data controller to query the sampling dataset.
         Task<ReadReply> readReplyTask = dataController.read(readOptions);
@@ -494,7 +479,7 @@ public class HealthKitSettingControllerActivity extends AppCompatActivity implem
      * Print error code and error information for an exception.
      *
      * @param exception indicating an exception object
-     * @param api       api name
+     * @param api api name
      */
     private void printFailureMessage(Exception exception, String api) {
         CommonUtil.printFailureMessage(TAG, exception, api, logInfoView);

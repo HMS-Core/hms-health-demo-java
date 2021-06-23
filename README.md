@@ -33,6 +33,10 @@ Code location:  \app\src\main\java\com\huawei\demo\health\HealthKitActivityRecor
 5) Operate DataType and Records  
 This function can add/read DataType and cancel All Records.   
 Code location:  \app\src\main\java\com\huawei\demo\health\HealthKitSettingControllerActivity.java   
+    
+5) Operate Health Record  
+This function can add/read/update a health record. Currently, the data types of the tachycardia bradycardia are supported.   
+Code location:  \app\src\main\java\com\huawei\demo\health\HealthKitHealthRecordControllerActivity.java   
 
 ## Getting Started
 Before using Health demo code, check whether the IDE environment has been installed. 
@@ -52,14 +56,14 @@ To use functions provided by packages in examples, you need to set parameters as
 ## Supported Environments
 * Android Studio 3.0 or later
 * Java SDK 1.8 or later
-* HMS Core 4.0.2.300 or later
+* HMS Core 5.3.0.300 or later
 
 ## Result
-   <img src="images/result_1.png" width = 30% height = 30%> <img src="images/result_6.png" width = 30% height = 30%>
-   <img src="images/result_2.png" width = 30% height = 30%>
-   <img src="images/result_3.png" width = 30% height = 30%>
-   <img src="images/result_4.png" width = 30% height = 30%>
-   <img src="images/result_5.png" width = 30% height = 30%>
+   <img src="images/result_1.png" width = 30% height = 30%> <img src="images/result_5.png" width = 30% height = 30%>
+   <img src="images/result_2.png" width = 30% height = 30%> <img src="images/result_6.png" width = 30% height = 30%>
+   <img src="images/result_3.png" width = 30% height = 30%> <img src="images/result_7.png" width = 30% height = 30%>
+   <img src="images/result_4.png" width = 30% height = 30%> 
+   
    
 ## Question or Issues
 If you want to evaluate more about HMS Core, [r/HMSCore on Reddit](https://www.reddit.com/r/HuaweiDevelopers/) is for you to keep up with latest news about HMS Core, and to exchange insights with other developers.

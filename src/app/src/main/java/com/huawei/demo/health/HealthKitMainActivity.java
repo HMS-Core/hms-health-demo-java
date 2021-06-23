@@ -88,4 +88,14 @@ public class HealthKitMainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, HealthKitAuthActivity.class);
         startActivity(intent);
     }
+
+    /**
+     * health Records Controller
+     *
+     * @param view UI object
+     */
+    public void hihealthHealthControllerOnclick(View view) {
+        Intent intent = new Intent(this, HealthKitHealthRecordControllerActivity.class);
+        startActivity(intent);
+    }
 }

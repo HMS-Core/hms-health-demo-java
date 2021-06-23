@@ -16,6 +16,9 @@
 
 package com.huawei.demo.health;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -32,26 +35,20 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.huawei.health.demo.R;
 import com.huawei.hmf.tasks.OnCompleteListener;
 import com.huawei.hmf.tasks.OnFailureListener;
 import com.huawei.hmf.tasks.OnSuccessListener;
 import com.huawei.hmf.tasks.Task;
 import com.huawei.hms.hihealth.AutoRecorderController;
-import com.huawei.hms.hihealth.HiHealthOptions;
 import com.huawei.hms.hihealth.HuaweiHiHealth;
 import com.huawei.hms.hihealth.data.DataType;
 import com.huawei.hms.hihealth.data.Field;
 import com.huawei.hms.hihealth.data.SamplePoint;
 import com.huawei.hms.hihealth.options.OnSamplePointListener;
-import com.huawei.hms.support.hwid.HuaweiIdAuthManager;
-import com.huawei.hms.support.hwid.result.AuthHuaweiId;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * AutoRecorderController Sample code
@@ -90,7 +87,7 @@ public class HealthKitAutoRecorderControllerActivity extends AppCompatActivity {
                 /**
                  * Check whether the current app is added to the battery optimization trust list,
                  * If not, a dialog box is displayed for you to add a battery optimization trust list.
-                 * */
+                 */
                 if (!hasIgnored) {
                     Intent newIntent = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
                     newIntent.setData(Uri.parse("package:" + activity.getPackageName()));
@@ -112,7 +109,7 @@ public class HealthKitAutoRecorderControllerActivity extends AppCompatActivity {
         logInfoView.setMovementMethod(ScrollingMovementMethod.getInstance());
         initData();
         PowerManager pm = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
-        wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,TAG);
+        wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG);
         wl.acquire();
         Log.i(TAG, " wakelock wl.acquire(); ");
     }
@@ -142,10 +139,7 @@ public class HealthKitAutoRecorderControllerActivity extends AppCompatActivity {
         Log.i(TAG, "signIn onActivityResult");
         super.onActivityResult(requestCode, resultCode, data);
 
-        HiHealthOptions options = HiHealthOptions.builder().build();
-        AuthHuaweiId signInHuaweiId = HuaweiIdAuthManager.getExtendedAuthResult(options);
-        autoRecorderController =
-            HuaweiHiHealth.getAutoRecorderController(HealthKitAutoRecorderControllerActivity.this, signInHuaweiId);
+        autoRecorderController = HuaweiHiHealth.getAutoRecorderController(HealthKitAutoRecorderControllerActivity.this);
     }
 
     /**
@@ -228,9 +222,7 @@ public class HealthKitAutoRecorderControllerActivity extends AppCompatActivity {
     public void stopRecordByType(View view) {
         logger("stopRecordByType");
         if (autoRecorderController == null) {
-            HiHealthOptions options = HiHealthOptions.builder().build();
-            AuthHuaweiId signInHuaweiId = HuaweiIdAuthManager.getExtendedAuthResult(options);
-            autoRecorderController = HuaweiHiHealth.getAutoRecorderController(this, signInHuaweiId);
+            autoRecorderController = HuaweiHiHealth.getAutoRecorderController(this);
         }
 
         autoRecorderController.stopRecord(DataType.DT_CONTINUOUS_STEPS_TOTAL, onSamplePointListener)

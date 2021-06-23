@@ -16,6 +16,14 @@
 
 package com.huawei.demo.health;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
 import android.app.PendingIntent;
 import android.content.Context;
 import android.os.Bundle;
@@ -30,7 +38,6 @@ import com.huawei.hmf.tasks.OnFailureListener;
 import com.huawei.hmf.tasks.OnSuccessListener;
 import com.huawei.hmf.tasks.Task;
 import com.huawei.hms.hihealth.DataController;
-import com.huawei.hms.hihealth.HiHealthOptions;
 import com.huawei.hms.hihealth.HiHealthStatusCodes;
 import com.huawei.hms.hihealth.HuaweiHiHealth;
 import com.huawei.hms.hihealth.data.DataCollector;
@@ -42,18 +49,6 @@ import com.huawei.hms.hihealth.options.DeleteOptions;
 import com.huawei.hms.hihealth.options.ReadOptions;
 import com.huawei.hms.hihealth.options.UpdateOptions;
 import com.huawei.hms.hihealth.result.ReadReply;
-import com.huawei.hms.support.hwid.HuaweiIdAuthManager;
-import com.huawei.hms.support.hwid.result.AuthHuaweiId;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Sample code for managing fitness and health data
@@ -85,23 +80,7 @@ public class HealthKitDataControllerActivity extends AppCompatActivity {
         context = this;
         logInfoView = (TextView) findViewById(R.id.data_controller_log_info);
         logInfoView.setMovementMethod(ScrollingMovementMethod.getInstance());
-        initDataController();
-    }
-
-    /**
-     * Initialize a data controller object.
-     */
-    private void initDataController() {
-        // Obtain and set the read & write permissions for DT_CONTINUOUS_STEPS_DELTA and DT_INSTANTANEOUS_HEIGHT.
-        // Use the obtained permissions to obtain the data controller object.
-        HiHealthOptions hiHealthOptions = HiHealthOptions.builder()
-            .addDataType(DataType.DT_CONTINUOUS_STEPS_DELTA, HiHealthOptions.ACCESS_READ)
-            .addDataType(DataType.DT_CONTINUOUS_STEPS_DELTA, HiHealthOptions.ACCESS_WRITE)
-            .addDataType(DataType.DT_INSTANTANEOUS_HEIGHT, HiHealthOptions.ACCESS_READ)
-            .addDataType(DataType.DT_INSTANTANEOUS_HEIGHT, HiHealthOptions.ACCESS_WRITE)
-            .build();
-        AuthHuaweiId signInHuaweiId = HuaweiIdAuthManager.getExtendedAuthResult(hiHealthOptions);
-        dataController = HuaweiHiHealth.getDataController(context, signInHuaweiId);
+        dataController = HuaweiHiHealth.getDataController(context);
     }
 
     /**
@@ -369,7 +348,7 @@ public class HealthKitDataControllerActivity extends AppCompatActivity {
     }
 
     /**
-     *  read the latest data basing on data type
+     * read the latest data basing on data type
      *
      * @param view (indicating a UI object)
      */
@@ -481,7 +460,7 @@ public class HealthKitDataControllerActivity extends AppCompatActivity {
      * Print error code and error information for an exception.
      *
      * @param exception indicating an exception object
-     * @param api       api name
+     * @param api api name
      */
     private void printFailureMessage(Exception exception, String api) {
         CommonUtil.printFailureMessage(TAG, exception, api, logInfoView);

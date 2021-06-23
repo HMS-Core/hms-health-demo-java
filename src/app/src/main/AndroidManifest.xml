@@ -40,6 +40,7 @@
         <activity android:name="com.huawei.demo.health.HealthKitActivityRecordControllerActivity" />
         <activity android:name="com.huawei.demo.health.HealthKitSettingControllerActivity" />
         <activity android:name="com.huawei.demo.health.auth.HealthKitAuthActivity" />
+        <activity android:name="com.huawei.demo.health.HealthKitHealthRecordControllerActivity" />
 
         <service android:name="com.huawei.demo.health.PersistService">
             <intent-filter android:priority="1000">

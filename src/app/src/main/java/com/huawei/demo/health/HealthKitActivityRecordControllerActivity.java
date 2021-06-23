@@ -16,16 +16,22 @@
 
 package com.huawei.demo.health;
 
-import static java.text.DateFormat.getTimeInstance;
+import java.text.DateFormat;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.PendingIntent;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.huawei.health.demo.R;
 import com.huawei.hmf.tasks.OnFailureListener;
@@ -34,8 +40,6 @@ import com.huawei.hmf.tasks.Task;
 import com.huawei.hms.hihealth.ActivityRecordsController;
 import com.huawei.hms.hihealth.DataController;
 import com.huawei.hms.hihealth.HiHealthActivities;
-import com.huawei.hms.hihealth.HiHealthOptions;
-import com.huawei.hms.hihealth.HiHealthStatusCodes;
 import com.huawei.hms.hihealth.HuaweiHiHealth;
 import com.huawei.hms.hihealth.data.ActivityRecord;
 import com.huawei.hms.hihealth.data.ActivitySummary;
@@ -49,19 +53,8 @@ import com.huawei.hms.hihealth.options.ActivityRecordInsertOptions;
 import com.huawei.hms.hihealth.options.ActivityRecordReadOptions;
 import com.huawei.hms.hihealth.options.DeleteOptions;
 import com.huawei.hms.hihealth.result.ActivityRecordReply;
-import com.huawei.hms.support.hwid.HuaweiIdAuthManager;
-import com.huawei.hms.support.hwid.result.AuthHuaweiId;
 
-import java.text.DateFormat;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import static java.text.DateFormat.getTimeInstance;
 
 /**
  * ActivityRecord Sample Code
@@ -86,9 +79,6 @@ public class HealthKitActivityRecordControllerActivity extends AppCompatActivity
     // Text view for displaying operation information on the UI
     private TextView logInfoView;
 
-    // PendingIntent
-    private PendingIntent pendingIntent;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,10 +91,8 @@ public class HealthKitActivityRecordControllerActivity extends AppCompatActivity
      */
     private void init() {
         context = this;
-        HiHealthOptions hiHealthOptions = HiHealthOptions.builder().build();
-        AuthHuaweiId signInHuaweiId = HuaweiIdAuthManager.getExtendedAuthResult(hiHealthOptions);
-        dataController = HuaweiHiHealth.getDataController(context, signInHuaweiId);
-        activityRecordsController = HuaweiHiHealth.getActivityRecordsController(context, signInHuaweiId);
+        dataController = HuaweiHiHealth.getDataController(context);
+        activityRecordsController = HuaweiHiHealth.getActivityRecordsController(context);
         logInfoView = (TextView) findViewById(R.id.activity_records_controller_log_info);
         logInfoView.setMovementMethod(ScrollingMovementMethod.getInstance());
     }
@@ -124,7 +112,7 @@ public class HealthKitActivityRecordControllerActivity extends AppCompatActivity
         ActivityRecord activityRecord = new ActivityRecord.Builder().setId("MyBeginActivityRecordId")
             .setName("BeginActivityRecord")
             .setDesc("This is ActivityRecord begin test!")
-            .setActivityTypeId(HiHealthActivities.SLEEP)
+            .setActivityTypeId(HiHealthActivities.RUNNING)
             .setStartTime(startTime, TimeUnit.MILLISECONDS)
             .setActivitySummary(activitySummary)
             .setTimeZone("+0800")
@@ -362,7 +350,6 @@ public class HealthKitActivityRecordControllerActivity extends AppCompatActivity
         // Build the request body for reading activity records
         ActivityRecordReadOptions readRequest =
             new ActivityRecordReadOptions.Builder().setTimeInterval(startTime, endTime, TimeUnit.MILLISECONDS)
-                .readActivityRecordsFromAllApps()
                 .read(DataType.DT_CONTINUOUS_STEPS_DELTA)
                 .build();
 
@@ -483,9 +470,7 @@ public class HealthKitActivityRecordControllerActivity extends AppCompatActivity
      */
     private void checkConnect() {
         if (activityRecordsController == null) {
-            HiHealthOptions hiHealthOptions = HiHealthOptions.builder().build();
-            AuthHuaweiId signInHuaweiId = HuaweiIdAuthManager.getExtendedAuthResult(hiHealthOptions);
-            activityRecordsController = HuaweiHiHealth.getActivityRecordsController(this, signInHuaweiId);
+            activityRecordsController = HuaweiHiHealth.getActivityRecordsController(this);
         }
     }
 

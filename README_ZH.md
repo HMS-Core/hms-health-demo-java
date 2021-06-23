@@ -39,6 +39,10 @@ Android APIs代码位置:  \app\src\main\java\com\huawei\demo\health\auth\Health
 支持用户取消已经添加到生态数据平台里的监听器。  
 代码位置: \app\src\main\java\com\huawei\demo\health\HealthKitSettingControllerActivity.java  
 
+6)	健康记录数据集操作  
+支持在用户授权条件下，管理用户对健康记录数据的新增、修改、查询操作。当前暂时只支持心率过速、心率过缓数据类型。  
+代码位置: \app\src\main\java\com\huawei\demo\health\HealthKitHealthRecordControllerActivity.java 
+
 
 
 ## 开发准备  
@@ -61,11 +65,11 @@ Android APIs代码位置:  \app\src\main\java\com\huawei\demo\health\auth\Health
 ## 环境要求
 * Android Studio 3.0 及以上版本
 * Java SDK 1.8 及以上版本
-* HMS Core 4.0.2.300 及以上版本
+* HMS Core 5.3.0.300 及以上版本
 
 ## 操作结果
-   <img src="images/result_1.png" width = 30% height = 30%> <img src="images/result_6.png" width = 30% height = 30%> <img src="images/result_2.png" width = 30% height = 30%> <img src="images/result_3.png" width = 30% height = 30%>
-   <img src="images/result_4.png" width = 30% height = 30%> <img src="images/result_5.png" width = 30% height = 30%>
+   <img src="images/result_1.png" width = 30% height = 30%> <img src="images/result_6.png" width = 30% height = 30%> <img src="images/result_2.png" width = 30% height = 30%> <img src="images/result_3.png" width = 30% height = 30%> <img src="images/result_4.png" width = 30% height = 30%> <img src="images/result_5.png" width = 30% height = 30%> 
+   <img src="images/result_7.png" width = 30% height = 30%>
 	
 ## 技术支持
 如果您对HMS Core还处于评估阶段，可在[Reddit社区](https://www.reddit.com/r/HuaweiDevelopers/)获取关于HMS Core的最新讯息，并与其他开发者交流见解。
