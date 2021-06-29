@@ -50,7 +50,7 @@ Android APIs代码位置:  \app\src\main\java\com\huawei\demo\health\auth\Health
 使用Health Kit Android示例代码前，请先检查IDE环境是否已安装。 
 1.	解压示例代码包。    
 2.	将代码包拷贝到IDE目录下，并导入到IDE工具中。    
-3.  另外，需要生成签名证书指纹并将证书文件添加到项目中，然后将配置添加到build.gradle。详细信息(https://developer.huawei.com/consumer/en/doc/development/HMSCore-Guides-V5/signing-fingerprint-0000001050071709-V5)
+3.  另外，需要生成签名证书指纹并将证书文件添加到项目中，然后将配置添加到build.gradle。详细信息(https://developer.huawei.com/consumer/cn/doc/development/HMSCore-Guides-V5/signing-fingerprint-0000001059050363-V5)
 4.	点击Sync Project with Gradle Files完成开发环境构建。    
 
 使用示例代码包中的功能之前，需要设置如下参数：    

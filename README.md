@@ -42,7 +42,7 @@ Code location:  \app\src\main\java\com\huawei\demo\health\HealthKitHealthRecordC
 Before using Health demo code, check whether the IDE environment has been installed. 
 1. Decompress the demo code package.    
 2. Copy the Health package into the IDE directory and import it into the IDE Tool.
-3. You should also generate a signing certificate fingerprint  and add the certificate file to the project, and add configuration to build.gradle. See (https://developer.huawei.com/consumer/en/doc/development/HMSCore-Guides-V5/signing-fingerprint-0000001050071709-V5)
+3. You should also generate a signing certificate fingerprint  and add the certificate file to the project, and add configuration to build.gradle. See (https://developer.huawei.com/consumer/en/doc/development/HMSCore-Guides-V5/signing-fingerprint-0000001059050363-V5)
 4. Press Sync Project with Gradle Files to ensure the development environment builds completed.
 
 To use functions provided by packages in examples, you need to set parameters as following:
