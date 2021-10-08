@@ -16,14 +16,24 @@
 
 package com.huawei.demo.health;
 
+import java.util.ArrayList;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.huawei.demo.health.auth.HealthKitAuthActivity;
 import com.huawei.health.demo.R;
+import com.huawei.hmf.tasks.OnCompleteListener;
+import com.huawei.hmf.tasks.Task;
+import com.huawei.hms.common.ApiException;
+import com.huawei.hms.support.account.AccountAuthManager;
+import com.huawei.hms.support.account.request.AccountAuthParams;
+import com.huawei.hms.support.account.request.AccountAuthParamsHelper;
+import com.huawei.hms.support.account.service.AccountAuthService;
 
 /**
  * functional description
@@ -97,5 +107,33 @@ public class HealthKitMainActivity extends AppCompatActivity {
     public void hihealthHealthControllerOnclick(View view) {
         Intent intent = new Intent(this, HealthKitHealthRecordControllerActivity.class);
         startActivity(intent);
+    }
+    
+    /**
+     * To improve privacy security, your app should allow users to cancel authorization.
+     * After calling this function, you need to call login and authorize again.
+     *
+     * @param view (indicating a UI object)
+     */
+    public void cancelScope(View view) {
+        AccountAuthParams authParams = new AccountAuthParamsHelper().setAccessToken().setScopeList(new ArrayList<>()).createParams();
+        final AccountAuthService authService = AccountAuthManager.getService(getApplicationContext(), authParams);
+        authService.cancelAuthorization().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(Task<Void> task) {
+                if (task.isSuccessful()) {
+                    //取消授权成功后的处理
+                    Log.i(TAG, "cancelAuthorization success");
+                } else {
+                    //取消授权失败后的处理
+                    Exception exception = task.getException();
+                    Log.i(TAG, "cancelAuthorization fail");
+                    if (exception instanceof ApiException) {
+                        int statusCode = ((ApiException) exception).getStatusCode();
+                        Log.e(TAG, "cancelAuthorization fail for errorCode: " + statusCode);
+                    }
+                }
+            }
+        });
     }
 }
