@@ -20,9 +20,9 @@
 支持用户登录账号并获取用户对运动健康数据读写授权。  
 Android APIs代码位置:  \app\src\main\java\com\huawei\demo\health\auth\HealthKitAuthActivity.java     
 
-2) 取消授权
-支持用户取消账号授权。
-Android APIs代码位置: \app\src\main\java\com\huawei\demo\health\auth\HealthKitMainActivity.java
+2) 取消授权  
+支持用户取消账号授权。  
+Android APIs代码位置: \app\src\main\java\com\huawei\demo\health\auth\HealthKitMainActivity.java  
 
 3) 运动健康数据管理  
 支持用户对已授权的健康运动数据进行增加/删除/更新/查询等操作。  
