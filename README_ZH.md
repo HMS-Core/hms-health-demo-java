@@ -20,26 +20,30 @@
 支持用户登录账号并获取用户对运动健康数据读写授权。  
 Android APIs代码位置:  \app\src\main\java\com\huawei\demo\health\auth\HealthKitAuthActivity.java     
 
-2) 运动健康数据管理  
+2) 取消授权
+支持用户取消账号授权。
+Android APIs代码位置: \app\src\main\java\com\huawei\demo\health\auth\HealthKitMainActivity.java
+
+3) 运动健康数据管理  
 支持用户对已授权的健康运动数据进行增加/删除/更新/查询等操作。  
 代码位置: \app\src\main\java\com\huawei\demo\health\HealthKitDataControllerActivity.java
 
-3)	自动记录用户设备的步数  
+4) 自动记录用户设备的步数  
 支持在用户授权条件下，用户添加对计步器的监听，并将传感器中的数据以用户已授权的运动健康数据类型实时返回给三方。 
 代码位置: \app\src\main\java\com\huawei\demo\health\HealthKitAutoRecorderControllerActivity.java
 
-4)	运动记录数据集操作  
+5) 运动记录数据集操作  
 支持用户写入运动包含及其全部用户已授权的运动健康数据集，例如一次跑步运动包括跑步的开始时间，结束时间，以及运动数据（轨迹， 速度， 心率）等。  
 支持在用户授权条件下，用户创建一个运动（如跑步），然后开启跑步，在跑步过程中将用户授权的运动健康数据写入到生态数据平台，最后结束运动。  
 支持在用户授权条件下，管理用户的运动，包括查询，删除，修改运动数据等操作。  
 代码位置: \app\src\main\java\com\huawei\demo\health\HealthKitActivityRecordControllerActivity.java  
 
-5)	用户自定义数据类型  
+6) 用户自定义数据类型  
 支持在用户授权条件下，开发可以创建自定义的数据类型，并使用自定义的数据类型写入用户的运动健康数据到生态数据平台。  
 支持用户取消已经添加到生态数据平台里的监听器。  
 代码位置: \app\src\main\java\com\huawei\demo\health\HealthKitSettingControllerActivity.java  
 
-6)	健康记录数据集操作  
+7) 健康记录数据集操作  
 支持在用户授权条件下，管理用户对健康记录数据的新增、修改、查询操作。当前暂时只支持心率过速、心率过缓数据类型。  
 代码位置: \app\src\main\java\com\huawei\demo\health\HealthKitHealthRecordControllerActivity.java 
 
