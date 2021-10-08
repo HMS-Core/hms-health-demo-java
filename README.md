@@ -17,24 +17,28 @@ The following describes the functions of Health Kit:
 1)  Login and Authorization  
 This function applies to login the account and enable the authorization.  
 Android APIs code location:  \app\src\main\java\com\huawei\demo\health\auth\HealthKitAuthActivity.java     
-    
-2)  Operate health and sport data  
+ 
+2)  Cancel Scope  
+This function applies to cancel account authorization.  
+Android APIs code location:  \app\src\main\java\com\huawei\demo\health\auth\HealthKitMainActivity.java   
+
+3)  Operate health and sport data  
 The function has ability to add/delete/update/query the health and sport data.  
 Code location: \app\src\main\java\com\huawei\demo\health\HealthKitDataControllerActivity.java   
      
-3) Auto-record the step count    
+4) Auto-record the step count    
 This function can enable and disable the automatically record method for the step count.   
 Code location: \app\src\main\java\com\huawei\demo\health\HealthKitAutoRecorderControllerActivity.java   
     
-4) Operate Activity Record   
+5) Operate Activity Record   
 This function can create and manage a single sport or activity.  
 Code location:  \app\src\main\java\com\huawei\demo\health\HealthKitActivityRecordControllerActivity.java   
     
-5) Operate DataType and Records  
+6) Operate DataType and Records  
 This function can add/read DataType and cancel All Records.   
 Code location:  \app\src\main\java\com\huawei\demo\health\HealthKitSettingControllerActivity.java   
     
-5) Operate Health Record  
+7) Operate Health Record  
 This function can add/read/update a health record. Currently, the data types of the tachycardia bradycardia are supported.   
 Code location:  \app\src\main\java\com\huawei\demo\health\HealthKitHealthRecordControllerActivity.java   
 
