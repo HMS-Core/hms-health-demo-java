@@ -144,18 +144,12 @@ public class HealthKitActivityRecordControllerActivity extends AppCompatActivity
         PaceSummary paceSummary = new PaceSummary();
         paceSummary.setAvgPace(247.27626);
         paceSummary.setBestPace(212.0);
-        Map<String, Double> britishPaceMap = new HashMap<>();
-        britishPaceMap.put("50001893", 365.0);
-        paceSummary.setBritishPaceMap(britishPaceMap);
         Map<String, Double> partTimeMap = new HashMap<>();
         partTimeMap.put("1.0", 456.0);
         paceSummary.setPartTimeMap(partTimeMap);
         Map<String, Double> paceMap = new HashMap<>();
         paceMap.put("1.0", 263.0);
         paceSummary.setPaceMap(paceMap);
-        Map<String, Double> britishPartTimeMap = new HashMap<>();
-        britishPartTimeMap.put("1.0", 263.0);
-        paceSummary.setBritishPartTimeMap(britishPartTimeMap);
         Map<String, Double> sportHealthPaceMap = new HashMap<>();
         sportHealthPaceMap.put("102802480", 535.0);
         paceSummary.setSportHealthPaceMap(sportHealthPaceMap);
@@ -451,8 +445,7 @@ public class HealthKitActivityRecordControllerActivity extends AppCompatActivity
         PaceSummary paceSummary = activitySummary.getPaceSummary();
         logger("\n\t PaceSummary: \n\t AvgPace" + paceSummary.getAvgPace() + "\n\t BestPace" + paceSummary.getBestPace()
             + "\n\t PaceMap" + paceSummary.getPaceMap() + "\n\t PartTimeMap" + paceSummary.getPartTimeMap()
-            + "\n\t BritishPaceMap" + paceSummary.getBritishPaceMap() + "\n\t BritishPartTimeMap"
-            + paceSummary.getBritishPartTimeMap() + "\n\t SportHealthPaceMap" + paceSummary.getSportHealthPaceMap());
+            + "\n\t SportHealthPaceMap" + paceSummary.getSportHealthPaceMap());
     }
 
     @Override
