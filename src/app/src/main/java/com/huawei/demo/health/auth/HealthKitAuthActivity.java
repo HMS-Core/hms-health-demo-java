@@ -104,7 +104,10 @@ public class HealthKitAuthActivity extends Activity {
             // View and save the heart rate data in HUAWEI Health Kit.
             Scopes.HEALTHKIT_HEARTRATE_READ, Scopes.HEALTHKIT_HEARTRATE_WRITE,
             // View and save activityRecord in HUAWEI Health Kit.
-            Scopes.HEALTHKIT_ACTIVITY_RECORD_READ, Scopes.HEALTHKIT_ACTIVITY_RECORD_WRITE};
+            Scopes.HEALTHKIT_ACTIVITY_RECORD_READ, Scopes.HEALTHKIT_ACTIVITY_RECORD_WRITE,
+            // View and save heartHealth data in HUAWEI Health Kit.
+            Scopes.HEALTHKIT_HEARTHEALTH_READ, Scopes.HEALTHKIT_HEARTHEALTH_WRITE
+        };
 
         // Obtains the authorization process Intent.
         // True indicates that the health app authorization process is enabled. False indicates disabled.
