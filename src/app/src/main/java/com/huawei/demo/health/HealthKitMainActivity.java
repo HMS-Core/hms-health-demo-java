@@ -122,10 +122,10 @@ public class HealthKitMainActivity extends AppCompatActivity {
             @Override
             public void onComplete(Task<Void> task) {
                 if (task.isSuccessful()) {
-                    //取消授权成功后的处理
+                    // Processing after successful cancellation of authorization
                     Log.i(TAG, "cancelAuthorization success");
                 } else {
-                    //取消授权失败后的处理
+                    // Processing after failed cancellation of authorization
                     Exception exception = task.getException();
                     Log.i(TAG, "cancelAuthorization fail");
                     if (exception instanceof ApiException) {
