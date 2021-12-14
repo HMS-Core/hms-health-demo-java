@@ -1,83 +1,90 @@
-# HMS Health Kit Demo for Java
-English | [中文](https://github.com/HMS-Core/hms-health-demo-java/blob/master/README_ZH.md)
-## Table of Contents
+# HMS Healthkit Demo
+English | [中文](README_ZH.md)
+## Item
 
- * [Introduction](#introduction)
- * [Getting Started](#getting-started)
- * [Supported Environments](#supported-environments)
- * [Result](#result)
- * [Question or Issues](#question-or-issues)
- * [License](#license)
+ * [Introduction](#Introduction)
+ * [Preparations](#Preparations)
+ * [Environment Requirements](#Environment-Requirements)
+ * [Result](#Result)
+ * [Technical Support](#Technical-Support)
+ * [License](#License)
+
 
 ## Introduction
-HUAWEI Health is an open service for sports & health capabilities provided by Huawei. Developers can access the Huawei Health Platform and obtain sports & health data by integrating HUAWEI Health.   
-Health demo code encapsulates APIs of the HUAWEI Health Kit. It provides demo programs for your reference or usage.   
+HUAWEI Health Kit is the fitness and health capability open service that constructs a fitness and health ecosystem data platform (hereinafter referred to as the ecosystem data platform). As the manager of users' fitness and health data, the ecosystem data platform complies with Huawei's cyber security and user privacy protection specifications to ensure the security, integrity, and accuracy of user data. You can access Huawei's ecosystem data platform by integrating Health Kit. The ecosystem data platform provides APIs for you to write user fitness and health data to the ecosystem data platform, as well as various data query APIs for you to obtain the fitness and health data imported by users across platforms and apps. The ecosystem data platform manages only the fitness and health data authorized by users and provides abundant cross-platform and cross-app query APIs.
 
-The following describes the functions of Health Kit:  
-1)  Login and Authorization  
-This function applies to login the account and enable the authorization.  
-Android APIs code location:  \app\src\main\java\com\huawei\demo\health\auth\HealthKitAuthActivity.java     
- 
-2)  Cancel Scope  
-This function applies to cancel account authorization.  
-Android APIs code location:  \app\src\main\java\com\huawei\demo\health\auth\HealthKitMainActivity.java   
+This project is the Android sample code of Health Kit. In the sample code, Android APIs of the ecosystem data platform are called to write the user's fitness and health data and read the data written by the user to the platform. The sample code provides only simple calling examples of the Android APIs for your reference.
 
-3)  Operate health and sport data  
-The function has ability to add/delete/update/query the health and sport data.  
-Code location: \app\src\main\java\com\huawei\demo\health\HealthKitDataControllerActivity.java   
-     
-4) Auto-record the step count    
-This function can enable and disable the automatically record method for the step count.   
-Code location: \app\src\main\java\com\huawei\demo\health\HealthKitAutoRecorderControllerActivity.java   
-    
-5) Operate Activity Record   
-This function can create and manage a single sport or activity.  
-Code location:  \app\src\main\java\com\huawei\demo\health\HealthKitActivityRecordControllerActivity.java   
-    
-6) Operate DataType and Records  
-This function can add/read DataType and cancel All Records.   
-Code location:  \app\src\main\java\com\huawei\demo\health\HealthKitSettingControllerActivity.java   
-    
-7) Operate Health Record  
-This function can add/read/update a health record. Currently, the data types of the tachycardia bradycardia are supported.   
-Code location:  \app\src\main\java\com\huawei\demo\health\HealthKitHealthRecordControllerActivity.java   
+HUAWEI Health Kit provides the following functions:
+(1) Login and authorization
+Allows users to log in to their accounts, and obtains the read and write permissions on fitness and health data.
+The Android APIs code is saved in **\app\src\main\java\com\huawei\demo\health\auth\HealthKitAuthActivity.java**.
 
-## Getting Started
-Before using Health demo code, check whether the IDE environment has been installed. 
-1. Decompress the demo code package.    
-2. Copy the Health package into the IDE directory and import it into the IDE Tool.
-3. You should also generate a signing certificate fingerprint  and add the certificate file to the project, and add configuration to build.gradle. See (https://developer.huawei.com/consumer/en/doc/development/HMSCore-Guides-V5/signing-fingerprint-0000001059050363-V5)
-4. Press Sync Project with Gradle Files to ensure the development environment builds completed.
+(2) Authorization cancellation
+Allows users to cancel account authorization.
+The Android APIs code is saved in **\app\src\main\java\com\huawei\demo\health\auth\HealthKitMainActivity.java**.
 
-To use functions provided by packages in examples, you need to set parameters as following:
-1. HuaweiAccount: Health need verify the user's permission to operate user's health data
-2. HMS SDK maven Address:
-    * Configure the maven address of the HMS SDK in allprojects-> repositories of project's build.gradle : maven {url 'http://developer.huawei.com/repo/'}
-    * Add maven configuration of HMS SDK in buildscript-> dependencies : maven {url 'http://developer.huawei.com/repo/'}
-3. Compile dependencies: Add compile dependencies in model's build.gradle : implementation 'com.huawei.hms:health:{version}'
-4. AppId info: In the application AndroidManifest.xml, add the appId information generated by the Developer Alliance when creating the application.
+(3) Fitness and health data management
+Supports adding, deleting, updating, and querying authorized health and fitness data.
+The code is stored in **\app\src\main\java\com\huawei\demo\health\HealthKitDataControllerActivity.java**.
 
-## Supported Environments
+(4) Automatic record of step counts on the user device
+Allows you to add a listener on the pedometer and pass the sensor data in real time as the authorized fitness and health data to your app, under user authorization.
+The code is stored in **\app\src\main\java\com\huawei\demo\health\HealthKitAutoRecorderControllerActivity.java**.
+
+(5) Activity record dataset operations
+Allows you to write the activity records and fitness and health datasets authorized by the user. For example, a running activity includes a start time, an end time, and exercise data (track, speed, and heart rate).
+With user authorization, an activity (such as running) can be created, during which the user's authorized fitness and health data is written to the ecosystem data platform, until the activity ends.
+With user authorization, you can manage the user's fitness data, including querying, deleting, and modifying the data.
+The code is stored in **\app\src\main\java\com\huawei\demo\health\HealthKitActivityRecordControllerActivity.java**.
+
+(6) Custom data type
+Allows you to create customized data types and use them to write the user's fitness and health data to the ecosystem data platform, under user authorization.
+You can also cancel a listener added to the ecosystem data platform.
+The code is stored in **\app\src\main\java\com\huawei\demo\health\HealthKitSettingControllerActivity.java**.
+
+(7) Health record dataset operations
+Allows you to add, modify, and query health records under user authorization. Currently, only the tachycardia and bradycardia data types are supported.
+The code is stored in **\app\src\main\java\com\huawei\demo\health\HealthKitHealthRecordControllerActivity.java**.
+
+
+
+## Preparations
+
+Before using the sample code, check whether Integrated Development Environment (IDE) has been installed.
+1.	Decompress the sample code package.
+	.	Copy the code package to the IDE directory and import the code package to the IDE.
+3. Generate a signing certificate fingerprint, add the certificate file to your project, and add the signature configuration to the **build.gradle** file. For details, refer to [Development Guide](https://developer.huawei.com/consumer/en/doc/development/HMSCore-Guides/signing-fingerprint-0000001059050363?ha_source=hms1).
+	.	Click **Sync Project with Gradle Files** to build the IDE.
+
+Before using the functions in the sample code package, configure the following parameters:
+1.	HUAWEI ID: The Health app needs to verify whether you have the permission to read and write health data.
+	.	HMS SDK Maven address:
+    * 	Go to the project **build.gradle** > **all projects** > **repositories**, configure the Maven address of HMS SDK: **maven {url 'http://developer.huawei.com/repo/'}**.
+    * 	Go to the project **build.gradle** > **buildscript** > **dependencies**, configure the Maven address of HMS SDK: **maven {url 'http://developer.huawei.com/repo/'}**.
+			**Build dependencies**: Add build dependencies implementation **'com.huawei.hms:health:{version}'** to the **build.gradle** file at the app level.
+			**AppId**: Add the app ID generated when creating the app on HUAWEI Developers to the **AndroidManifest.xml** file of the app.
+
+
+## Get familiar with environment requirements.
 * Android Studio 3.0 or later
 * Java SDK 1.8 or later
-* HMS Core 5.3.0.300 or later
+* HMS Core (APK) 5.3.0.300 or later
 
-## Result
-   <img src="images/result_1.png" width = 30% height = 30%> <img src="images/result_5.png" width = 30% height = 30%>
-   <img src="images/result_2.png" width = 30% height = 30%> <img src="images/result_6.png" width = 30% height = 30%>
-   <img src="images/result_3.png" width = 30% height = 30%> <img src="images/result_7.png" width = 30% height = 30%>
-   <img src="images/result_4.png" width = 30% height = 30%> 
-   
-   
-## Question or Issues
-If you want to evaluate more about HMS Core, [r/HMSCore on Reddit](https://www.reddit.com/r/HuaweiDevelopers/) is for you to keep up with latest news about HMS Core, and to exchange insights with other developers.
-
-If you have questions about how to use HMS samples, try the following options:
-- [Stack Overflow](https://stackoverflow.com/questions/tagged/huawei-mobile-services) is the best place for any programming questions. Be sure to tag your question with 
-`huawei-mobile-services`.
-- [Huawei Developer Forum](https://forums.developer.huawei.com/forumPortal/en/home?fid=0101187876626530001) HMS Core Module is great for general questions, or seeking recommendations and opinions.
-
-If you run into a bug in our samples, please submit an [issue](https://github.com/HMS-Core/hms-health-demo-java/issues) to the Repository. Even better you can submit a [Pull Request](https://github.com/HMS-Core/hms-health-demo-java/pulls) with a fix.
+## Operation Result
+   <img src="images/result_1.png" width = 30% height = 30%> <img src="images/result_6.png" width = 30% height = 30%> <img src="images/result_2.png" width = 30% height = 30%> <img src="images/result_3.png" width = 30% height = 30%> <img src="images/result_4.png" width = 30% height = 30%> <img src="images/result_5.png" width = 30% height = 30%> 
+   <img src="images/result_7.png" width = 30% height = 30%>
 	
+
+## Technical Support
+You can visit the [Reddit community](https://www.reddit.com/r/HuaweiDevelopers/) to obtain the latest information about HMS Core and communicate with other developers.
+
+If you have any questions about the sample code, try the following:
+- Visit [Stack Overflow](https://stackoverflow.com/questions/tagged/huawei-mobile-services?tab=Votes).
+Submit your questions, and tag them with `huawei-mobile-services`. Huawei experts will answer your questions.
+- Visit the HMS Core section in the [Huawei Developer Forum](https://forums.developer.huawei.com/forumPortal/en/home?fid=0101187876626530001?ha_source=hms1) and communicate with other developers.
+
+If you encounter any issues when using the sample code, submit your [issues](https://github.com/HMS-Core/hms-health-demo-java/issues) or submit a [pull request](https://github.com/HMS-Core/hms-health-demo-java/pulls).
+
 ##  License
-Health kit demo is licensed under the [Apache License, version 2.0](http://www.apache.org/licenses/LICENSE-2.0).
+   The sample code is licensed under [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0).

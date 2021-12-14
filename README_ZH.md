@@ -1,5 +1,5 @@
 # HMS Healthkit Demo
-中文 | [English](https://github.com/HMS-Core/hms-health-demo-java/blob/master/README.md)
+中文 | [English](README.md)
 ## 目录
 
  * [简介](#简介)
@@ -54,7 +54,7 @@ Android APIs代码位置: \app\src\main\java\com\huawei\demo\health\auth\HealthK
 使用Health Kit Android示例代码前，请先检查IDE环境是否已安装。 
 1.	解压示例代码包。    
 2.	将代码包拷贝到IDE目录下，并导入到IDE工具中。    
-3.  另外，需要生成签名证书指纹并将证书文件添加到项目中，然后将配置添加到build.gradle。详细信息(https://developer.huawei.com/consumer/cn/doc/development/HMSCore-Guides-V5/signing-fingerprint-0000001059050363-V5)
+3.  另外，需要生成签名证书指纹并将证书文件添加到项目中，然后将配置添加到build.gradle。[详细信息](https://developer.huawei.com/consumer/cn/doc/development/HMSCore-Guides/signing-fingerprint-0000001059050363?ha_source=hms1)
 4.	点击Sync Project with Gradle Files完成开发环境构建。    
 
 使用示例代码包中的功能之前，需要设置如下参数：    
@@ -79,9 +79,9 @@ Android APIs代码位置: \app\src\main\java\com\huawei\demo\health\auth\HealthK
 如果您对HMS Core还处于评估阶段，可在[Reddit社区](https://www.reddit.com/r/HuaweiDevelopers/)获取关于HMS Core的最新讯息，并与其他开发者交流见解。
 
 如果您对使用HMS示例代码有疑问，请尝试：
-- 开发过程遇到问题上[Stack Overflow](https://stackoverflow.com/questions/tagged/huawei-mobile-services)，在`huawei-mobile-services`
+- 开发过程遇到问题上[Stack Overflow](https://stackoverflow.com/questions/tagged/huawei-mobile-services?tab=Votes)，在`huawei-mobile-services`
 标签下提问，有华为研发专家在线一对一解决您的问题。
-- 到[华为开发者论坛](https://developer.huawei.com/consumer/cn/forum/blockdisplay?fid=18) HMS Core板块与其他开发者进行交流。
+- 到[华为开发者论坛](https://developer.huawei.com/consumer/cn/forum/blockdisplay?fid=18?ha_source=hms1) HMS Core板块与其他开发者进行交流。
 
 如果您在尝试示例代码中遇到问题，请向仓库提交[issue](https://github.com/HMS-Core/hms-health-demo-java/issues)，也欢迎您提交[Pull Request](https://github.com/HMS-Core/hms-health-demo-java/pulls)。
 
