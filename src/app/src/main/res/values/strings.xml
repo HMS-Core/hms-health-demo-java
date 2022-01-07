@@ -50,5 +50,6 @@
     <string name="healthrecord_record_add">add an health record</string>
     <string name="healthrecord_record_update">updates health records of a specified HealthRecordID</string>
     <string name="healthrecord_record_Get">get health records</string>
+    <string name="healthrecord_record_Delete">delete health records</string>
     <string name="healthrecord_controller">Managing Health Controller</string>
 </resources>

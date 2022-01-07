@@ -104,7 +104,7 @@ public class HealthKitDataControllerActivity extends AppCompatActivity {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         Date startDate = dateFormat.parse("2020-08-27 09:00:00");
         Date endDate = dateFormat.parse("2020-08-27 09:05:00");
-        int stepsDelta = 200;
+        int stepsDelta = 1000;
 
         // 4. Build a DT_CONTINUOUS_STEPS_DELTA sampling point.
         SamplePoint samplePoint = sampleSet.createSamplePoint()
@@ -210,7 +210,7 @@ public class HealthKitDataControllerActivity extends AppCompatActivity {
         SamplePoint samplePoint = sampleSet.createSamplePoint()
             .setTimeInterval(startDate.getTime(), endDate.getTime(), TimeUnit.MILLISECONDS);
         samplePoint.getFieldValue(Field.FIELD_STEPS_DELTA).setIntValue(stepsDelta);
-        // If the updated step count data needs to be displayed on the homepage of the Huawei Health App,
+        // If the modified step count data needs to be displayed on the homepage of the Huawei Health App,
         // you need to use addMetadata to add the following metadata to the sampling point
         samplePoint.addMetadata("motion_type", "RUN");
 

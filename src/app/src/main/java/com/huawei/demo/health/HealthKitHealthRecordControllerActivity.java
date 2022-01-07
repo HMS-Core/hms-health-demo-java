@@ -20,6 +20,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -28,6 +29,7 @@ import java.util.concurrent.TimeUnit;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -38,6 +40,7 @@ import com.huawei.hmf.tasks.OnFailureListener;
 import com.huawei.hmf.tasks.OnSuccessListener;
 import com.huawei.hmf.tasks.Task;
 import com.huawei.hms.hihealth.HealthRecordController;
+import com.huawei.hms.hihealth.HiHealthStatusCodes;
 import com.huawei.hms.hihealth.HuaweiHiHealth;
 import com.huawei.hms.hihealth.data.DataCollector;
 import com.huawei.hms.hihealth.data.DataType;
@@ -47,6 +50,7 @@ import com.huawei.hms.hihealth.data.HealthFields;
 import com.huawei.hms.hihealth.data.HealthRecord;
 import com.huawei.hms.hihealth.data.SamplePoint;
 import com.huawei.hms.hihealth.data.SampleSet;
+import com.huawei.hms.hihealth.options.HealthRecordDeleteOptions;
 import com.huawei.hms.hihealth.options.HealthRecordInsertOptions;
 import com.huawei.hms.hihealth.options.HealthRecordReadOptions;
 import com.huawei.hms.hihealth.options.HealthRecordUpdateOptions;
@@ -168,12 +172,12 @@ public class HealthKitHealthRecordControllerActivity extends AppCompatActivity {
                 // Save the healthRecordId returned after the insertion is successful.
                 // The healthRecordId is used to update the scenario.
                 healthRecordIdFromInsertResult = healthRecordId;
-                logger("health record add was successful,please save the healthRecordId:\n" + healthRecordId);
+                logger("Add HealthRecord was successful,please save the healthRecordId:\n" + healthRecordId);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(Exception e) {
-                printFailureMessage(e, "getHealthRecord");
+                printFailureMessage(e, "addHealthRecord");
             }
         });
     }
@@ -255,12 +259,12 @@ public class HealthKitHealthRecordControllerActivity extends AppCompatActivity {
         healthRecordController.updateHealthRecord(updateOptions).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                logger("update healthRecord success");
+                logger("Update HealthRecord was successful!");
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(Exception e) {
-                printFailureMessage(e, "UpdateHealthRecord");
+                printFailureMessage(e, "updateHealthRecord");
             }
         });
     }
@@ -316,6 +320,61 @@ public class HealthKitHealthRecordControllerActivity extends AppCompatActivity {
             @Override
             public void onFailure(Exception e) {
                 printFailureMessage(e, "getHealthRecord");
+            }
+        });
+    }
+
+    /**
+     * delete historical health records
+     *
+     * @param view indicating a UI object
+     */
+    public void deleteHealthRecord(View view) {
+        logger(SPLIT + "this is MyHealthRecord Delete");
+
+        // Build the time range of the request object: start time and end time
+        Calendar cal = Calendar.getInstance();
+        Date now = new Date();
+        cal.setTime(now);
+        long endTime = cal.getTimeInMillis();
+        cal.add(Calendar.DAY_OF_MONTH, -2);
+        long startTime = cal.getTimeInMillis();
+
+        // 1.Create a collector that carries the heart rate detail data type and a sampleSetList that stores the detail data.
+        DataCollector dataCollector = new com.huawei.hms.hihealth.data.DataCollector.Builder()
+                .setDataType(HealthDataTypes.DT_HEALTH_RECORD_BRADYCARDIA)
+                .setDataGenerateType(DataCollector.DATA_TYPE_RAW)
+                .setPackageName(context)
+                .setDataStreamName("such as step count")
+                .build();
+
+        // Build the dataType
+        DataType dataType = dataCollector.getDataType();
+        // Build the subDataTypeList
+        List<DataType> subDataTypeList = new ArrayList<>();
+        subDataTypeList.add(DataType.DT_INSTANTANEOUS_HEART_RATE);
+
+        // Build the request body for delete health records
+        HealthRecordDeleteOptions deleteRequest = new HealthRecordDeleteOptions.Builder()
+                .setHealthRecordIds(Collections.singletonList(healthRecordIdFromInsertResult))
+                .isDeleteSubData(true)
+                .setDataType(dataType)
+                .setSubDataTypeList(subDataTypeList)
+                .setTimeInterval(startTime, endTime, TimeUnit.MILLISECONDS)
+                .build();
+
+        // Call the delete method of the HealthRecordController
+        // from the Health platform based on the conditions in the request body
+        Task<Void> deleteTask = healthRecordController.deleteHealthRecord(deleteRequest);
+        deleteTask.addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                logger("Delete HealthRecord was successful!");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(Exception e) {
+                printFailureMessage(e, "deleteHealthRecord");
             }
         });
     }

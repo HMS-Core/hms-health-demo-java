@@ -58,6 +58,7 @@ import com.huawei.hms.hihealth.options.OnSamplePointListener;
 public class HealthKitAutoRecorderControllerActivity extends AppCompatActivity {
     private static final String TAG = "AutoRecorderTest";
 
+    // Line separators for the display on the UI
     private static final String SPLIT = "*******************************" + System.lineSeparator();
 
     // HMS Health AutoRecorderController
@@ -79,15 +80,20 @@ public class HealthKitAutoRecorderControllerActivity extends AppCompatActivity {
     // WakeLock
     private PowerManager.WakeLock wl;
 
+    /**
+     * add app to the battery optimization trust list, to avoid the app be killed
+     *
+     * @param activity activity
+     */
     public void ignoreBatteryOptimization(Activity activity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             try {
-                PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
-                boolean hasIgnored = powerManager.isIgnoringBatteryOptimizations(activity.getPackageName());
                 /**
                  * Check whether the current app is added to the battery optimization trust list,
                  * If not, a dialog box is displayed for you to add a battery optimization trust list.
                  */
+                PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+                boolean hasIgnored = powerManager.isIgnoringBatteryOptimizations(activity.getPackageName());
                 if (!hasIgnored) {
                     Intent newIntent = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
                     newIntent.setData(Uri.parse("package:" + activity.getPackageName()));
