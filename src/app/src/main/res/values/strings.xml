@@ -12,6 +12,7 @@
     <string name="sensors_findSource">Searching for available data collectors and deleting Bluetooth devices</string>
     <string name="sensors_registerHeartRate">Registering and unregistering a listener for heart rate monitoring</string>
     <string name="activity_record_BeginOrEnd">Starting or stopping an activity record</string>
+    <string name="activity_background_record_BeginOrEnd">Starting or stopping an background activity record</string>
     <string name="activity_record_AddOrGet">Adding or reading an activity record</string>
     <string name="activity_record_MonitorOptions">Registering or unregistering a listener for monitoring the activity record status</string>
     <string name="activity_record_Delete">Deleting an activity record</string>

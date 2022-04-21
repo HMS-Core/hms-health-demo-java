@@ -108,7 +108,7 @@ public class HealthKitMainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, HealthKitHealthRecordControllerActivity.class);
         startActivity(intent);
     }
-    
+
     /**
      * To improve privacy security, your app should allow users to cancel authorization.
      * After calling this function, you need to call login and authorize again.
@@ -116,24 +116,27 @@ public class HealthKitMainActivity extends AppCompatActivity {
      * @param view (indicating a UI object)
      */
     public void cancelScope(View view) {
-        AccountAuthParams authParams = new AccountAuthParamsHelper().setAccessToken().setScopeList(new ArrayList<>()).createParams();
+        AccountAuthParams authParams =
+            new AccountAuthParamsHelper().setAccessToken().setScopeList(new ArrayList<>()).createParams();
         final AccountAuthService authService = AccountAuthManager.getService(getApplicationContext(), authParams);
-        authService.cancelAuthorization().addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(Task<Void> task) {
-                if (task.isSuccessful()) {
-                    // Processing after successful cancellation of authorization
-                    Log.i(TAG, "cancelAuthorization success");
-                } else {
-                    // Processing after failed cancellation of authorization
-                    Exception exception = task.getException();
-                    Log.i(TAG, "cancelAuthorization fail");
-                    if (exception instanceof ApiException) {
-                        int statusCode = ((ApiException) exception).getStatusCode();
-                        Log.e(TAG, "cancelAuthorization fail for errorCode: " + statusCode);
-                    }
+        authService.cancelAuthorization().addOnCompleteListener(new TaskOnCompleteListener());
+    }
+
+    private static class TaskOnCompleteListener implements OnCompleteListener<Void> {
+        @Override
+        public void onComplete(Task<Void> task) {
+            if (task.isSuccessful()) {
+                // Processing after successful cancellation of authorization
+                Log.i(TAG, "cancelAuthorization success");
+            } else {
+                // Processing after failed cancellation of authorization
+                Exception exception = task.getException();
+                Log.i(TAG, "cancelAuthorization fail");
+                if (exception instanceof ApiException) {
+                    int statusCode = ((ApiException) exception).getStatusCode();
+                    Log.e(TAG, "cancelAuthorization fail for errorCode: " + statusCode);
                 }
             }
-        });
+        }
     }
 }

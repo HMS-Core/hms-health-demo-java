@@ -47,6 +47,7 @@
                 <action android:name="HealthKitService" />
             </intent-filter>
         </service>
+        <service android:name="com.huawei.demo.health.ActivityRecordForegroundService" />
     </application>
 
 </manifest>
