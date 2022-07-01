@@ -67,9 +67,9 @@ Android APIs代码位置: \app\src\main\java\com\huawei\demo\health\auth\HealthK
 
 
 ## 环境要求
-* Android Studio 3.0 及以上版本
-* Java SDK 1.8 及以上版本
-* HMS Core 5.3.0.300 及以上版本
+* Android Studio 3.6.1 及以上版本。
+* Java SDK 1.8 及以上版本。
+* 手机Android Version大于6.0（API level > 23），或手机系统为HarmonyOS；装有HMS Core（APK）4.2.0.300及以上版本（如果需要读取运动健康App的数据，HMS Core（APK）须为5.0.4.300及以上版本，且手机装有11.0.0.512及以上版本的华为运动健康App）。
 
 ## 操作结果
    <img src="images/result_1.png" width = 30% height = 30%> <img src="images/result_6.png" width = 30% height = 30%> <img src="images/result_2.png" width = 30% height = 30%> <img src="images/result_3.png" width = 30% height = 30%> <img src="images/result_4.png" width = 30% height = 30%> <img src="images/result_5.png" width = 30% height = 30%> 
