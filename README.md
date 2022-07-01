@@ -67,9 +67,9 @@ Before using the functions in the sample code package, configure the following p
 
 
 ## Get familiar with environment requirements.
-* Android Studio 3.0 or later
+* Android Studio 3.6.1 or later
 * Java SDK 1.8 or later
-* HMS Core (APK) 5.3.0.300 or later
+* HMS Core (APK) 4.2.0.300 or later has been installed on the phone. To read data from the Health app, HMS Core (APK) 5.0.4.300 or later should be installed.
 
 ## Operation Result
    <img src="images/result_1.png" width = 30% height = 30%> <img src="images/result_6.png" width = 30% height = 30%> <img src="images/result_2.png" width = 30% height = 30%> <img src="images/result_3.png" width = 30% height = 30%> <img src="images/result_4.png" width = 30% height = 30%> <img src="images/result_5.png" width = 30% height = 30%> 
