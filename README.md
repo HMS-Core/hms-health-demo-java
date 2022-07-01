@@ -67,8 +67,8 @@ Before using the functions in the sample code package, configure the following p
 
 
 ## Get familiar with environment requirements.
-* Android Studio 3.6.1 or later
-* Java SDK 1.8 or later
+* Android Studio 3.6.1 or later.
+* Java SDK 1.8 or later.
 * HMS Core (APK) 4.2.0.300 or later has been installed on the phone. To read data from the Health app, HMS Core (APK) 5.0.4.300 or later should be installed.
 
 ## Operation Result
