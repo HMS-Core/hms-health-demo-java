@@ -5,7 +5,7 @@ English | [中文](README_ZH.md)
  * [Introduction](#Introduction)
  * [Preparations](#Preparations)
  * [Environment Requirements](#Environment-Requirements)
- * [Result](#Result)
+ * [Result](#Operation-Result)
  * [Technical Support](#Technical-Support)
  * [License](#License)
 
@@ -66,7 +66,7 @@ Before using the functions in the sample code package, configure the following p
 			**AppId**: Add the app ID generated when creating the app on HUAWEI Developers to the **AndroidManifest.xml** file of the app.
 
 
-## Get familiar with environment requirements.
+## Environment Requirements
 * Android Studio 3.6.1 or later.
 * Java SDK 1.8 or later.
 * A phone running a version later than Android 6.0 (API level: 23) or HarmonyOS. HMS Core (APK) 4.2.0.300 or later has been installed on the phone. To read data from the Health app, HMS Core (APK) 5.0.4.300 or later should be installed and also HUAWEI Health app of version 11.0.0.512 or later has been installed.
