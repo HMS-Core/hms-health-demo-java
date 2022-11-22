@@ -53,17 +53,17 @@ The code is stored in **\app\src\main\java\com\huawei\demo\health\HealthKitHealt
 
 Before using the sample code, check whether Integrated Development Environment (IDE) has been installed.
 1.	Decompress the sample code package.
-	.	Copy the code package to the IDE directory and import the code package to the IDE.
+2.	Copy the code package to the IDE directory and import the code package to the IDE.
 3. Generate a signing certificate fingerprint, add the certificate file to your project, and add the signature configuration to the **build.gradle** file. For details, refer to [Development Guide](https://developer.huawei.com/consumer/en/doc/development/HMSCore-Guides/signing-fingerprint-0000001059050363?ha_source=hms1).
-	.	Click **Sync Project with Gradle Files** to build the IDE.
+4.	Click **Sync Project with Gradle Files** to build the IDE.
 
 Before using the functions in the sample code package, configure the following parameters:
 1.	HUAWEI ID: The Health app needs to verify whether you have the permission to read and write health data.
-	.	HMS SDK Maven address:
+2.	HMS SDK Maven address:
     * 	Go to the project **build.gradle** > **all projects** > **repositories**, configure the Maven address of HMS SDK: **maven {url 'http://developer.huawei.com/repo/'}**.
     * 	Go to the project **build.gradle** > **buildscript** > **dependencies**, configure the Maven address of HMS SDK: **maven {url 'http://developer.huawei.com/repo/'}**.
-			**Build dependencies**: Add build dependencies implementation **'com.huawei.hms:health:{version}'** to the **build.gradle** file at the app level.
-			**AppId**: Add the app ID generated when creating the app on HUAWEI Developers to the **AndroidManifest.xml** file of the app.
+3.	**Build dependencies**: Add build dependencies implementation **'com.huawei.hms:health:{version}'** to the **build.gradle** file at the app level.
+4.	**AppId**: Add the app ID generated when creating the app on HUAWEI Developers to the **AndroidManifest.xml** file of the app.
 
 
 ## Environment Requirements
