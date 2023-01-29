@@ -60,8 +60,8 @@ Android APIs代码位置: \app\src\main\java\com\huawei\demo\health\auth\HealthK
 使用示例代码包中的功能之前，需要设置如下参数：    
 1.	华为账号：运动健康需要验证用户是否具有读写健康数据的权限。    
 2.	HMS SDK maven地址：
-    * 	在项目build.gradle的all projects->repositories中，配置HMS SDK的maven地址：maven {url 'http://developer.huawei.com/repo/' }
-    * 	在项目build.gradle的buildscript-> dependencies中，配置HMS SDK的maven配置：maven {url 'http://developer.huawei.com/repo/' }
+    * 	在项目build.gradle的all projects->repositories中，配置HMS SDK的maven地址：maven {url 'https://developer.huawei.com/repo/' }
+    * 	在项目build.gradle的buildscript-> dependencies中，配置HMS SDK的maven配置：maven {url 'https://developer.huawei.com/repo/' }
 3.	编译依赖：在app层级的build.gradle文件中增加编译依赖：implementation 'com.huawei.hms:health:{version}'    
 4.	AppId信息：在应用的AndroidManifest.xml文件中添加在开发者联盟创建应用时生成的AppId信息。  
 
