@@ -119,7 +119,7 @@ public class HealthKitHealthRecordControllerActivity extends AppCompatActivity {
         SampleSet sampleSet = SampleSet.create(dataCollector);
         // The preset time span is 5 minutes, and the heart rate detail point is set to 88.
         SamplePoint samplePoint =
-            sampleSet.createSamplePoint().setTimeInterval(startTime + 300000L, startTime + 300000L, TimeUnit.MILLISECONDS);
+            sampleSet.createSamplePoint().setTimeInterval(startTime + 1L, startTime + 300000L, TimeUnit.MILLISECONDS);
         samplePoint.getFieldValue(Field.FIELD_BPM).setDoubleValue(88);
         sampleSet.addSample(samplePoint);
         // sampleSetList is used to store health details.
@@ -207,7 +207,7 @@ public class HealthKitHealthRecordControllerActivity extends AppCompatActivity {
         SampleSet sampleSet = SampleSet.create(dataCollector);
         // The preset time span is 5 minutes, and the heart rate detail point is set to 90.
         SamplePoint samplePoint =
-            sampleSet.createSamplePoint().setTimeInterval(startTime + 300000L, startTime + 300000L, TimeUnit.MILLISECONDS);
+            sampleSet.createSamplePoint().setTimeInterval(startTime + 1L, startTime + 300000L, TimeUnit.MILLISECONDS);
         samplePoint.getFieldValue(Field.FIELD_BPM).setDoubleValue(90);
         sampleSet.addSample(samplePoint);
         // sampleSetList is used to store health details.
