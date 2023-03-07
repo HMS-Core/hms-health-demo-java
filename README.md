@@ -22,7 +22,7 @@ The Android APIs code is saved in **\app\src\main\java\com\huawei\demo\health\au
 
 (2) Authorization cancellation
 Allows users to cancel account authorization.
-The Android APIs code is saved in **\app\src\main\java\com\huawei\demo\health\auth\HealthKitMainActivity.java**.
+The Android APIs code is saved in **\app\src\main\java\com\huawei\demo\health\auth\HealthKitAuthActivity.java**.
 
 (3) Fitness and health data management
 Supports adding, deleting, updating, and querying authorized health and fitness data.
@@ -60,8 +60,8 @@ Before using the sample code, check whether Integrated Development Environment (
 Before using the functions in the sample code package, configure the following parameters:
 1.	HUAWEI ID: The Health app needs to verify whether you have the permission to read and write health data.
 2.	HMS SDK Maven address:
-    * 	Go to the project **build.gradle** > **all projects** > **repositories**, configure the Maven address of HMS SDK: **maven {url 'https://developer.huawei.com/repo/'}**.
-    * 	Go to the project **build.gradle** > **buildscript** > **dependencies**, configure the Maven address of HMS SDK: **maven {url 'https://developer.huawei.com/repo/'}**.
+    * 	Go to the project **build.gradle** > **allprojects** > **repositories**, configure the Maven address of HMS SDK: **maven {url 'https://developer.huawei.com/repo/'}**.
+    * 	Go to the project **build.gradle** > **buildscript** > **repositories**, configure the Maven address of HMS SDK: **maven {url 'https://developer.huawei.com/repo/'}**.
 3.	**Build dependencies**: Add build dependencies implementation **'com.huawei.hms:health:{version}'** to the **build.gradle** file at the app level.
 4.	**AppId**: Add the app ID generated when creating the app on HUAWEI Developers to the **AndroidManifest.xml** file of the app.
 
