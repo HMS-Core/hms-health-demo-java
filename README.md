@@ -22,7 +22,7 @@ The Android APIs code is saved in **\app\src\main\java\com\huawei\demo\health\au
 
 (2) Authorization cancellation
 Allows users to cancel account authorization.
-The Android APIs code is saved in **\app\src\main\java\com\huawei\demo\health\auth\HealthKitAuthActivity.java**.
+The Android APIs code is saved in **\app\src\main\java\com\huawei\demo\health\HealthKitMainActivity.java**.
 
 (3) Fitness and health data management
 Supports adding, deleting, updating, and querying authorized health and fitness data.
