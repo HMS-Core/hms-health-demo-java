@@ -46,7 +46,7 @@ public class HealthKitMainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_health_kit_main);
+        setContentView(R.layout.activity_healthkit_main);
     }
 
     /**
