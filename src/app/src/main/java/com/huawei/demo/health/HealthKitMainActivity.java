@@ -41,7 +41,7 @@ import com.huawei.hms.support.account.service.AccountAuthService;
  * @since 2020-03-19
  */
 public class HealthKitMainActivity extends AppCompatActivity {
-    private static final String TAG = "KitConnectActivity";
+    private static final String TAG = "HealthKitMainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
