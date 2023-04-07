@@ -101,7 +101,7 @@ public class HealthKitDataControllerActivity extends AppCompatActivity {
         final SampleSet sampleSet = SampleSet.create(dataCollector);
 
         // 3. Build the start time, end time, and incremental step count for a DT_CONTINUOUS_STEPS_DELTA sampling point.
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date startDate = dateFormat.parse("2020-08-27 09:00:00");
         Date endDate = dateFormat.parse("2020-08-27 09:05:00");
         int stepsDelta = 1000;
@@ -153,7 +153,7 @@ public class HealthKitDataControllerActivity extends AppCompatActivity {
             .build();
 
         // 2. Build the time range for the deletion: start time and end time.
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date startDate = dateFormat.parse("2020-08-27 09:00:00");
         Date endDate = dateFormat.parse("2020-08-27 09:05:00");
 
@@ -201,7 +201,7 @@ public class HealthKitDataControllerActivity extends AppCompatActivity {
 
         // 3. Build the start time, end time, and incremental step count for
         // a DT_CONTINUOUS_STEPS_DELTA sampling point for the update.
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date startDate = dateFormat.parse("2020-08-27 09:00:00");
         Date endDate = dateFormat.parse("2020-08-27 09:05:00");
         int stepsDelta = 300;
@@ -256,7 +256,7 @@ public class HealthKitDataControllerActivity extends AppCompatActivity {
      */
     public void readData(View view) throws ParseException {
         // 1. Build the time range for the query: start time and end time.
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date startDate = dateFormat.parse("2020-08-26 09:00:00");
         Date endDate = dateFormat.parse("2020-08-26 09:05:00");
 

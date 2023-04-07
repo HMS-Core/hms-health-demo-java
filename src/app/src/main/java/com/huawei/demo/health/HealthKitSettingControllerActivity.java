@@ -344,7 +344,7 @@ public class HealthKitSettingControllerActivity extends AppCompatActivity implem
         final SampleSet sampleSet = SampleSet.create(dataCollector);
 
         // 3. Build the start time, end time, and incremental step count for a DT_CONTINUOUS_STEPS_DELTA sampling point.
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date startDate = dateFormat.parse("2020-03-17 09:00:00");
         Date endDate = dateFormat.parse("2020-03-17 09:05:00");
         int intValue = 1000;
@@ -417,7 +417,7 @@ public class HealthKitSettingControllerActivity extends AppCompatActivity implem
             .build();
 
         // 2. Build the time range for the query: start time and end time.
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date startDate = dateFormat.parse("2020-03-17 09:00:00");
         Date endDate = dateFormat.parse("2020-03-17 09:05:00");
 
